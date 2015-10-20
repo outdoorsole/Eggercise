@@ -65,3 +65,5 @@ bookshelf.knex.schema.hasTable('roles')
 		});
 	}
 });
+
+module.exports = bookshelf;
