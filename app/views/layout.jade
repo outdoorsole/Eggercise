@@ -6,31 +6,32 @@ head
     meta(name='description', content='') 
     meta(name='author', content='')   
     title Eggersize
-    link(href='stylesheets/bootstrap-theme.min.css', rel='stylesheet')   
-    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
-    link(href='stylesheets/main.css', rel='stylesheet')
-  body
-    nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
-            span.sr-only Toggle navigation
-            |                     
-            span.icon-bar
-            |                     
-            span.icon-bar
-            |                     
-            span.icon-bar
-          |                 
-          a#eggerbrand.navbar-brand(href='#') Eggersize
-        #bs-example-navbar-collapse-1.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href='#') View Groups
-            |                     
-            li
-              a(href='#') Login
-            |                     
-            li
-              a(href='#') Sign Up
-    block content
+    link(href='../../public/stylesheets/bootstrap-theme.min.css', rel='stylesheet')   
+    link(href='../../public/stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='../../public/stylesheets/main.css', rel='stylesheet')
+body
+  nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+    .container
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+          span.sr-only Toggle navigation
+          |                     
+          span.icon-bar
+          |                     
+          span.icon-bar
+          |                     
+          span.icon-bar
+        |                 
+        a#eggerbrand.navbar-brand(href='#') Eggersize
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href='#') View Groups
+          |                     
+          li
+            a(href='#') Login
+          |                     
+          li
+            a(href='#') Sign Up
+  block content
+  .footer
