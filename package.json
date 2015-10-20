@@ -1,0 +1,16 @@
+{
+  "name": "eggersize",
+  "version": "0.0.1",
+  "description": "Team Exercise",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/partipants/exercisebet.git"
+  },
+  "author": "John Sheets, Yae Jin Park, Maribel Gordon",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/partipants/exercisebet#readme"
+}
