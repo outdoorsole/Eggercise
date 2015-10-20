@@ -6,3 +6,7 @@ body {
 #eggerbrand {
 	color: #FF1E14;
 }
+
+.navbar-inverse .navbar-nav>li>a {
+	color: #E51B12;
+}
