@@ -12,5 +12,8 @@
   },
   "author": "John Sheets, Yae Jin Park, Maribel Gordon",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/partipants/exercisebet#readme"
+  "homepage": "https://bitbucket.org/partipants/exercisebet#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
 }
