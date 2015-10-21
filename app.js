@@ -45,6 +45,7 @@ var UserController = require('./app/controllers/user_controller.js');
 
 //view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
+app.use(express.static(__dirname + '/public'));
 
 //using body-parser
 app.use(bodyParser.urlencoded({extended:false}));
