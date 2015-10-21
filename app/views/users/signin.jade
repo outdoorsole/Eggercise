@@ -1,0 +1,15 @@
+extends ../layout.jade
+
+block content
+  .container
+    .row
+      .col-lg-12.text-center
+        .loginform
+          form(role='form', method='POST')
+            .form-group
+              label(for='Username') Username
+              input#username.form-control(type='username', placeholder='Enter username', name='username')
+            .form-group
+              label(for='Password') Password
+              input#password.form-control(type='password', placeholder='Password', name='password')
+              button#user-submit.btn.btn-default Submit
