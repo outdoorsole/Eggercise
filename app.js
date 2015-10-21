@@ -24,24 +24,24 @@ var Users = require('./app/collections/users'),
 //controllers
 var UserController = require('./app/controllers/user_controller.js');
 
-//passport error handling
-passport.use(new LocalStrategy(function (username, password, done){
-	new User({'username': username})
-	.fetch()
-	.then(function (data){
-		if (data === null) {
-			return done(null, false, {message: 'Invalid username or password'});
-		} else {
-			var user = data.toJSON();
-			if(!bcrypt.compareSync(password, user.password)) {
-				return done (null, false, {message: 'Invalid username or password'});
-			} else {
-				console.log('correct entries')
-				return done(null, user);
-			}
-		}
-	})
-}))
+// //passport error handling
+// passport.use(new LocalStrategy(function (username, password, done){
+// 	new User({'username': username})
+// 	.fetch()
+// 	.then(function (data){
+// 		if (data === null) {
+// 			return done(null, false, {message: 'Invalid username or password'});
+// 		} else {
+// 			var user = data.toJSON();
+// 			if(!bcrypt.compareSync(password, user.password)) {
+// 				return done (null, false, {message: 'Invalid username or password'});
+// 			} else {
+// 				console.log('correct entries')
+// 				return done(null, user);
+// 			}
+// 		}
+// 	})
+// }))
 
 //view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
@@ -49,28 +49,28 @@ app.set('views', path.join(__dirname, 'app/views'));
 //using body-parser
 app.use(bodyParser.urlencoded({extended:false}));
 
-//initialize passport session
-app.use(session({
-	secret: "John's Beer",
-	resave: true,
-	saveUninitialized: true
-}))
-app.use(passport.initialize());
-app.use(passport.session());
+// //initialize passport session
+// app.use(session({
+// 	secret: "John's Beer",
+// 	resave: true,
+// 	saveUninitialized: true
+// }))
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-//serialize user
-passport.serializeUser(function(user, done) {
-	done(null, user.id);
-});
+// //serialize user
+// passport.serializeUser(function(user, done) {
+// 	done(null, user.id);
+// });
 
-//deserialize user
-passport.deserializeUser(function (id, done) {
-	console.log(id)
-	new User({id: id}).fetch()
-	.then(function (user){
-		done(null,user.id);
-	})
-})
+// //deserialize user
+// passport.deserializeUser(function (id, done) {
+// 	console.log(id)
+// 	new User({id: id}).fetch()
+// 	.then(function (user){
+// 		done(null,user.id);
+// 	})
+// })
 
 //run jade file
 app.set('view engine', 'jade');

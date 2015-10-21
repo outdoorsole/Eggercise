@@ -3,10 +3,10 @@ head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='') 
-    meta(name='author', content='')   
+    meta(name='description', content='')
+    meta(name='author', content='')
     title Eggersize
-    link(href='../../public/stylesheets/bootstrap-theme.min.css', rel='stylesheet')   
+    link(href='../../public/stylesheets/bootstrap-theme.min.css', rel='stylesheet')
     link(href='../../public/stylesheets/bootstrap.min.css', rel='stylesheet')
     link(href='../../public/stylesheets/main.css', rel='stylesheet')
 body
@@ -15,23 +15,27 @@ body
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
           span.sr-only Toggle navigation
-          |                     
+          |
           span.icon-bar
-          |                     
+          |
           span.icon-bar
-          |                     
+          |
           span.icon-bar
-        |                 
+        |
         a#eggerbrand.navbar-brand(href='#') Eggersize
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
           li
             a(href='#') View Groups
-          |                     
+          |
           li
-            a(href='#') Login
-          |                     
+            if user
+              a(href='/users/logout') Logout
+            else
+              a(href='/users/signin') Login
+          |
           li
-            a(href='#') Sign Up
+            a(href='/users/signup') Sign Up
   block content
   .footer
+    p Copyright (c) Eggersize 2015
