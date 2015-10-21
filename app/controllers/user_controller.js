@@ -19,7 +19,6 @@ exports.index = function (req,res){
 	var users = Users;
 	users.fetch()
 		 .then(function (data) {
-			console.log("this is data: "+data);
 			res.render('index', {title: 'Home', user: data.toJSON()});
 		})
 
@@ -67,7 +66,7 @@ exports.signInGet = function (req,res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	}
-	res.render('signin', {title: 'Sign In'});
+	res.render('users/signin', {title: 'Sign In'});
 };
 
 //------------------------------------------------------------------------------//
@@ -80,10 +79,21 @@ exports.signInPost = function (req,res,next) {
 		req.logIn(user, function (err) {
 			if(err) {
 				console.log(err + " Fail");
-				res.render('signin', {title: 'Sign In Fail', errorMessage: err.message});
+				res.render('users/signin', {title: 'Sign In Fail', errorMessage: err.message});
 			} else {
 				res.redirect('/');
 			}
 		});
 	})(req,res,next);
 };
+
+//------------------------------------------------------------------------------//
+//Sign Out
+exports.signOut = function(req,res,next) {
+	if(!req.isAuthenticated()) {
+		res.render('index')
+	} else {
+		req.logout();
+		res.redirect('/')
+	}
+}
