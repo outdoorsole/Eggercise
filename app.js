@@ -86,5 +86,9 @@ app.get('/',UserController.index);
 app.get('/signup', UserController.signUpGet);
 app.post('/signup', UserController.signUpPost);
 
+//sign in
+app.get('/signin', UserController.signInGet);
+app.post('/signin', UserController.signInPost);
+
 app.listen(3000);
 console.log('Listening to port 3000');

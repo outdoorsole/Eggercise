@@ -48,7 +48,8 @@ exports.signUpPost = function (req,res) {
 
 	new User({
 		username: req.body.username,
-		password: hash
+		password: hash,
+		email:req.body.email
 	}).save()
 	  .then(function (user) {
 			res.redirect('/')
@@ -59,3 +60,30 @@ exports.signUpPost = function (req,res) {
 		res.redirect('/error');
 	})
 }
+
+//------------------------------------------------------------------------------//
+//Sign In GET
+exports.signInGet = function (req,res) {
+	if(req.isAuthenticated()) {
+		res.redirect('/');
+	}
+	res.render('signin', {title: 'Sign In'});
+};
+
+//------------------------------------------------------------------------------//
+//Sign In POST
+exports.signInPost = function (req,res,next) {
+
+	passport.authenticate('local', {
+		failureRedirect:'/signin'
+	}, function (err,user,info) {
+		req.logIn(user, function (err) {
+			if(err) {
+				console.log(err + " Fail");
+				res.render('signin', {title: 'Sign In Fail', errorMessage: err.message});
+			} else {
+				res.redirect('/');
+			}
+		});
+	})(req,res,next);
+};
