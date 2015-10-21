@@ -2,10 +2,11 @@
 var knex = require('knex')({
 	client:'pg',
 	connection: {
-		host: 'localhost',
-		user: 'parky',
-		password: 'password',
+		host: process.env.DATABASE_HOST,
+		user: process.env.DATABASE_USER,
+		password: process.env.DATABASE_PASS,
 		database: 'eggercise'
+		//type in export DATABASE_HOST(or USER, PASS) in terminal
 	}
 });
 
@@ -51,6 +52,7 @@ bookshelf.knex.schema.hasTable('roles')
 	if(!exists){
 		bookshelf.knex.schema.createTable('roles', function (role){
 			role.string('user_type', 50);
+			role.boolean('is_admin').defaultTo(false);
 
 			//Foreign key to users
 			role.integer('user_id').unsigned()
