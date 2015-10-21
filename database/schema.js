@@ -3,7 +3,7 @@ var knex = require('knex')({
 	client:'pg',
 	connection: {
 		host: process.env.DATABASE_HOST,
-		user: process.env.DATABASE_USER,
+		user: process.env.DATBASE_USER,
 		password: process.env.DATABASE_PASS,
 		database: 'eggercise'
 		//type in export DATABASE_HOST(or USER, PASS) in terminal
