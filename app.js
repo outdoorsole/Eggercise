@@ -81,5 +81,9 @@ app.set('view engine', 'jade');
 //index
 app.get('/',UserController.index);
 
+// //sign up (create user)
+// app.get('/signup', UserController.signUp);
+// app.post('/signup', UserController.create);
+
 app.listen(3000);
 console.log('Listening to port 3000');
