@@ -29,10 +29,13 @@ body
             a(href='#') View Groups
           |
           li
-            a(href='#') Login
+            if user
+              a(href='/users/logout') Logout
+            else
+              a(href='/users/signin') Login
           |
           li
-            a(href='#') Sign Up
+            a(href='/users/signup') Sign Up
   block content
   .footer
     p Copyright (c) Eggersize 2015
