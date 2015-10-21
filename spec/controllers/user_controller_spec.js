@@ -8,13 +8,13 @@ describe('UserController', function(){
 	describe('Tests with data', function(){
 		var user;
 
-		beforeEach(function(done) {
+		beforeEach(function (done) {
 			new User({
 				username: 'userTest',
 				email: 'test@test.com',
 				password: 'password'
 			}).save()
-			  .then(function(newUser) {
+			  .then(function (newUser) {
 			  	user = newUser;
 			  	done();
 			  });
@@ -42,14 +42,13 @@ describe('UserController', function(){
 			};
 
 			request.post(testuser, function (error, response, body){
-				console.log("response is: "+response);
-				expect(response.statusCode).toBe(302);
 				new User({
 					username:'testCreate',
 					email: 'test@test.com',
 					password:'password'
 				}).fetch()
 				  .then(function (newUser){
+				  		console.log("newUser is: "+newUser);
 				  		expect(newUser.id).toBeGreaterThan(user.id);
 				  		new User({
 				  			id: newUser.id
