@@ -2,9 +2,9 @@
 var knex = require('knex')({
 	client:'pg',
 	connection: {
-		host: 'localhost',
-		user: 'parky',
-		password: 'password',
+		host: process.env.DATABASE_HOST,
+		user: process.env.DATBASE_USER,
+		password: process.env.DATABASE_PASS,
 		database: 'eggercise'
 	}
 });
