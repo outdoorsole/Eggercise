@@ -31,67 +31,69 @@ describe('UserController', function(){
 		});
 
 		//Test Show
-		it('should return users', function (done) {
-			request('http://localhost:3000/', function (error,response,body) {
-				expect(response.statusCode).toBe(200);
-				done();
-			})
-		});
+		// it('should return users', function (done) {
+		// 	request('http://localhost:3000/', function (error,response,body) {
+		// 		expect(response.statusCode).toBe(200);
+		// 		done();
+		// 	})
+		// });
 
 		// Test Create
-		it('should create a new user', function (done){
-			var testuser = {
-				url:"http://localhost:3000/users/signup",
-				form:{
-					username:'testCreate',
-					email: 'test@test.com',
-					password:'password'
-				}
-			};
-
-			request.post(testuser, function (error, response, body){
-				new User({
-					username:'testCreate',
-					email: 'test@test.com',
-					password:'password'
-				}).fetch()
-				  .then(function (newUser){
-				  		console.log("newUser is: "+newUser);
-				  		expect(newUser.id).toBeGreaterThan(user.id);
-				  		new User({
-				  			id: newUser.id
-				  		}).destroy()
-				  		done();
-				  });
-			});
-		});
-
-		//Test Update
-		// it('should update a current user password', function (done){
+		// it('should create a new user', function (done){
 		// 	var testuser = {
-		// 		url:"http://localhost:3000/users/edit/"+user.id,
+		// 		url:"http://localhost:3000/signup",
 		// 		form:{
 		// 			username:'testCreate',
 		// 			email: 'test@test.com',
 		// 			password:'password'
-		// 		},
-
+		// 		}
 		// 	};
 
-		// 	request.post(testuser, function (error, response, body) {
-		// 		expect(response.statusCode).toBe(302);
+		// 	request.post(testuser, function (error, response, body){
 		// 		new User({
-		// 			id: user.id
+		// 			email: 'test@test.com',
 		// 		}).fetch()
-		// 		  .then(function (newUser) {
-		// 		  		expect(newUser.get('password')).toBe('password');
+		// 		  .then(function (newUser){
+		// 		  		expect(newUser.get('username')).toBe('testCreate');
 		// 		  		new User({
-		// 		  			id: user.id
+		// 		  			id: newUser.id
 		// 		  		}).destroy()
-		// 		  		done();
+		// 		  		  .then(function (model){
+		// 			  		done();
+		// 		  		  })
 		// 		  });
 		// 	});
-			
 		// });
+
+		//Test Update
+		it('should update a current user password', function (done){
+			var testuser = {
+				url:"http://localhost:3000/users/edit/"+user.id,
+				form:{
+					username:'testCreate',
+					email: 'test@test.com',
+					password:'password'
+				},
+
+			};
+
+			request.post(testuser, function (error, response, body) {
+				console.log("This is response: "+response);
+				expect(response.statusCode).toBe(302);
+				new User({
+					id: user.id
+				}).fetch()
+				  .then(function (newUser) {
+				  		expect(newUser.get('password')).toBe('password');
+				  		new User({
+				  			id: user.id
+				  		}).destroy()
+				  		  .then(function (model){
+					  		done();
+				  		  })
+				  });
+			});
+			
+		});
 	});
 })
