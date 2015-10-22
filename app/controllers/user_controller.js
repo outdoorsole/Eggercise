@@ -112,21 +112,18 @@ exports.signOut = function(req,res,next) {
 //Update User (e-mail and password)
 exports.edit = function (req,res) {
 	var userId = req.params.id;
-	var user = new User({id: userId});
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
 
 	if(req.isAuthenticated()) {
 		new User({
-			username: req.body.username,
-			password: hash
+			id: userId
 		})
-
-		user.save({
+		.save({
+			'email': req.body.email || user.get('email'),
 			'password': hash || user.get('password')
 		})
-
 		.then(function (user){
 			req.method = 'GET';
 			res.redirect('/');
@@ -140,3 +137,4 @@ exports.edit = function (req,res) {
 		res.render('users/signup', {title: 'Sign Up'});
 	}
 }
+
