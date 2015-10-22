@@ -78,7 +78,9 @@ describe('UserController', function(){
 			};
 
 			request.post(testuser, function (error, response, body) {
-				console.log("This is response: "+response);
+				console.log('This is the error: ', error);
+				console.log('This is the response: ', response);
+				console.log('This is the body: ', body);
 				expect(response.statusCode).toBe(302);
 				new User({
 					id: user.id
@@ -93,7 +95,7 @@ describe('UserController', function(){
 				  		  })
 				  });
 			});
-			
+
 		});
 	});
 })

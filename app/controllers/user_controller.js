@@ -30,9 +30,8 @@ exports.index = function (req,res){
 	var users = Users;
 	users.fetch()
 		 .then(function (data) {
-			res.render('index', {title: 'Home', user: data.toJSON()});
+			res.render('index', {title: 'Home', userId: req.user});
 		})
-
 	.catch(function (error){
 		console.error(error.stack);
 		res.redirect('/error');
@@ -111,33 +110,33 @@ exports.signOut = function(req,res,next) {
 
 //------------------------------------------------------------------------------//
 //Update User (e-mail and password)
-// exports.edit = function (req,res) {
-// 	var userId = req.params.id;
-// 	var user = new User({id: userId});
-// 	var password = req.body.password,
-// 		salt = bcrypt.genSaltSync(10),
-// 		hash = bcrypt.hashSync(password,salt);
+exports.edit = function (req,res) {
+	var userId = req.params.id;
+	var user = new User({id: userId});
+	var password = req.body.password,
+		salt = bcrypt.genSaltSync(10),
+		hash = bcrypt.hashSync(password,salt);
 
-// 	if(req.isAuthenticated()) {
-// 		new User({
-// 			username: req.body.username,
-// 			password: hash
-// 		})
+	if(req.isAuthenticated()) {
+		new User({
+			username: req.body.username,
+			password: hash
+		})
 
-// 		user.save({
-// 			'password': hash || user.get('password')
-// 		})
+		user.save({
+			'password': hash || user.get('password')
+		})
 
-// 		.then(function (user){
-// 			req.method = 'GET';
-// 			res.redirect('/');
-// 		})
+		.then(function (user){
+			req.method = 'GET';
+			res.redirect('/');
+		})
 
-// 		.catch(function (error){
-// 			console.error(error.stack);
-// 			res.redirect('/error');
-// 		})
-// 	} else {
-// 		res.render('users/signup', {title: 'Sign Up'});
-// 	}
-// }
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
+		})
+	} else {
+		res.render('users/signup', {title: 'Sign Up'});
+	}
+}
