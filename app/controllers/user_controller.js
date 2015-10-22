@@ -109,6 +109,25 @@ exports.signOut = function(req,res,next) {
 }
 
 //------------------------------------------------------------------------------//
+//Show User
+exports.show = function (req,res) {
+	var userId = req.params.id;
+	var user = new User({id: userId});
+
+	user.fetch()
+	.then(function (data) {
+		res.render('users/edit',{
+			title: 'Current User',
+			data: data.toJSON()
+		})
+	})
+	.catch(function (error) {
+		console.log(error.stack);
+		res.redirect('/error');
+	});
+}
+
+//------------------------------------------------------------------------------//
 //Update User (e-mail and password)
 exports.edit = function (req,res) {
 	var userId = req.params.id;

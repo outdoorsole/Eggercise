@@ -91,7 +91,10 @@ app.get('/signin', UserController.signInGet);
 app.post('/signin', UserController.signInPost);
 
 //sign out
-app.get('/signout',UserController.signOut);
+app.get('/signout', UserController.signOut);
+
+//show
+app.get('/users/:id', UserController.show);
 
 //update user info
 app.post('/users/edit/:id', UserController.edit);
