@@ -111,33 +111,30 @@ exports.signOut = function(req,res,next) {
 
 //------------------------------------------------------------------------------//
 //Update User (e-mail and password)
-// exports.edit = function (req,res) {
-// 	var userId = req.params.id;
-// 	var user = new User({id: userId});
-// 	var password = req.body.password,
-// 		salt = bcrypt.genSaltSync(10),
-// 		hash = bcrypt.hashSync(password,salt);
+exports.edit = function (req,res) {
+	var userId = req.params.id;
+	var password = req.body.password,
+		salt = bcrypt.genSaltSync(10),
+		hash = bcrypt.hashSync(password,salt);
 
-// 	if(req.isAuthenticated()) {
-// 		new User({
-// 			username: req.body.username,
-// 			password: hash
-// 		})
+	if(req.isAuthenticated()) {
+		new User({
+			id: userId
+		})
+		.save({
+			'email': req.body.email || user.get('email'),
+			'password': hash || user.get('password')
+		})
+		.then(function (user){
+			req.method = 'GET';
+			res.redirect('/');
+		})
 
-// 		user.save({
-// 			'password': hash || user.get('password')
-// 		})
-
-// 		.then(function (user){
-// 			req.method = 'GET';
-// 			res.redirect('/');
-// 		})
-
-// 		.catch(function (error){
-// 			console.error(error.stack);
-// 			res.redirect('/error');
-// 		})
-// 	} else {
-// 		res.render('users/signup', {title: 'Sign Up'});
-// 	}
-// }
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
+		})
+	} else {
+		res.render('users/signup', {title: 'Sign Up'});
+	}
+}

@@ -94,7 +94,7 @@ app.post('/signin', UserController.signInPost);
 app.get('/signout',UserController.signOut);
 
 //update user info
-// app.post('/users/edit/:id', UserController.edit);
+app.post('/users/edit/:id', UserController.edit);
 
 app.listen(3000);
 console.log('Listening to port 3000');

@@ -65,35 +65,28 @@ describe('UserController', function(){
 		// 	});
 		// });
 
-		//Test Update
-		it('should update a current user password', function (done){
+		//Test Update (Updating password and e-mail, DOES NOT WORK WITH AUTHENTICATION)
+		it('should update current user e-mail and/or password', function (done){
 			var testuser = {
 				url:"http://localhost:3000/users/edit/"+user.id,
 				form:{
-					username:'testCreate',
-					email: 'test@test.com',
-					password:'password'
+					//information the user enters
+					email: 'testUpdate@test.com',
+					password:'updatepassword'
 				},
-
 			};
 
 			request.post(testuser, function (error, response, body) {
-				console.log("This is response: "+response);
 				expect(response.statusCode).toBe(302);
 				new User({
+					//go to the database and look for this id (including fetch)
 					id: user.id
 				}).fetch()
 				  .then(function (newUser) {
-				  		expect(newUser.get('password')).toBe('password');
-				  		new User({
-				  			id: user.id
-				  		}).destroy()
-				  		  .then(function (model){
-					  		done();
-				  		  })
+			  		expect(newUser.get('email')).toBe('testUpdate@test.com');
+			  		done();
 				  });
-			});
-			
+			});	
 		});
 	});
 })
