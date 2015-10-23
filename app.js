@@ -98,7 +98,8 @@ app.get('/signout', UserController.signOut);
 app.get('/users/:id', UserController.show);
 
 //update user info
-app.post('/users/edit/:id', UserController.edit);
+app.get('/users/:id', UserController.updateGet);
+app.post('/users/:id', UserController.updatePost);
 
 // error page
 app.get('/errorpage', UserController.errorShow);
@@ -113,7 +114,10 @@ app.get('/groups', GroupController.index);
 app.post('/groups', GroupController.create);
 
 //show
-app.get('/groups/:groupId', UserController.show);
+// app.get('/groups/:groupId', UserController.show);
+
+//update
+app.post('/groups/edit/:groupId')
 
 app.listen(3000);
 console.log('Listening to port 3000');
