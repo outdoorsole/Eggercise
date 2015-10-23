@@ -138,7 +138,6 @@ exports.edit = function (req,res) {
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
 
-		console.log('This is userId: ', userId);
 	if(req.isAuthenticated()) {
 		new User({
 			id: userId
