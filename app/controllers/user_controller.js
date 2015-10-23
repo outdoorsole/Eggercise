@@ -28,8 +28,6 @@ var Users = require('../collections/users');
 //Index
 exports.index = function (req,res){
 	var users = Users;
-	console.log('This is users in the index of user controller: ', users);
-	console.log('This is users in the index of user controller toJSON: ', users.toJSON());
 	users.fetch()
 		 .then(function (data) {
 
@@ -117,17 +115,6 @@ exports.signOut = function(req,res,next) {
 exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
-	// console.log('user: ' + user);
-
-		console.log('This is req: ', req);
-		console.log('------------------')
-		console.log('This is res: ', res);
-		console.log('------------------')
-		console.log('This is userId: ', userId);
-		console.log('------------------');
-		console.log('This is user: ', user);
-		console.log('------------------')
-
 	// user.fetch({
 	// 	withRelated:['roles']
 	// })
@@ -148,16 +135,7 @@ exports.show = function (req,res) {
 //Update User (e-mail and password)
 exports.edit = function (req,res) {
 	var userId = req.params.id;
-<<<<<<< HEAD
-	// console.log('This is req.user: ', req.user);
-=======
 	var user = new User({id: userId});
-
-	console.log("This is body password: "+req.body.password);
-	console.log("This is req.params.id: "+req.params.id);
-	console.log("userId: "+userId);
-	console.log("user: "+user.username);
->>>>>>> fdc14e9fa10b46bdf5634048d54f0aa9bd1b81d7
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
