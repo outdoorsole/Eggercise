@@ -40,3 +40,6 @@ exports.create = function (req,res){
 	  	res.redirect('/error');
 	  })
 }
+
+//------------------------------------------------------------------------------//
+//Update Group (name and buy-in price)

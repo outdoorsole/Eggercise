@@ -10,9 +10,8 @@ describe('GroupController', function(){
 
 		beforeEach(function (done) {
 			new Group({
-				username: 'userTest',
-				email: 'test@test.com',
-				password: 'password'
+				name: 'groupTest',
+				price: 150
 			}).save()
 			  .then(function (newGroup) {
 			  	group = newGroup;
@@ -29,5 +28,43 @@ describe('GroupController', function(){
 			  	done.fail(error);
 			  });
 		});
+
+		//Test Show
+		it('should return groups', function (done) {
+			request('http://localhost:3000/groups', function (error,response,body) {
+				expect(response.statusCode).toBe(200);
+				done();
+			})
+		});
+
+		// Test Create
+		it('should create a new group', function (done){
+			var testgroup = {
+				url:"http://localhost:3000/groups",
+				form:{
+					name:'testGroup',
+					price:9000
+				}
+			};
+
+			request.post(testgroup, function (error, response, body){
+				new Group({
+					name: 'testGroupCreate',
+				}).fetch()
+				  .then(function (newGroup){
+				  	console.log('This is newGroup: '+newGroup);
+				  	console.log('This is group.id: '+group.id);
+			  		expect(newGroup.get('name')).toBe('testGroup');
+			  		done();
+			  		// new Group({
+			  		// 	id: newGroup.id
+			  		// }).destroy()
+			  		//   .then(function (model){
+				  	// 	done();
+			  		//   })
+				  });
+			});
+		});
+	})
 
 })

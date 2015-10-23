@@ -103,9 +103,6 @@ app.post('/users/edit/:id', UserController.edit);
 // error page
 app.get('/errorpage', UserController.errorShow);
 
-app.listen(3000);
-console.log('Listening to port 3000');
-
 //--------------------------------------------------------------
 //Routes for Groups
 
@@ -114,3 +111,9 @@ app.get('/groups', GroupController.index);
 
 //create
 app.post('/groups', GroupController.create);
+
+//show
+app.get('/groups/:groupId', UserController.show);
+
+app.listen(3000);
+console.log('Listening to port 3000');
