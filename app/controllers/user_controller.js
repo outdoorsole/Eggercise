@@ -34,7 +34,7 @@ exports.index = function (req,res){
 		})
 	.catch(function (error){
 		console.error(error.stack);
-		res.redirect('/error');
+		res.redirect('/errorpage');
 	})
 };
 
@@ -55,18 +55,22 @@ exports.signUpPost = function (req,res) {
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
 
+		console.log('This is req: ', req);
+		console.log('This is res: ', res);
+
 	new User({
 		username: req.body.username,
 		password: hash,
 		email:req.body.email
 	}).save()
 	  .then(function (user) {
-			res.redirect('/')
+	  	console.log('This is the user: ', user);
+			res.redirect('/signin')
 	  })
 
 	.catch(function (error){
 		console.error(error.stack);
-		res.redirect('/error');
+		res.redirect('/errorpage');
 	})
 }
 
@@ -89,7 +93,7 @@ exports.signInPost = function (req,res,next) {
 		req.logIn(user, function (err) {
 			if(err) {
 				console.log(err + " Fail");
-				res.render('users/signin', {title: 'Sign In Fail', errorMessage: err.message});
+				res.render('error', {title: 'Sign In Fail', errorMessage: err.message});
 			} else {
 				res.redirect('/');
 			}
@@ -114,10 +118,21 @@ exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
 
-	user.fetch({
-		withRelated:['roles']
-	})
+	console.log('This is req in the user controller show: ', req);
+	console.log('---------------');
+	console.log('This is res in the user controller show: ', res);
+	console.log('---------------');
+	console.log('This is userId: ', userId);
+	console.log('---------------');
+	console.log('This is user: ', user);
+	console.log('---------------');
+
+	// user.fetch({
+	// 	withRelated:['roles']
+	// })
+	user.fetch()
 	.then(function (data) {
+		console.log('This is data: ', data);
 		res.render('users/edit',{
 			title: 'Current User',
 			data: data.toJSON()
@@ -125,7 +140,7 @@ exports.show = function (req,res) {
 	})
 	.catch(function (error) {
 		console.log(error.stack);
-		res.redirect('/error');
+		res.redirect('/errorpage');
 	});
 }
 
@@ -152,10 +167,16 @@ exports.edit = function (req,res) {
 
 		.catch(function (error){
 			console.error(error.stack);
-			res.redirect('/error');
+			res.redirect('/errorpage');
 		})
 	} else {
 		res.render('users/signup', {title: 'Sign Up'});
 	}
 }
 
+
+//------------------------------------------------------------------------------//
+//Error page
+exports.errorShow = function (req, res) {
+	res.render('error');
+}

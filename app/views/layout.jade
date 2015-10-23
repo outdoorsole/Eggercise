@@ -6,9 +6,9 @@ head
     meta(name='description', content='')
     meta(name='author', content='')
     title Eggercise
-    link(href='stylesheets/bootstrap-theme.min.css', rel='stylesheet')
-    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
-    link(href='stylesheets/main.css', rel='stylesheet')
+    link(href='../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+    link(href='../stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='../stylesheets/main.css', rel='stylesheet')
 body
   nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
     .container
@@ -24,9 +24,12 @@ body
           li
             a(href='#') View Groups
           li
-            if userId
+            a(href='users/#{userId}') Update Info
+          if userId
+            li
               a(href='/signout') Logout
-            else
+          else
+            li
               a(href='/signin') Login
           li
             a(href='/signup') Sign Up
@@ -36,6 +39,6 @@ body
       .col-lg-12.text-center
         p Copyright (c) Eggercise 2015
   // jQuery Version 1.11.1
-  script(src='scripts/jquery.min.js')
+  script(src='../scripts/jquery.min.js')
   // Bootstrap Core JavaScript
-  script(src='scripts/bootstrap.min.js')
+  script(src='../scripts/bootstrap.min.js')
