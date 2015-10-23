@@ -118,15 +118,6 @@ exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
 
-	console.log('This is req in the user controller show: ', req);
-	console.log('---------------');
-	console.log('This is res in the user controller show: ', res);
-	console.log('---------------');
-	console.log('This is userId: ', userId);
-	console.log('---------------');
-	console.log('This is user: ', user);
-	console.log('---------------');
-
 	// user.fetch({
 	// 	withRelated:['roles']
 	// })
