@@ -23,6 +23,7 @@ var Users = require('./app/collections/users'),
 
 //controllers
 var UserController = require('./app/controllers/user_controller.js');
+	GroupController = require('./app/controllers/group_controller.js');
 
 //passport error handling
 passport.use(new LocalStrategy(function (username, password, done){
@@ -101,3 +102,12 @@ app.post('/users/edit/:id', UserController.edit);
 
 app.listen(3000);
 console.log('Listening to port 3000');
+
+//--------------------------------------------------------------
+//Routes for Groups
+
+//index
+app.get('/groups', GroupController.index);
+
+//create
+app.post('/groups', GroupController.create);

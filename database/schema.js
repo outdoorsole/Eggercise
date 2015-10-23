@@ -38,6 +38,8 @@ bookshelf.knex.schema.hasTable('groups')
 	if(!exists){
 		bookshelf.knex.schema.createTable('groups', function (group){
 			group.increments('id').primary();
+			group.string('name', 200).notNullable();
+			group.integer('price').unsigned();
 			group.timestamps();
 		})
 		.then(function (table){
