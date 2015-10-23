@@ -114,7 +114,9 @@ exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
 
-	user.fetch()
+	user.fetch({
+		withRelated:['roles']
+	})
 	.then(function (data) {
 		res.render('users/edit',{
 			title: 'Current User',
