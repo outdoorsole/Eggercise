@@ -10,3 +10,11 @@ body {
 .navbar-inverse .navbar-nav>li>a {
 	color: #E51B12;
 }
+
+/*#bs-example-navbar-collapse-1 {
+  width: 1000px;
+}*/
+
+.navbar-nav {
+  width: 1000px;
+}
