@@ -49,19 +49,18 @@ describe('GroupController', function(){
 
 			request.post(testgroup, function (error, response, body){
 				new Group({
-					name: 'testGroupCreate',
+					name: 'testGroup',
 				}).fetch()
 				  .then(function (newGroup){
 				  	console.log('This is newGroup: '+newGroup);
 				  	console.log('This is group.id: '+group.id);
 			  		expect(newGroup.get('name')).toBe('testGroup');
-			  		done();
-			  		// new Group({
-			  		// 	id: newGroup.id
-			  		// }).destroy()
-			  		//   .then(function (model){
-				  	// 	done();
-			  		//   })
+			  		new Group({
+			  			id: newGroup.id
+			  		}).destroy()
+			  		  .then(function (model){
+				  		done();
+			  		  })
 				  });
 			});
 		});
