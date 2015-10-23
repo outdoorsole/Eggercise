@@ -98,7 +98,7 @@ app.get('/signout', UserController.signOut);
 app.get('/users/:id', UserController.show);
 
 //update user info
-app.post('/users/edit/:id', UserController.edit);
+app.post('/users/:id/edit', UserController.edit);
 
 // error page
 app.get('/errorpage', UserController.errorShow);

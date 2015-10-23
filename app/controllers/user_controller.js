@@ -114,6 +114,15 @@ exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
 
+		console.log('This is req: ', req);
+		console.log('------------------')
+		console.log('This is res: ', res);
+		console.log('------------------')
+		console.log('This is userId: ', userId);
+		console.log('------------------');
+		console.log('This is user: ', user);
+		console.log('------------------')
+
 	// user.fetch({
 	// 	withRelated:['roles']
 	// })
@@ -137,14 +146,29 @@ exports.edit = function (req,res) {
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
+		var user = new User({
+			id: userId
+		});
+
+		console.log('This is req: ', req);
+		console.log('------------------')
+		console.log('This is res: ', res);
+		console.log('------------------')
+		console.log('This is userId: ', userId);
+		console.log('------------------');
+		console.log('This is user: ', user);
+		console.log('------------------')
 
 	if(req.isAuthenticated()) {
-		new User({
-			id: userId
-		})
-		.save({
-			'email': req.body.email || user.get('email'),
-			'password': hash || user.get('password')
+
+		console.log('This is user inside authentication: ', user);
+		console.log('------------------')
+		console.log('This is user.get(email): ', user.get('email'));
+		console.log('------------------')
+
+		user.save({
+			'email': req.body.email,
+			'password': hash
 		})
 		.then(function (user){
 			req.method = 'GET';
