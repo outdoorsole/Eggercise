@@ -21,18 +21,18 @@ body
         a#eggerbrand.navbar-brand(href='/') Eggercise
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
-          li
-            a(href='#') View Groups
-          li
-            a(href='users/#{userId}') Update Info
           if userId
             li
               a(href='/signout') Logout
+            li
+              a(href='#') View Groups
+            li
+              a(href='users/#{userId}') Update Info
           else
             li
               a(href='/signin') Login
-          li
-            a(href='/signup') Sign Up
+            li
+              a(href='/signup') Sign Up
   block content
   .container
     .row

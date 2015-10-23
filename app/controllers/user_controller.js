@@ -55,16 +55,12 @@ exports.signUpPost = function (req,res) {
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
 
-		console.log('This is req: ', req);
-		console.log('This is res: ', res);
-
 	new User({
 		username: req.body.username,
 		password: hash,
 		email:req.body.email
 	}).save()
 	  .then(function (user) {
-	  	console.log('This is the user: ', user);
 			res.redirect('/signin')
 	  })
 
@@ -123,10 +119,9 @@ exports.show = function (req,res) {
 	// })
 	user.fetch()
 	.then(function (data) {
-		console.log('This is data: ', data);
 		res.render('users/edit',{
 			title: 'Current User',
-			data: data.toJSON()
+			userId: data.get('id')
 		})
 	})
 	.catch(function (error) {
@@ -143,6 +138,7 @@ exports.edit = function (req,res) {
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
 
+		console.log('This is userId: ', userId);
 	if(req.isAuthenticated()) {
 		new User({
 			id: userId
@@ -155,7 +151,6 @@ exports.edit = function (req,res) {
 			req.method = 'GET';
 			res.redirect('/');
 		})
-
 		.catch(function (error){
 			console.error(error.stack);
 			res.redirect('/errorpage');
