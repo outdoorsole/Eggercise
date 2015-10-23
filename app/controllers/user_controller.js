@@ -28,8 +28,12 @@ var Users = require('../collections/users');
 //Index
 exports.index = function (req,res){
 	var users = Users;
+	console.log('This is users in the index of user controller: ', users);
+	console.log('This is users in the index of user controller toJSON: ', users.toJSON());
 	users.fetch()
 		 .then(function (data) {
+
+		 	// pass in the user object
 			res.render('index', {title: 'Home', userId: req.user});
 		})
 	.catch(function (error){
@@ -143,44 +147,33 @@ exports.show = function (req,res) {
 //Update User (e-mail and password)
 exports.edit = function (req,res) {
 	var userId = req.params.id;
+	// console.log('This is req.user: ', req.user);
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-		var user = new User({
+		new User({
 			id: userId
-		});
-
-		console.log('This is req: ', req);
-		console.log('------------------')
-		console.log('This is res: ', res);
-		console.log('------------------')
-		console.log('This is userId: ', userId);
-		console.log('------------------');
-		console.log('This is user: ', user);
-		console.log('------------------')
-
-	if(req.isAuthenticated()) {
-
-		console.log('This is user inside authentication: ', user);
-		console.log('------------------')
-		console.log('This is user.get(email): ', user.get('email'));
-		console.log('------------------')
-
-		user.save({
-			'email': req.body.email,
-			'password': hash
 		})
-		.then(function (user){
-			req.method = 'GET';
-			res.redirect('/');
-		})
-		.catch(function (error){
-			console.error(error.stack);
-			res.redirect('/errorpage');
-		})
-	} else {
-		res.render('users/signup', {title: 'Sign Up'});
-	}
+		.fetch()
+		.then(function (user) {
+			if(req.isAuthenticated()) {
+				user.save({
+					email: req.body.email || user.get(
+						'email'),
+					password: hash || user.get('password')
+				})
+				.then(function (user){
+					req.method = 'GET';
+					res.redirect('/');
+				})
+				.catch(function (error){
+					console.error(error.stack);
+					res.redirect('/errorpage');
+				})
+			} else {
+				res.render('users/signup', {title: 'Sign Up'});
+			}
+	})
 }
 
 
