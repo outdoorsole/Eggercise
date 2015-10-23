@@ -98,7 +98,11 @@ app.get('/signout', UserController.signOut);
 app.get('/users/:id', UserController.show);
 
 //update user info
+<<<<<<< HEAD
 app.post('/users/:id/edit', UserController.edit);
+=======
+app.post('/users/:id', UserController.edit);
+>>>>>>> fdc14e9fa10b46bdf5634048d54f0aa9bd1b81d7
 
 // error page
 app.get('/errorpage', UserController.errorShow);

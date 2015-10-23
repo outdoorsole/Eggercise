@@ -117,6 +117,7 @@ exports.signOut = function(req,res,next) {
 exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
+	// console.log('user: ' + user);
 
 		console.log('This is req: ', req);
 		console.log('------------------')
@@ -134,7 +135,7 @@ exports.show = function (req,res) {
 	.then(function (data) {
 		res.render('users/edit',{
 			title: 'Current User',
-			userId: data.get('id')
+			userId: data.toJSON()
 		})
 	})
 	.catch(function (error) {
@@ -147,7 +148,16 @@ exports.show = function (req,res) {
 //Update User (e-mail and password)
 exports.edit = function (req,res) {
 	var userId = req.params.id;
+<<<<<<< HEAD
 	// console.log('This is req.user: ', req.user);
+=======
+	var user = new User({id: userId});
+
+	console.log("This is body password: "+req.body.password);
+	console.log("This is req.params.id: "+req.params.id);
+	console.log("userId: "+userId);
+	console.log("user: "+user.username);
+>>>>>>> fdc14e9fa10b46bdf5634048d54f0aa9bd1b81d7
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
