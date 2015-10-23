@@ -117,7 +117,7 @@ app.post('/groups', GroupController.create);
 // app.get('/groups/:groupId', UserController.show);
 
 //update
-app.post('/groups/edit/:groupId')
+// app.post('/groups/edit/:groupId')
 
 app.listen(3000);
 console.log('Listening to port 3000');

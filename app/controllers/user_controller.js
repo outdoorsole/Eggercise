@@ -121,6 +121,9 @@ exports.show = function (req,res) {
 	user.fetch()
 	.then(function (data) {
 		console.log('This is data in Show User: ', data);
+		console.log('This is username: '+user.username);
+		console.log('This is userid: '+user.id);
+
 		res.render('users/edit',{
 			title: 'Current User',
 			data: data.toJSON()
@@ -133,42 +136,49 @@ exports.show = function (req,res) {
 }
 
 //------------------------------------------------------------------------------//
-//Update User GET(e-mail and password)
+//Update GET(e-mail and password)
 exports.updateGet = function (req,res) {
 	if(req.isAuthenticated()) {
-		var userId = req.params.id;
-		var user = new User({id: userId})
-		.fetch()
-		.then(function (data) {
-			res.render('/users', {title: 'Edit User Information', user: data.toJSON()})
-		})
-		.catch(function (error){
-			console.error(error.stack);
-			res.redirect('/error');
-		})
+		var	userId = req.params.userId;
+		var user = new User({
+				id: userId
+			})
+			.fetch()
+			.then(function (data) {
+				res.render('users/edit', {title: 'Edit User', user: data.toJSON()});	
+			})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/error');
+			})
 	} else {
 		res.render('signin', {title: 'Sign In'});
 	}
 }
-
 //------------------------------------------------------------------------------//
-//Update User POST(e-mail and password)
+//Update POST(e-mail and password)
 exports.updatePost = function (req,res) {
-	var userId = req.params.id;
+	console.log('reached update');
+	var userId = req.params.userId;
+	// var user = new User({id: userId})
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-	console.log('This is user: '+user)
 
 	if(req.isAuthenticated()) {
-		new User({
+		// new User({
+		// 	id: userId
+		// })
+		console.log('in authentication');
+		var user = new User({
 			id: userId
 		})
+
 		.save({
 			'email': req.body.email || user.get('email'),
 			'password': hash || user.get('password')
 		})
-		.then(function (user){
+		.then(function (data){
 			req.method = 'GET';
 			res.redirect('/users');
 		})
@@ -178,9 +188,48 @@ exports.updatePost = function (req,res) {
 			res.redirect('/errorpage');
 		})
 	} else {
-		res.render('users/signup', {title: 'Sign Up'});
+		res.render('users/signin', {title: 'Sign In'});
 	}
 }
+
+//------------------------------------------------------------------------------//
+//Update User(e-mail and password)
+// exports.edit = function (req,res) {
+// 	console.log('reached update');
+// 	var userId = req.params.id;
+// 	// var user = new User({id: userId})
+// 	var password = req.body.password,
+// 		salt = bcrypt.genSaltSync(10),
+// 		hash = bcrypt.hashSync(password,salt);
+
+// 	if(req.isAuthenticated()) {
+// 		// new User({
+// 		// 	id: userId
+// 		// })
+// 		console.log('in authentication');
+// 		var user = new User({
+// 			username:req.body.username,
+// 			email:req.body.email,
+// 			password:hash
+// 		})
+
+// 		user.save({
+// 			'email': req.body.email || user.get('email'),
+// 			'password': hash || user.get('password')
+// 		})
+// 		.then(function (data){
+// 			req.method = 'GET';
+// 			res.redirect('/users');
+// 		})
+
+// 		.catch(function (error){
+// 			console.error(error.stack);
+// 			res.redirect('/errorpage');
+// 		})
+// 	} else {
+// 		res.render('users/signup', {title: 'Sign Up'});
+// 	}
+// }
 
 
 //------------------------------------------------------------------------------//

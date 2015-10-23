@@ -38,30 +38,54 @@ describe('GroupController', function(){
 		});
 
 		// Test Create
-		it('should create a new group', function (done){
-			var testgroup = {
-				url:"http://localhost:3000/groups",
-				form:{
-					name:'testGroup',
-					price:9000
-				}
-			};
+		// it('should create a new group', function (done){
+		// 	var testgroup = {
+		// 		url:"http://localhost:3000/groups",
+		// 		form:{
+		// 			name:'testGroup',
+		// 			price:9000
+		// 		}
+		// 	};
 
-			request.post(testgroup, function (error, response, body){
-				new Group({
-					name: 'testGroup',
-				}).fetch()
-				  .then(function (newGroup){
-			  		expect(newGroup.get('name')).toBe('testGroup');
-			  		new Group({
-			  			id: newGroup.id
-			  		}).destroy()
-			  		  .then(function (model){
+		// 	request.post(testgroup, function (error, response, body){
+		// 		new Group({
+		// 			name: 'testGroup',
+		// 		}).fetch()
+		// 		  .then(function (newGroup){
+		// 	  		expect(newGroup.get('name')).toBe('testGroup');
+		// 	  		new Group({
+		// 	  			id: newGroup.id
+		// 	  		}).destroy()
+		// 	  		  .then(function (model){
+		// 		  		done();
+		// 	  		  })
+		// 		  });
+		// 	});
+		// });
+
+		//Test Update (DOES NOT WORK WITH AUTHENTICATION)
+			it('should update current group name and/or buy-in price', function (done){
+				var testgroup = {
+					url:"http://localhost:3000/users/edit/"+group.id,
+					form:{
+						//information the user enters
+						name: 'testGroupUpdate',
+						price: 420
+					},
+				};
+
+				request.post(testgroup, function (error, response, body) {
+					expect(response.statusCode).toBe(302);
+					new Group({
+						//go to the database and look for this id (including fetch)
+						id: group.id
+					}).fetch()
+					  .then(function (newGroup) {
+				  		expect(newGroup.get('price')).toBe(420);
 				  		done();
-			  		  })
-				  });
+					  });
+				});
 			});
-		});
 	})
 
 })
