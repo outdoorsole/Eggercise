@@ -16,7 +16,7 @@ exports.index = function (req,res){
 	var groups = Groups;
 	groups.fetch({id: req.body.id})
 		 .then(function (data) {
-			res.render('index', {title: 'Home', userId: req.user});
+			res.render('groups/groups', {title: 'Your Groups', userId: req.user});
 		})
 	.catch(function (error){
 		console.error(error.stack);
@@ -42,4 +42,24 @@ exports.create = function (req,res){
 }
 
 //------------------------------------------------------------------------------//
-//Update Group (name and buy-in price)
+//Show Group
+// exports.show = function (req,res) {
+// 	var groupId = req.params.id;
+// 	var group = new Group({id: groupId});
+
+// 	// user.fetch({
+// 	// 	withRelated:['roles']
+// 	// })
+// 	group.fetch()
+// 	.then(function (data) {
+// 		console.log('This is data: ', data);
+// 		res.render('groups/groups',{
+// 			title: 'Current Groups',
+// 			data: data.toJSON()
+// 		})
+// 	})
+// 	.catch(function (error) {
+// 		console.log(error.stack);
+// 		res.redirect('/errorpage');
+// 	});
+// }

@@ -52,8 +52,6 @@ describe('GroupController', function(){
 					name: 'testGroup',
 				}).fetch()
 				  .then(function (newGroup){
-				  	console.log('This is newGroup: '+newGroup);
-				  	console.log('This is group.id: '+group.id);
 			  		expect(newGroup.get('name')).toBe('testGroup');
 			  		new Group({
 			  			id: newGroup.id
