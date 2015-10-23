@@ -99,5 +99,8 @@ app.get('/users/:id', UserController.show);
 //update user info
 app.post('/users/edit/:id', UserController.edit);
 
+// error page
+app.get('/errorpage', UserController.errorShow);
+
 app.listen(3000);
 console.log('Listening to port 3000');

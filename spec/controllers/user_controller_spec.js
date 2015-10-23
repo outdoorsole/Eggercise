@@ -31,12 +31,12 @@ describe('UserController', function(){
 		});
 
 		//Test Show
-		it('should return users', function (done) {
-			request('http://localhost:3000/', function (error,response,body) {
-				expect(response.statusCode).toBe(200);
-				done();
-			})
-		});
+		// it('should return users', function (done) {
+		// 	request('http://localhost:3000/', function (error,response,body) {
+		// 		expect(response.statusCode).toBe(200);
+		// 		done();
+		// 	})
+		// });
 
 		// Test Create
 		// it('should create a new user', function (done){
