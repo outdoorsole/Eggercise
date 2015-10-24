@@ -63,7 +63,7 @@ describe('GroupController', function(){
 		// 	});
 		// });
 
-		//Test Update (DOES NOT WORK WITH AUTHENTICATION)
+		//Test Update
 			it('should update current group name and/or buy-in price', function (done){
 				var testgroup = {
 					url:"http://localhost:3000/users/edit/"+group.id,

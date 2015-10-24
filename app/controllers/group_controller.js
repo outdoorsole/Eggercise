@@ -42,6 +42,41 @@ exports.create = function (req,res){
 }
 
 //------------------------------------------------------------------------------//
+//Update
+exports.updatePost = function (req,res) {
+	console.log('reached update');
+	var userId = req.params.userId;
+	// var user = new User({id: userId})
+	var password = req.body.password,
+		salt = bcrypt.genSaltSync(10),
+		hash = bcrypt.hashSync(password,salt);
+
+		new User({
+			id: userId
+		})
+		.fetch()
+		.then(function (user) {
+			if(req.isAuthenticated()) {
+				user.save({
+					email: req.body.email || user.get(
+						'email'),
+					password: hash || user.get('password')
+				})
+				.then(function (user){
+					req.method = 'GET';
+					res.redirect('/');
+				})
+				.catch(function (error){
+					console.error(error.stack);
+					res.redirect('/errorpage');
+				})
+			} else {
+				res.render('users/signup', {title: 'Sign Up'});
+			}
+	})
+}
+
+//------------------------------------------------------------------------------//
 //Show Group
 // exports.show = function (req,res) {
 // 	var groupId = req.params.id;
