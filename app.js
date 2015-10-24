@@ -98,12 +98,7 @@ app.get('/signout', UserController.signOut);
 app.get('/users/:id', UserController.show);
 
 //update user info
-<<<<<<< HEAD
-app.get('/users/:id', UserController.updateGet);
-app.post('/users/:id', UserController.updatePost);
-=======
 app.post('/users/:id/edit', UserController.edit);
->>>>>>> debug-user-controller-edit-02
 
 // error page
 app.get('/errorpage', UserController.errorShow);
