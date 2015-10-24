@@ -132,35 +132,12 @@ exports.show = function (req,res) {
 }
 
 //------------------------------------------------------------------------------//
-//Update GET(e-mail and password)
-exports.updateGet = function (req,res) {
-	if(req.isAuthenticated()) {
-		var	userId = req.params.userId;
-		var user = new User({
-				id: userId
-			})
-			.fetch()
-			.then(function (data) {
-				res.render('users/edit', {title: 'Edit User', user: data.toJSON()});	
-			})
-			.catch(function (error){
-				console.error(error.stack);
-				res.redirect('/error');
-			})
-	} else {
-		res.render('signin', {title: 'Sign In'});
-	}
-}
-//------------------------------------------------------------------------------//
-//Update POST(e-mail and password)
-exports.updatePost = function (req,res) {
-	console.log('reached update');
-	var userId = req.params.userId;
-	// var user = new User({id: userId})
+//Update User (e-mail and password)
+exports.edit = function (req,res) {
+	var userId = req.params.id;
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-
 		new User({
 			id: userId
 		})
@@ -185,6 +162,7 @@ exports.updatePost = function (req,res) {
 			}
 	})
 }
+
 
 //------------------------------------------------------------------------------//
 //Error page
