@@ -8,7 +8,7 @@ var express = require('express'),
 	bcrypt = require('bcrypt-nodejs'),
   	LocalStrategy = require('passport-local').Strategy;
 
-//db
+//database
 var bookshelf = require('./database/schema');
 
 //models
