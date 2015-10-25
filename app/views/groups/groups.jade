@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+	h1 Your Groups
+	//- ol
+		//- each val,index in data
+		//- 	li
+		//- 		p Name: #{val.name}
+		//- 		p Buy-In Price: #{val.price}
+		//- 		p
+					//- a(href="/answers") show answers
+					//- span    
+					//- a(href="/questions/#{val.id}") edit question
+					//- span    
+					//- a(href="/questions/delete/#{val.id}") delete question
+
+	form(action='/questions', method="POST")
+		//- match the action route to the post route in app.js
+		div.input
+			span.label New Name
+			input(type="text", name="name")
+		div.input
+			span.label New Buy-In Price
+			input(type="text", name="content")
+		div.actions
+			input(type="submit", value="add")

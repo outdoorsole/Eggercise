@@ -8,7 +8,7 @@ var express = require('express'),
 	bcrypt = require('bcrypt-nodejs'),
   	LocalStrategy = require('passport-local').Strategy;
 
-//db
+//database
 var bookshelf = require('./database/schema');
 
 //models
@@ -23,6 +23,7 @@ var Users = require('./app/collections/users'),
 
 //controllers
 var UserController = require('./app/controllers/user_controller.js');
+	GroupController = require('./app/controllers/group_controller.js');
 
 //passport error handling
 passport.use(new LocalStrategy(function (username, password, done){
@@ -97,7 +98,25 @@ app.get('/signout', UserController.signOut);
 app.get('/users/:id', UserController.show);
 
 //update user info
-app.post('/users/edit/:id', UserController.edit);
+app.post('/users/:id/edit', UserController.edit);
+
+// error page
+app.get('/errorpage', UserController.errorShow);
+
+//--------------------------------------------------------------
+//Routes for Groups
+
+//index
+app.get('/groups', GroupController.index);
+
+//create
+app.post('/groups', GroupController.create);
+
+//show
+// app.get('/groups/:groupId', UserController.show);
+
+//update
+// app.post('/groups/edit/:groupId')
 
 app.listen(3000);
 console.log('Listening to port 3000');

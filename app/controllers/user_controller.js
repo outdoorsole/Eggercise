@@ -30,11 +30,13 @@ exports.index = function (req,res){
 	var users = Users;
 	users.fetch()
 		 .then(function (data) {
+
+		 	// pass in the user object
 			res.render('index', {title: 'Home', userId: req.user});
 		})
 	.catch(function (error){
 		console.error(error.stack);
-		res.redirect('/error');
+		res.redirect('/errorpage');
 	})
 };
 
@@ -61,12 +63,12 @@ exports.signUpPost = function (req,res) {
 		email:req.body.email
 	}).save()
 	  .then(function (user) {
-			res.redirect('/')
+			res.redirect('/signin')
 	  })
 
 	.catch(function (error){
 		console.error(error.stack);
-		res.redirect('/error');
+		res.redirect('/errorpage');
 	})
 }
 
@@ -89,7 +91,7 @@ exports.signInPost = function (req,res,next) {
 		req.logIn(user, function (err) {
 			if(err) {
 				console.log(err + " Fail");
-				res.render('users/signin', {title: 'Sign In Fail', errorMessage: err.message});
+				res.render('error', {title: 'Sign In Fail', errorMessage: err.message});
 			} else {
 				res.redirect('/');
 			}
@@ -114,17 +116,19 @@ exports.signOut = function(req,res,next) {
 exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
-
+	// user.fetch({
+	// 	withRelated:['roles']
+	// })
 	user.fetch()
 	.then(function (data) {
 		res.render('users/edit',{
 			title: 'Current User',
-			data: data.toJSON()
+			userId: data.get('id')
 		})
 	})
 	.catch(function (error) {
 		console.log(error.stack);
-		res.redirect('/error');
+		res.redirect('/errorpage');
 	});
 }
 
@@ -135,26 +139,34 @@ exports.edit = function (req,res) {
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-
-	if(req.isAuthenticated()) {
 		new User({
 			id: userId
 		})
-		.save({
-			'email': req.body.email || user.get('email'),
-			'password': hash || user.get('password')
-		})
-		.then(function (user){
-			req.method = 'GET';
-			res.redirect('/');
-		})
-
-		.catch(function (error){
-			console.error(error.stack);
-			res.redirect('/error');
-		})
-	} else {
-		res.render('users/signup', {title: 'Sign Up'});
-	}
+		.fetch()
+		.then(function (user) {
+			if(req.isAuthenticated()) {
+				user.save({
+					email: req.body.email || user.get(
+						'email'),
+					password: hash || user.get('password')
+				})
+				.then(function (user){
+					req.method = 'GET';
+					res.redirect('/');
+				})
+				.catch(function (error){
+					console.error(error.stack);
+					res.redirect('/errorpage');
+				})
+			} else {
+				res.render('users/signup', {title: 'Sign Up'});
+			}
+	})
 }
 
+
+//------------------------------------------------------------------------------//
+//Error page
+exports.errorShow = function (req, res) {
+	res.render('error');
+}
