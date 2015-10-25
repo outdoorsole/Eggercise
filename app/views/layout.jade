@@ -24,8 +24,8 @@ body
           li
             a(href='#') View Groups
           li
-            if user
-              a(href='/') Logout
+            if userId
+              a(href='/signout') Logout
             else
               a(href='/signin') Login
           li

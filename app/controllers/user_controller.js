@@ -13,15 +13,25 @@ var User = require('../models/user');
 //collections
 var Users = require('../collections/users');
 
+//authenticate passport function
+// function authenticate (req,next){
+// 	if(req.isAuthenticated()){
+// 		next();
+// 	} else {
+// 		req.redirect('/')
+// 	}
+// }
+
+// app.use(authenticate);
+
 //------------------------------------------------------------------------------//
 //Index
 exports.index = function (req,res){
 	var users = Users;
 	users.fetch()
 		 .then(function (data) {
-			res.render('index', {title: 'Home', user: data.toJSON()});
+			res.render('index', {title: 'Home', userId: req.user});
 		})
-
 	.catch(function (error){
 		console.error(error.stack);
 		res.redirect('/error');
@@ -97,3 +107,54 @@ exports.signOut = function(req,res,next) {
 		res.redirect('/')
 	}
 }
+
+
+//------------------------------------------------------------------------------//
+//Show User
+exports.show = function (req,res) {
+	var userId = req.params.id;
+	var user = new User({id: userId});
+
+	user.fetch()
+	.then(function (data) {
+		res.render('users/edit',{
+			title: 'Current User',
+			data: data.toJSON()
+		})
+	})
+	.catch(function (error) {
+		console.log(error.stack);
+		res.redirect('/error');
+	});
+}
+
+//------------------------------------------------------------------------------//
+//Update User (e-mail and password)
+exports.edit = function (req,res) {
+	var userId = req.params.id;
+	var password = req.body.password,
+		salt = bcrypt.genSaltSync(10),
+		hash = bcrypt.hashSync(password,salt);
+
+	if(req.isAuthenticated()) {
+		new User({
+			id: userId
+		})
+		.save({
+			'email': req.body.email || user.get('email'),
+			'password': hash || user.get('password')
+		})
+		.then(function (user){
+			req.method = 'GET';
+			res.redirect('/');
+		})
+
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
+		})
+	} else {
+		res.render('users/signup', {title: 'Sign Up'});
+	}
+}
+
