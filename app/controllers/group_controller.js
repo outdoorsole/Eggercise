@@ -92,7 +92,7 @@ exports.edit = function (req,res) {
 //------------------------------------------------------------------------------//
 //Delete
 exports.destroy = function (req,res) {
-	// if(req.isAuthenticated()) {
+	if(req.isAuthenticated()) {
 		var groupId = req.params.groupId;
 		new Group({id: groupId})
 		.fetch()
@@ -104,9 +104,9 @@ exports.destroy = function (req,res) {
 			console.error(error.stack);
 			res.redirect('/error');
 		})
-	// } else {
-	// 	res.render('users/signin', {title: 'Sign In'});
-	// }
+	} else {
+		res.render('users/signin', {title: 'Sign In'});
+	}
 }
 
 //------------------------------------------------------------------------------//

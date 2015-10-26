@@ -3,16 +3,17 @@ extends ../layout
 block content
 	h1 Your Groups
 	ol
-		each val,index in data
+		each val in data
 			li
 				p Name: #{val.name}
 				p Buy-In Price: #{val.price}
 				p
 					a(href="/groups") show groups
 					span
-					a(href="/groups/edit/#{val.groupId}") edit question
+					a(href="/groups/edit/#{val.groupId}") edit group
 					span
-					a(href="/groups/delete/#{val.groupId}") delete question
+					a(href="/groups/delete/#{val.groupId}") delete group
+
 	form(role='form' action='/groups/edit#{groupId}', method='POST')
 		//- match the action route to the post route in app.js
 		.form-group
