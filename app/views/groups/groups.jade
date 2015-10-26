@@ -9,18 +9,17 @@ block content
 		//- 		p Buy-In Price: #{val.price}
 		//- 		p
 					//- a(href="/answers") show answers
-					//- span    
+					//- span
 					//- a(href="/questions/#{val.id}") edit question
-					//- span    
+					//- span
 					//- a(href="/questions/delete/#{val.id}") delete question
 
-	form(action='/questions', method="POST")
+	form(role='form' action='/groups/edit#{groupId}', method='POST')
 		//- match the action route to the post route in app.js
-		div.input
-			span.label New Name
-			input(type="text", name="name")
-		div.input
-			span.label New Buy-In Price
-			input(type="text", name="content")
-		div.actions
-			input(type="submit", value="add")
+		.form-group
+			label(for='name') New Name
+			input#name.form-control(type='name', placeholder='name', name='name')
+		.form-group
+			label(for='price') New Buy-In Price
+			input#price.form-control(type='text', placeholder='Buy in price' name='price')
+		button#info-submit.btn.btn-default Submit

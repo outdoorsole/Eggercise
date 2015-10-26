@@ -27,41 +27,43 @@ describe('GroupController', function(){
 			  .catch(function (error) {
 			  	done.fail(error);
 			  });
+			});
+
+
+		// Test Show
+		it('should return groups', function (done) {
+			request('http://localhost:3000/groups', function (error,response,body) {
+				expect(response.statusCode).toBe(200);
+				done();
+			})
 		});
 
-		//Test Show
-		// it('should return groups', function (done) {
-		// 	request('http://localhost:3000/groups', function (error,response,body) {
-		// 		expect(response.statusCode).toBe(200);
-		// 		done();
-		// 	})
-		// });
-
 		// Test Create
-		// it('should create a new group', function (done){
-		// 	var testgroup = {
-		// 		url:"http://localhost:3000/groups",
-		// 		form:{
-		// 			name:'testGroup',
-		// 			price:9000
-		// 		}
-		// 	};
+		it('should create a new group', function (done){
+			var testgroup = {
+				url:"http://localhost:3000/groups",
+				form:{
+					name:'testGroup',
+					price:9000
+				}
+			};
 
-		// 	request.post(testgroup, function (error, response, body){
-		// 		new Group({
-		// 			name: 'testGroup',
-		// 		}).fetch()
-		// 		  .then(function (newGroup){
-		// 	  		expect(newGroup.get('name')).toBe('testGroup');
-		// 	  		new Group({
-		// 	  			id: newGroup.id
-		// 	  		}).destroy()
-		// 	  		  .then(function (model){
-		// 		  		done();
-		// 	  		  })
-		// 		  });
-		// 	});
-		// });
+			request.post(testgroup, function (error, response, body){
+				console.log('This is testgroup: ', testgroup);
+				new Group({
+					name: 'testGroup',
+				}).fetch()
+				  .then(function (newGroup){
+			  		expect(newGroup.get('name')).toBe('testGroup');
+			  		new Group({
+			  			id: newGroup.id
+			  		}).destroy()
+			  		  .then(function (model){
+				  		done();
+			  		  })
+				  });
+			});
+		});
 
 		//Test Update
 			it('should update current group name and/or buy-in price', function (done){
@@ -76,10 +78,10 @@ describe('GroupController', function(){
 
 				console.log('This is testgroup: '+testgroup);
 				console.log('This is testgroup.id: '+testgroup.id);
-				console.log('This is testgroup.name: '+testgroup.name);
+				console.log('This is testgroup.name: '+testgroup.form.name);
 				console.log('This is group: '+group);
 				console.log('This is group.id: '+group.id);
-				console.log('This is group.price: '+group.price);
+				console.log('This is group.price: '+group.form.price);
 
 				request.post(testgroup, function (error, response, body) {
 					expect(response.statusCode).toBe(302);
@@ -95,6 +97,5 @@ describe('GroupController', function(){
 					  });
 				});
 			});
-	})
-
-})
+	});
+});
