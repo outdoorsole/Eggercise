@@ -139,28 +139,29 @@ exports.edit = function (req,res) {
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-		new User({
-			id: userId
-		})
-		.fetch()
-		.then(function (user) {
-			if(req.isAuthenticated()) {
-				user.save({
-					email: req.body.email || user.get(
-						'email'),
-					password: hash || user.get('password')
-				})
-				.then(function (user){
-					req.method = 'GET';
-					res.redirect('/');
-				})
-				.catch(function (error){
-					console.error(error.stack);
-					res.redirect('/errorpage');
-				})
-			} else {
-				res.render('users/signup', {title: 'Sign Up'});
-			}
+		
+	new User({
+		id: userId
+	})
+	.fetch()
+	.then(function (user) {
+		if(req.isAuthenticated()) {
+			user.save({
+				email: req.body.email || user.get(
+					'email'),
+				password: hash || user.get('password')
+			})
+			.then(function (user){
+				req.method = 'GET';
+				res.redirect('/');
+			})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/errorpage');
+			})
+		} else {
+			res.render('users/signup', {title: 'Sign Up'});
+		}
 	})
 }
 

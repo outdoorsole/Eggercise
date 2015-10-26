@@ -1,5 +1,6 @@
 var request = require('request'),
 	Group = require('../../app/models/group'),
+	User = require('../../app/models/user'),
 	Groups = require('../../app/collections/groups'),
 	GroupController = require('../../app/controllers/group_controller.js');
 
@@ -9,14 +10,39 @@ describe('GroupController', function(){
 		var group;
 
 		beforeEach(function (done) {
-			new Group({
-				name: 'groupTest',
-				price: 150
+		  	new Group({
+			name: 'groupTest',
+			price: 150
 			}).save()
-			  .then(function (newGroup) {
-			  	group = newGroup;
-			  	done();
-			  });
+		  	  .then(function (newGroup) {
+		  		group = newGroup;
+		  		done();
+		  	  });
+				// new User ({
+				// url:"http://localhost:3000/groups/edit/"+group.id,
+				// form:{
+				// 	//information the user enters
+				// 	id: 'testGroupUpdated',
+				// 	email: 5000
+				//	password: 'testpw'
+				// },
+
+			// new User({
+			// 	id: 'testid',
+			// 	email:'test2@test.com',
+			// 	password:'testpw'
+			// }).save()
+			//   .then(
+			// 	  	new Group({
+			// 		name: 'groupTest',
+			// 		price: 150
+			// 		}).save()
+			// 	  	  .then(function (newGroup) {
+			// 	  		group = newGroup;
+			// 	  		done();
+			// 	  });
+			//   )
+
 		});
 
 		afterEach(function (done) {
@@ -27,9 +53,10 @@ describe('GroupController', function(){
 			  .catch(function (error) {
 			  	done.fail(error);
 			  });
-		});
+			});
 
-		//Test Show
+
+		// Test Show
 		it('should return groups', function (done) {
 			request('http://localhost:3000/groups', function (error,response,body) {
 				expect(response.statusCode).toBe(200);
@@ -38,54 +65,80 @@ describe('GroupController', function(){
 		});
 
 		// Test Create
-		// it('should create a new group', function (done){
-		// 	var testgroup = {
-		// 		url:"http://localhost:3000/groups",
-		// 		form:{
-		// 			name:'testGroup',
-		// 			price:9000
-		// 		}
-		// 	};
+		it('should create a new group', function (done){
+			var testgroup = {
+				url:"http://localhost:3000/groups",
+				form:{
+					name:'testGroup',
+					price:9000
+				}
+			};
 
-		// 	request.post(testgroup, function (error, response, body){
-		// 		new Group({
-		// 			name: 'testGroup',
-		// 		}).fetch()
-		// 		  .then(function (newGroup){
-		// 	  		expect(newGroup.get('name')).toBe('testGroup');
-		// 	  		new Group({
-		// 	  			id: newGroup.id
-		// 	  		}).destroy()
-		// 	  		  .then(function (model){
-		// 		  		done();
-		// 	  		  })
-		// 		  });
-		// 	});
-		// });
+			request.post(testgroup, function (error, response, body){
+				console.log('This is testgroup: ', testgroup);
+				new Group({
+					name: 'testGroup',
+				}).fetch()
+				  .then(function (newGroup){
+			  		expect(newGroup.get('name')).toBe('testGroup');
+			  		new Group({
+			  			id: newGroup.id
+			  		}).destroy()
+			  		  .then(function (model){
+				  		done();
+			  		  })
+				  });
+			});
+		});
 
 		//Test Update
-			it('should update current group name and/or buy-in price', function (done){
-				var testgroup = {
-					url:"http://localhost:3000/users/edit/"+group.id,
-					form:{
-						//information the user enters
-						name: 'testGroupUpdate',
-						price: 420
-					},
-				};
+		it('should update current group name and/or buy-in price', function (done){
+			var testgroup = {
+				url:"http://localhost:3000/groups/edit/"+group.id,
+				form:{
+					//information the user enters
+					name: 'testGroupUpdated',
+					price: 5000
+				},
+			};
 
-				request.post(testgroup, function (error, response, body) {
-					expect(response.statusCode).toBe(302);
-					new Group({
-						//go to the database and look for this id (including fetch)
-						id: group.id
-					}).fetch()
-					  .then(function (newGroup) {
-				  		expect(newGroup.get('price')).toBe(420);
-				  		done();
-					  });
-				});
+			request.post(testgroup, function (error, response, body) {
+				// console.log('This is body: '+body);
+				expect(response.statusCode).toBe(302);
+				new Group({
+					//go to the database and look for this id (including fetch)
+					id: group.id
+				}).fetch()
+				  .then(function (newGroup) {
+			  		expect(newGroup.get('price')).toBe(5000);
+			  		done();
+				  });
 			});
+		});
+
+
+		//Test Delete
+		it('should delete a selected group', function (done){
+			var testgroup= {
+				url:"http://localhost:3000/groups/delete/"+group.id,
+				form:{
+					username:'fortest',
+					password:'fortestpassword'
+				}
+
+			};
+
+			request.post(testuser, function (error, response, body) {
+				new User({
+					id: user.id
+				}).fetch()
+				  .then(function (newUser) {
+				  		expect(newUser).toBeNull();
+				  		done();
+				  })
+			})
+		})
 	})
 
 })
+

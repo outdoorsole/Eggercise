@@ -112,11 +112,14 @@ app.get('/groups', GroupController.index);
 //create
 app.post('/groups', GroupController.create);
 
+//update
+app.post('/groups/edit/:groupId', GroupController.edit);
+
 //show
 // app.get('/groups/:groupId', UserController.show);
 
-//update
-// app.post('/groups/edit/:groupId')
+// error page
+app.get('/errorpage', UserController.errorShow);
 
 app.listen(3000);
 console.log('Listening to port 3000');
