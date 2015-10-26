@@ -13,7 +13,7 @@ block content
 					//- a(href="/questions/#{val.id}") edit question
 					//- span
 					//- a(href="/questions/delete/#{val.id}") delete question
-	form(role='form' action='/groups/edit#{groupId}', method='POST')
+	form(role='form' action='/groups/edit/#{groupId}', method='POST')
 		//- match the action route to the post route in app.js
 		.form-group
 			label(for='name') New Name
