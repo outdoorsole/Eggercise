@@ -18,7 +18,15 @@ describe('GroupController', function(){
 		  		group = newGroup;
 		  		done();
 		  	  });
-			  
+				// new User ({
+				// url:"http://localhost:3000/groups/edit/"+group.id,
+				// form:{
+				// 	//information the user enters
+				// 	id: 'testGroupUpdated',
+				// 	email: 5000
+				//	password: 'testpw'
+				// },
+
 			// new User({
 			// 	id: 'testid',
 			// 	email:'test2@test.com',
@@ -34,7 +42,7 @@ describe('GroupController', function(){
 			// 	  		done();
 			// 	  });
 			//   )
-			
+
 		});
 
 		afterEach(function (done) {
