@@ -43,26 +43,22 @@ exports.create = function (req,res){
 
 //------------------------------------------------------------------------------//
 //Update
-exports.updatePost = function (req,res) {
+exports.edit = function (req,res) {
 	console.log('reached update');
-	var userId = req.params.userId;
+	var groupId = req.params.groupId;
 	// var user = new User({id: userId})
-	var password = req.body.password,
-		salt = bcrypt.genSaltSync(10),
-		hash = bcrypt.hashSync(password,salt);
 
-		new User({
-			id: userId
+		new Group({
+			id: groupId
 		})
 		.fetch()
-		.then(function (user) {
+		.then(function (group) {
 			if(req.isAuthenticated()) {
-				user.save({
-					email: req.body.email || user.get(
-						'email'),
-					password: hash || user.get('password')
+				group.save({
+					name: req.body.name || group.get('name'),
+					price: req.body.price || group.get('price')
 				})
-				.then(function (user){
+				.then(function (group){
 					req.method = 'GET';
 					res.redirect('/');
 				})

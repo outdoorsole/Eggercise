@@ -30,12 +30,12 @@ describe('GroupController', function(){
 		});
 
 		//Test Show
-		it('should return groups', function (done) {
-			request('http://localhost:3000/groups', function (error,response,body) {
-				expect(response.statusCode).toBe(200);
-				done();
-			})
-		});
+		// it('should return groups', function (done) {
+		// 	request('http://localhost:3000/groups', function (error,response,body) {
+		// 		expect(response.statusCode).toBe(200);
+		// 		done();
+		// 	})
+		// });
 
 		// Test Create
 		// it('should create a new group', function (done){
@@ -66,13 +66,20 @@ describe('GroupController', function(){
 		//Test Update
 			it('should update current group name and/or buy-in price', function (done){
 				var testgroup = {
-					url:"http://localhost:3000/users/edit/"+group.id,
+					url:"http://localhost:3000/groups/edit/"+group.id,
 					form:{
 						//information the user enters
 						name: 'testGroupUpdate',
-						price: 420
+						price: 5000
 					},
 				};
+
+				console.log('This is testgroup: '+testgroup);
+				console.log('This is testgroup.id: '+testgroup.id);
+				console.log('This is testgroup.name: '+testgroup.name);
+				console.log('This is group: '+group);
+				console.log('This is group.id: '+group.id);
+				console.log('This is group.price: '+group.price);
 
 				request.post(testgroup, function (error, response, body) {
 					expect(response.statusCode).toBe(302);
@@ -81,7 +88,9 @@ describe('GroupController', function(){
 						id: group.id
 					}).fetch()
 					  .then(function (newGroup) {
-				  		expect(newGroup.get('price')).toBe(420);
+				  		expect(newGroup.get('price')).toBe(5000);
+						console.log('I fetched');
+						console.log('This is group price: '+testgroup.price);
 				  		done();
 					  });
 				});
