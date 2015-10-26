@@ -44,31 +44,34 @@ exports.create = function (req,res){
 //------------------------------------------------------------------------------//
 //Update
 exports.edit = function (req,res) {
-	console.log('reached update');
 	var groupId = req.params.groupId;
 	// var user = new User({id: userId})
+	console.log('groupId in group controller: '+groupId);
 
-		new Group({
-			id: groupId
-		})
-		.fetch()
-		.then(function (group) {
-			if(req.isAuthenticated()) {
-				group.save({
-					name: req.body.name || group.get('name'),
-					price: req.body.price || group.get('price')
-				})
-				.then(function (group){
-					req.method = 'GET';
-					res.redirect('/');
-				})
-				.catch(function (error){
-					console.error(error.stack);
-					res.redirect('/errorpage');
-				})
-			} else {
-				res.render('users/signup', {title: 'Sign Up'});
-			}
+	new Group({
+		id: groupId
+	})
+	.fetch()
+	.then(function (group) {
+		console.log('reached promise');
+		// if(req.isAuthenticated()) {
+			console.log('is authenticated');
+			group.save({
+				name: req.body.name || group.get('name'),
+				price: req.body.price || group.get('price')
+			})
+			.then(function (group){
+				console.log('This is req.body.name: '+req.body.name);
+				req.method = 'GET';
+				res.redirect('/');
+			})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/errorpage');
+			})
+		// } else {
+		// 	res.render('users/signup', {title: 'Sign Up'});
+		// }
 	})
 }
 
@@ -94,3 +97,9 @@ exports.edit = function (req,res) {
 // 		res.redirect('/errorpage');
 // 	});
 // }
+
+//------------------------------------------------------------------------------//
+//Error page
+exports.errorShow = function (req, res) {
+	res.render('error');
+}

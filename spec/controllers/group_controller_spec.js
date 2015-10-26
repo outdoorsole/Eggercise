@@ -1,5 +1,6 @@
 var request = require('request'),
 	Group = require('../../app/models/group'),
+	User = require('../../app/models/user'),
 	Groups = require('../../app/collections/groups'),
 	GroupController = require('../../app/controllers/group_controller.js');
 
@@ -9,14 +10,31 @@ describe('GroupController', function(){
 		var group;
 
 		beforeEach(function (done) {
-			new Group({
-				name: 'groupTest',
-				price: 150
+		  	new Group({
+			name: 'groupTest',
+			price: 150
 			}).save()
-			  .then(function (newGroup) {
-			  	group = newGroup;
-			  	done();
-			  });
+		  	  .then(function (newGroup) {
+		  		group = newGroup;
+		  		done();
+		  	  });
+			  
+			// new User({
+			// 	id: 'testid',
+			// 	email:'test2@test.com',
+			// 	password:'testpw'
+			// }).save()
+			//   .then(
+			// 	  	new Group({
+			// 		name: 'groupTest',
+			// 		price: 150
+			// 		}).save()
+			// 	  	  .then(function (newGroup) {
+			// 	  		group = newGroup;
+			// 	  		done();
+			// 	  });
+			//   )
+			
 		});
 
 		afterEach(function (done) {
@@ -64,37 +82,29 @@ describe('GroupController', function(){
 		// });
 
 		//Test Update
-			it('should update current group name and/or buy-in price', function (done){
-				var testgroup = {
-					url:"http://localhost:3000/groups/edit/"+group.id,
-					form:{
-						//information the user enters
-						name: 'testGroupUpdate',
-						price: 5000
-					},
-				};
+		it('should update current group name and/or buy-in price', function (done){
+			var testgroup = {
+				url:"http://localhost:3000/groups/edit/"+group.id,
+				form:{
+					//information the user enters
+					name: 'testGroupUpdated',
+					price: 5000
+				},
+			};
 
-				console.log('This is testgroup: '+testgroup);
-				console.log('This is testgroup.id: '+testgroup.id);
-				console.log('This is testgroup.name: '+testgroup.name);
-				console.log('This is group: '+group);
-				console.log('This is group.id: '+group.id);
-				console.log('This is group.price: '+group.price);
-
-				request.post(testgroup, function (error, response, body) {
-					expect(response.statusCode).toBe(302);
-					new Group({
-						//go to the database and look for this id (including fetch)
-						id: group.id
-					}).fetch()
-					  .then(function (newGroup) {
-				  		expect(newGroup.get('price')).toBe(5000);
-						console.log('I fetched');
-						console.log('This is group price: '+testgroup.price);
-				  		done();
-					  });
-				});
+			request.post(testgroup, function (error, response, body) {
+				// console.log('This is body: '+body);
+				expect(response.statusCode).toBe(302);
+				new Group({
+					//go to the database and look for this id (including fetch)
+					id: group.id
+				}).fetch()
+				  .then(function (newGroup) {
+			  		expect(newGroup.get('price')).toBe(5000);
+			  		done();
+				  });
 			});
+		});
 	})
 
 })
