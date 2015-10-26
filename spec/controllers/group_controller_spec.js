@@ -105,6 +105,28 @@ describe('GroupController', function(){
 				  });
 			});
 		});
+
+		//Test Delete
+		it('should delete a selected group', function (done){
+			var testgroup= {
+				url:"http://localhost:3000/groups/delete/"+group.id,
+				form:{
+					username:'fortest',
+					password:'fortestpassword'
+				}
+
+			};
+
+			request.post(testuser, function (error, response, body) {
+				new User({
+					id: user.id
+				}).fetch()
+				  .then(function (newUser) {
+				  		expect(newUser).toBeNull();
+				  		done();
+				  })
+			})
+		})
 	})
 
 })
