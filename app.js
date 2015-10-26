@@ -110,13 +110,13 @@ app.get('/errorpage', UserController.errorShow);
 app.get('/groups', GroupController.index);
 
 //create
-app.post('/groups', GroupController.create);
+app.post('/groups/create', GroupController.create);
 
 //update
 app.post('/groups/edit/:groupId', GroupController.edit);
 
-//show
-// app.get('/groups/:groupId', UserController.show);
+//delete
+app.get('/groups/delete/:groupId', GroupController.destroy);
 
 // error page
 app.get('/errorpage', UserController.errorShow);
