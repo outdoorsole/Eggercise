@@ -27,8 +27,6 @@ exports.index = function (req,res){
 //------------------------------------------------------------------------------
 //Create
 exports.create = function (req,res){
-	console.log('This is req.body.name: ', req.body.name);
-	console.log('This is req.body.price: ', req.body.price);
 	new Group({
 		name: req.body.name,
 		price: req.body.price
@@ -44,61 +42,72 @@ exports.create = function (req,res){
 }
 
 //------------------------------------------------------------------------------//
+//Show
+exports.show = function (req,res) {
+	var groupId = req.params.groupId;
+	var group = new Group({id: groupId});
+	
+	group.fetch()
+	.then(function (data) {
+		res.render('groups/groups',{
+			title: 'Current Groups',
+			groupId: data.get('id')
+		})
+	})
+	.catch(function (error) {
+		console.log(error.stack);
+		res.redirect('/errorpage');
+	});
+}
+
+//------------------------------------------------------------------------------//
 //Update
 exports.edit = function (req,res) {
 	var groupId = req.params.groupId;
-	// var user = new User({id: userId})
-	console.log('groupId in group controller: '+groupId);
 
 	new Group({
 		id: groupId
 	})
 	.fetch()
 	.then(function (group) {
-		console.log('reached promise');
-		// if(req.isAuthenticated()) {
-			console.log('is authenticated');
+		if(req.isAuthenticated()) {
 			group.save({
 				name: req.body.name || group.get('name'),
 				price: req.body.price || group.get('price')
 			})
 			.then(function (group){
-				console.log('This is req.body.name: '+req.body.name);
 				req.method = 'GET';
-				res.redirect('/');
+				res.redirect('/groups');
 			})
 			.catch(function (error){
 				console.error(error.stack);
 				res.redirect('/errorpage');
 			})
-		// } else {
-		// 	res.render('users/signup', {title: 'Sign Up'});
-		// }
+		} else {
+			res.render('users/signin', {title: 'Sign Up'});
+		}
 	})
 }
 
 //------------------------------------------------------------------------------//
-//Show Group
-// exports.show = function (req,res) {
-// 	var groupId = req.params.id;
-// 	var group = new Group({id: groupId});
-
-// 	// user.fetch({
-// 	// 	withRelated:['roles']
-// 	// })
-// 	group.fetch()
-// 	.then(function (data) {
-// 		console.log('This is data: ', data);
-// 		res.render('groups/groups',{
-// 			title: 'Current Groups',
-// 			data: data.toJSON()
-// 		})
-// 	})
-// 	.catch(function (error) {
-// 		console.log(error.stack);
-// 		res.redirect('/errorpage');
-// 	});
-// }
+//Delete
+exports.destroy = function (req,res) {
+	if(req.isAuthenticated()) {
+		var groupId = req.params.groupId;
+		new Group({id: groupId})
+		.fetch()
+		.then(function (group) {
+			group.destroy()
+			res.redirect('/groups')
+		})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
+		})
+	} else {
+		res.render('users/signin', {title: 'Sign In'});
+	}
+}
 
 //------------------------------------------------------------------------------//
 //Error page

@@ -37,7 +37,6 @@ passport.use(new LocalStrategy(function (username, password, done){
 			if(!bcrypt.compareSync(password, user.password)) {
 				return done (null, false, {message: 'Invalid username or password'});
 			} else {
-				console.log('correct entries')
 				return done(null, user);
 			}
 		}
@@ -67,7 +66,6 @@ passport.serializeUser(function(user, done) {
 
 //deserialize user
 passport.deserializeUser(function (id, done) {
-	console.log(id)
 	new User({id: id}).fetch()
 	.then(function (user){
 		done(null,user.id);
@@ -110,13 +108,16 @@ app.get('/errorpage', UserController.errorShow);
 app.get('/groups', GroupController.index);
 
 //create
-app.post('/groups', GroupController.create);
+app.post('/groups/create', GroupController.create);
+
+//show
+app.get('/groups/:groupId', GroupController.show);
 
 //update
 app.post('/groups/edit/:groupId', GroupController.edit);
 
-//show
-// app.get('/groups/:groupId', UserController.show);
+//delete
+app.get('/groups/delete/:groupId', GroupController.destroy);
 
 // error page
 app.get('/errorpage', UserController.errorShow);
