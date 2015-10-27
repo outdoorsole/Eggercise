@@ -61,14 +61,14 @@ app.use(passport.session());
 
 //serialize user
 passport.serializeUser(function(user, done) {
-	done(null, user.id);
+	done(null,{id: user.id, username: user.username});
 });
 
 //deserialize user
 passport.deserializeUser(function (id, done) {
 	new User({id: id}).fetch()
 	.then(function (user){
-		done(null,user.id);
+		done(null,{id: user.id, username: user.username});
 	})
 })
 

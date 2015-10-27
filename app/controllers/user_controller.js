@@ -27,28 +27,28 @@ var Users = require('../collections/users');
 //------------------------------------------------------------------------------//
 //Index
 exports.index = function (req,res){
-	console.log(req);
-	var users = Users;
+	if(!req.isAuthenticated()){
+		res.render('index');
+	}else {
+		var users = Users;
 	// users.fetch()
 	// 	 .then(function (data) {
 	// 		var users = data.toJSON()
-			new User({id: req.user})
+			new User({id: req.user.id})
 			// var username = users[user]
 			.fetch()
 			.then(function (data) {
-				if(!req.isAuthenticated()){
-					res.render('index');
-				}else {
+					// console.log(req.user);
 				// data = data.toJSON()
-				console.log('line 38 ' + data)
-			res.render('index', {title: 'Home', user: data.toJSON()});
-			}
+				// console.log('line 38 ' + data)
+			res.render('index', {title: 'Home', username: req.user.username});
 			})
+			}
 		 	// pass in the user object
-	.catch(function (error){
-		console.error(error.stack);
-		res.redirect('/errorpage');
-	})
+	// .catch(function (error){
+	// 	console.error(error.stack);
+	// 	res.redirect('/errorpage');
+	// })
 };
 
 //------------------------------------------------------------------------------//
