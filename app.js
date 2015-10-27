@@ -59,18 +59,20 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//serialize user
-passport.serializeUser(function(user, done) {
-	done(null, user.id);
-});
-
 //deserialize user
+// modifies Request on the way into the controller
 passport.deserializeUser(function (id, done) {
 	new User({id: id}).fetch()
 	.then(function (user){
-		done(null,user.id);
+		done(null, user);
 	})
 })
+
+//serialize user
+// modifies Response on way out to the browser
+passport.serializeUser(function(user, done) {
+	done(null, user.id);
+});
 
 //run jade file
 app.set('view engine', 'jade');
