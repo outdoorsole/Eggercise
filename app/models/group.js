@@ -8,6 +8,10 @@ var Group = bookshelf.Model.extend({
 		return this.belongsToMany('User', 'user_id')
 		.through(Role)
 		.withPivot(['user_type'])
+	},
+
+	admin: function(){
+		return this.hasOne('Role', 'user_id').where('is_admin', true);
 	}
 })
 

@@ -21,8 +21,8 @@ bookshelf.knex.schema.hasTable('users')
 	if(!exists){
 		bookshelf.knex.schema.createTable('users', function (user){
 			user.increments('id').primary();
-			user.string('username', 50).unique().notNullable();
-			user.string('email', 100).unique().notNullable();
+			user.string('username', 50).notNullable();
+			user.string('email', 100).notNullable();
 			user.string('password', 264).notNullable();
 			user.timestamps();
 		})

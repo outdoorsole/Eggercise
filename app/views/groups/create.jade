@@ -5,9 +5,9 @@ block content
     .row
       .col-lg-12.text-center
         #header
-          h2 Create a Group
+          h1 Create a Group
         .newuserform
-          form(role='form', action="/groups" method='POST')
+          form(role='form', action="/groups/create" method='POST')
             .form-group
               label(for='name') Group Name
               input#name.form-control(placeholder='Enter Group Name', name="name")
@@ -16,3 +16,4 @@ block content
               input#price.form-control(placeholder='Buy-in Price', name="price")
             .form-group
               button#info-submit.btn.btn-default Submit
+

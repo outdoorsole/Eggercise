@@ -21,20 +21,32 @@ body
         a#eggerbrand.navbar-brand(href='/') Eggercise
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
-          if userId
-            li
+          if user
+            //li
               a(href='/signout') Logout
             li
-              a(href='/groups') View Groups
+              a(href='/groups/view') View Groups
             li
+              a(href='/groups/create') Create A Group
+            //li
               a(href='/groups/edit/#{groupId}') Edit A Group
-            li
+            //li
               a(href='users/#{userId}') Update Info
           else
             li
               a(href='/signin') Login
             li
               a(href='/signup') Sign Up
+        if user
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown
+              a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{user.username}
+              ul.dropdown-menu
+                li
+                  a(href='users/#{user.id}') Update Profile
+                li.divider
+                li
+                  a(href='/signout') Logout
   block content
   .container
     .row
