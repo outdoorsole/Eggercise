@@ -23,7 +23,6 @@ describe('GroupController', function(){
 			}).save()
 			  .then(function (userData) {
 			  	user = userData;
-
 			  	new Group({
 				name: 'groupTest',
 				price: 150
@@ -34,6 +33,7 @@ describe('GroupController', function(){
 		   		  })
 			  
 			});
+
 		});
 
 		afterEach(function (done) {
