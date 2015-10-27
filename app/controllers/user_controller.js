@@ -126,10 +126,10 @@ exports.signOut = function(req,res,next) {
 exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
-	// user.fetch({
-	// 	withRelated:['roles']
-	// })
-	user.fetch()
+	user.fetch({
+		withRelated:['roles']
+	})
+	// user.fetch()
 	.then(function (data) {
 		res.render('users/edit',{
 			title: 'Current User',
