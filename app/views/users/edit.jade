@@ -9,9 +9,9 @@ block content
         .newuserform
           form(role='form', action='/users/#{userId}/edit', method='POST')
             .form-group
-              label(for='Password') Password
-              input#password.form-control(type='password', placeholder='Password', name="password")
+              label(for='Password') New Password
+              input#password.form-control(type='password', placeholder='New Password', name="password")
             .form-group
-              label(for='Email') Email Address
+              label(for='Email') New Email Address
               input#email-address.form-control(type='email-address', placeholder='Enter email address', name="email")
               button#info-submit.btn.btn-default Submit
