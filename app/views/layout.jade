@@ -23,18 +23,24 @@ body
         ul.nav.navbar-nav
           if userId
             li
-              a(href='/signout') Logout
-            li
               a(href='/groups/view') View Groups
             li
               a(href='/groups/create') Create A Group
-            li
-              a(href='users/#{userId}') Update Info
           else
             li
               a(href='/signin') Login
             li
               a(href='/signup') Sign Up
+        if userId
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown
+              a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{username}
+              ul.dropdown-menu
+                li
+                  a(href='users/#{userId}') Update Profile
+                 li.divider
+                 li
+                   a(href='/signout') Logout
   block content
   .container
     .row
