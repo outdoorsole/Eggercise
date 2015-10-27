@@ -131,9 +131,11 @@ exports.show = function (req,res) {
 	})
 	// user.fetch()
 	.then(function (data) {
+		console.log('This is data.getid: ', data.get('id'));
 		res.render('users/edit',{
 			title: 'Current User',
-			userId: data.get('id')
+			userId: data.get('id'),
+			user: data.toJSON()
 		})
 	})
 	.catch(function (error) {
