@@ -16,7 +16,7 @@ exports.index = function (req,res){
 	var groups = Groups;
 	groups.fetch({id: req.body.id})
 		 .then(function (data) {
-			res.render('groups/create', {title: 'Your Groups', userId: req.user});
+			res.render('groups/create', {title: 'Your Groups', user: data.toJSON()});
 		})
 	.catch(function (error){
 		console.error(error.stack);
@@ -51,9 +51,9 @@ exports.show = function (req,res) {
 	// console.log('This is group: ', group);
 
 	var groups = Groups;
-	console.log('This is groups: ', groups);
 	groups.fetch()
 	.then(function (data) {
+		console.log('This is data.toJSON: ', data.toJSON());
 		res.render('groups/groups', {
 			title: 'Current Groups',
 			groups: data.toJSON()
