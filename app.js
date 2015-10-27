@@ -105,13 +105,13 @@ app.get('/errorpage', UserController.errorShow);
 //Routes for Groups
 
 //index
-app.get('/groups', GroupController.index);
+app.get('/groups/create', GroupController.index);
 
 //create
 app.post('/groups/create', GroupController.create);
 
 //show
-app.get('/groups/:groupId', GroupController.show);
+app.get('/groups/view', GroupController.show);
 
 //update
 app.post('/groups/edit/:groupId', GroupController.edit);
