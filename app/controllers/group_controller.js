@@ -5,10 +5,12 @@ var path = require('path'),
 var bookshelf = require('../../database/schema');
 
 //models
-var Group = require('../models/group');
+var Group = require('../models/group'),
+	User = require('../models/user');
 
 //collections
-var Groups = require('../collections/groups');
+var Groups = require('../collections/groups'),
+	Users = require('../collections/users');
 
 //------------------------------------------------------------------------------
 //Index
@@ -27,11 +29,16 @@ exports.index = function (req,res){
 //------------------------------------------------------------------------------
 //Create
 exports.create = function (req,res){
+	var user = User;
+
+	if(req.isAuthenticated()) {
 	new Group({
 		name: req.body.name,
 		price: req.body.price
 	}).save()
 	  .then(function (group) {
+	  	user = 
+	  	console.log(group.toJSON());
 	  	res.redirect('/')
 	  })
 
@@ -39,6 +46,10 @@ exports.create = function (req,res){
 	  	console.error(error.stack);
 	  	res.redirect('/error');
 	  })
+	} else {
+			res.render('users/signin', {title: 'Sign Up'});
+		}
+
 }
 
 //------------------------------------------------------------------------------//

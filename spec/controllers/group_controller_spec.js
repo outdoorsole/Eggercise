@@ -8,33 +8,37 @@ describe('GroupController', function(){
 
 	describe('Tests with data', function(){
 		var group;
+		var user;
 
 		beforeEach(function (done) {
-		//  new Group({
-		// 	name: 'groupTest',
-		// 	price: 150
-		// 	}).save()
-		//   	  .then(function (newGroup) {
-		//   		group = newGroup;
-		//   		done();
-		//   	  });
-			  
 			new User({
 				username: 'testid1',
-				email:'test2@test.com',
-				password:'testpw'
+				email: 'test2@test.com',
+				password: 'testpw'
 			}).save()
-			  .then(
-			  		console.log('')
-				  	new Group({
-					name: 'groupTest',
-					price: 150
-					}).save()
-				  	  .then(function (newGroup) {
-				  		group = newGroup;
-				  		done();
-				  })
-			   )
+			  .then(function (userData) {
+			  	user = userData;
+		  		console.log('before fetching group');
+			  	new Group({
+				name: 'groupTest',
+				price: 150
+				}).save()
+			  	  .then(function (newGroup) {
+			  	  	console.log('setting group = newGroup');
+			  		group = newGroup;
+			  		done()
+		   		  })
+			   	})	  
+
+			// new Group({
+			// 	name: 'groupTest',
+			// 	price: 150
+			// 	}).save()
+			//   	  .then(function (newGroup) {
+			//   		group = newGroup;
+			//   		done();
+			//   	  });
+			  
 		});
 
 		afterEach(function (done) {
@@ -47,19 +51,18 @@ describe('GroupController', function(){
 			  });
 		});
 
-
 		// Test Show
-		it('should return groups', function (done) {
-			request('http://localhost:3000/groups', function (error,response,body) {
-				expect(response.statusCode).toBe(200);
-				done();
-			})
-		});
+		// it('should return groups', function (done) {
+		// 	request('http://localhost:3000/groups', function (error,response,body) {
+		// 		expect(response.statusCode).toBe(200);
+		// 		done();
+		// 	})
+		// });
 
 		// Test Create
 		it('should create a new group', function (done){
 			var testgroup = {
-				url:"http://localhost:3000/groups",
+				url:"http://localhost:3000/groups/create",
 				form:{
 					name:'testGroup',
 					price:9000
@@ -73,7 +76,7 @@ describe('GroupController', function(){
 				  .then(function (newGroup){
 				  	console.log('This is newGroup: '+newGroup)
 			  		expect(newGroup.get('name')).toBe('testGroup');
-			  		expect(newGroup.admin.get('user_id')).toBe(user_id);
+			  		expect(newGroup.admin().get('user_id')).toBe(user.get('id'));
 			  		new Group({
 			  			id: newGroup.id
 			  		}).destroy()
