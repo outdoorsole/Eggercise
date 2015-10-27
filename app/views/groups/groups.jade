@@ -1,32 +1,13 @@
 extends ../layout
 
 block content
-	h1 Your Groups
-			//- ol
-			//-   each val in data
-		li
-			p Name: #{val.name}
-			p Buy-In Price: #{val.price}
-			p
-				a(href="/groups") show groups
-				span
-					a(href="/groups/edit/#{val.groupId}") edit group
-				span
-					a(href="/groups/delete/#{val.groupId}") delete group
-
-		.container
+	.container
 			.row
 				.col-lg-12.text-center
-					#header
-						h2 Edit A Group
-					.newuserform
-						form(role='form' action='/groups/edit/#{groupId}', method='POST')
-							//- match the action route to the post route in app.js
-							.form-group
-								label(for='name') New Name
-								input#name.form-control(type='name', placeholder='name', name='name')
-							.form-group
-								label(for='price') New Buy-In Price
-								input#price.form-control(type='price', placeholder='Buy in price' name='price')
-							.form-group
-								button#info-submit.btn.btn-default Submit
+					h1 Current Groups
+					each val, index in groups
+						p Name: #{val.name}
+						p Buy-In Price: #{val.price}
+						p
+							a(href="/groups/edit/#{val.groupId}") Edit Group
+							a(href="/groups/delete/#{val.groupId}") Delete Group
