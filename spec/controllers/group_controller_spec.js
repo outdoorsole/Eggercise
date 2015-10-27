@@ -1,44 +1,39 @@
+// var request = require('request'),
 var request = require('request'),
+	bcrypt = require('bcrypt-nodejs'),
 	Group = require('../../app/models/group'),
 	User = require('../../app/models/user'),
 	Groups = require('../../app/collections/groups'),
 	GroupController = require('../../app/controllers/group_controller.js');
 
 describe('GroupController', function(){
-
 	describe('Tests with data', function(){
 		var group;
 		var user;
-
+		
 		beforeEach(function (done) {
+			var password = 'testpw',
+				salt = bcrypt.genSaltSync(10),
+				hash = bcrypt.hashSync(password,salt);
+
 			new User({
 				username: 'testid1',
 				email: 'test2@test.com',
-				password: 'testpw'
+				password: hash
 			}).save()
 			  .then(function (userData) {
 			  	user = userData;
-		  		console.log('before fetching group');
+
 			  	new Group({
 				name: 'groupTest',
 				price: 150
 				}).save()
 			  	  .then(function (newGroup) {
-			  	  	console.log('setting group = newGroup');
 			  		group = newGroup;
 			  		done()
 		   		  })
-			   	})	  
-
-			// new Group({
-			// 	name: 'groupTest',
-			// 	price: 150
-			// 	}).save()
-			//   	  .then(function (newGroup) {
-			//   		group = newGroup;
-			//   		done();
-			//   	  });
 			  
+			});
 		});
 
 		afterEach(function (done) {
@@ -69,22 +64,22 @@ describe('GroupController', function(){
 				}
 			};
 
+
 			request.post(testgroup, function (error, response, body){
-				new Group({
-					name: 'testGroup',
-				}).fetch()
-				  .then(function (newGroup){
-				  	console.log('This is newGroup: '+newGroup)
-			  		expect(newGroup.get('name')).toBe('testGroup');
-			  		expect(newGroup.admin().get('user_id')).toBe(user.get('id'));
-			  		new Group({
-			  			id: newGroup.id
-			  		}).destroy()
-			  		  .then(function (model){
-				  		done();
-			  		  })
-				  });
-			});
+               new Group({
+                       name: 'testGroup',
+               }).fetch()
+                 .then(function (newGroup){
+                       console.log('This is newGroup: '+newGroup)
+                       expect(newGroup.get('name')).toBe('testGroup');
+                       expect(newGroup.admin().get('user_id')).toBe(user.get('id'));
+                       new Group({
+                               id: newGroup.id
+                       }).destroy()
+                         .then(function (model){
+                               done();
+                         })
+                 });			
 		});
 
 		//Test Update

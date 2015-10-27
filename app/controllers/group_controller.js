@@ -6,11 +6,11 @@ var bookshelf = require('../../database/schema');
 
 //models
 var Group = require('../models/group'),
+	Role = require('../models/role'),
 	User = require('../models/user');
 
 //collections
-var Groups = require('../collections/groups'),
-	Users = require('../collections/users');
+var Groups = require('../collections/groups');
 
 //------------------------------------------------------------------------------
 //Index
@@ -29,26 +29,34 @@ exports.index = function (req,res){
 //------------------------------------------------------------------------------
 //Create
 exports.create = function (req,res){
-	var user = User;
+	var userId;
 
 	if(req.isAuthenticated()) {
-	new Group({
-		name: req.body.name,
-		price: req.body.price
-	}).save()
-	  .then(function (group) {
-	  	user = 
-	  	console.log(group.toJSON());
-	  	res.redirect('/')
-	  })
+		new Group({
+			name: req.body.name,
+			price: req.body.price
+		}).save()
+		  .then(function (group) {
+		  	// TODO: Jordan. How do you have this setup with no user logged in?
+		  	userId = req.user.get('id');
+		  	groupId = group.get('id');
+		  	new Role({
+		  		user_id: userId,
+		  		group_id: groupId,
+		  		is_admin: true
+		  	}).save()
+		  	  .then(function (roleData) {
+			  	res.redirect('/')
+		  	  })
+		  })
 
-	  .catch(function (error){
-	  	console.error(error.stack);
-	  	res.redirect('/error');
-	  })
+		  .catch(function (error){
+		  	console.error(error.stack);
+		  	res.redirect('/error');
+		  })
 	} else {
 			res.render('users/signin', {title: 'Sign Up'});
-		}
+	}
 
 }
 
