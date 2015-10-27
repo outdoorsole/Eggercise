@@ -27,11 +27,9 @@ var Users = require('../collections/users');
 //------------------------------------------------------------------------------//
 //Index
 exports.index = function (req,res){
-	console.log(req);
 	var users = Users;
 	users.fetch()
 		 .then(function (data) {
-
 		 	// pass in the user object
 			res.render('index', {title: 'Home', userId: req.user});
 		})
