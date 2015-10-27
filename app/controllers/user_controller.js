@@ -27,6 +27,7 @@ var Users = require('../collections/users');
 //------------------------------------------------------------------------------//
 //Index
 exports.index = function (req,res){
+	console.log(req);
 	var users = Users;
 	users.fetch()
 		 .then(function (data) {
@@ -138,7 +139,7 @@ exports.edit = function (req,res) {
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-		
+
 	new User({
 		id: userId
 	})

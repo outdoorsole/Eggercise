@@ -10,7 +10,7 @@ describe('GroupController', function(){
 		var group;
 
 		beforeEach(function (done) {
-		//   	new Group({
+		//  new Group({
 		// 	name: 'groupTest',
 		// 	price: 150
 		// 	}).save()
@@ -35,7 +35,6 @@ describe('GroupController', function(){
 				  		done();
 				  })
 			   )
-			
 		});
 
 		afterEach(function (done) {

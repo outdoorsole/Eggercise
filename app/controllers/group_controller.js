@@ -44,21 +44,39 @@ exports.create = function (req,res){
 //------------------------------------------------------------------------------//
 //Show
 exports.show = function (req,res) {
-	var groupId = req.params.groupId;
-	var group = new Group({id: groupId});
-	
-	group.fetch()
+	// var groupId = req.params.groupId;
+	// var group = new Group({id: groupId});
+
+	// console.log('This is groupId: ', groupId);
+	// console.log('This is group: ', group);
+
+	var groups = Groups;
+	console.log('This is groups: ', groups);
+	groups.fetch()
 	.then(function (data) {
-		res.render('groups/groups',{
+		res.render('groups/groups', {
 			title: 'Current Groups',
-			groupId: data.get('id')
+			groups: data.toJSON()
 		})
 	})
 	.catch(function (error) {
 		console.log(error.stack);
 		res.redirect('/errorpage');
-	});
+	})
 }
+
+// 	group.fetch()
+// 	.then(function (data) {
+// 		res.render('groups/groups',{
+// 			title: 'Current Groups',
+// 			groupId: data.get('id')
+// 		})
+// 	})
+// 	.catch(function (error) {
+// 		console.log(error.stack);
+// 		res.redirect('/errorpage');
+// 	});
+// }
 
 //------------------------------------------------------------------------------//
 //Update
