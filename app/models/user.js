@@ -8,6 +8,10 @@ var User = bookshelf.Model.extend({
 		return this.belongsToMany('Group', 'group_id')
 		.through(Role)
 		.withPivot(['user_type'])
+	},
+
+	roles: function(){
+		return this.belongsToMany('Role', 'user_id')
 	}
 })
 
