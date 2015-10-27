@@ -9,5 +9,7 @@ block content
 						p Name: #{val.name}
 						p Buy-In Price: #{val.price}
 						p
-							a(href="/groups/edit/#{val.groupId}") Edit Group
-							a(href="/groups/delete/#{val.groupId}") Delete Group
+							a(href="/groups/edit/#{val.groupId}")
+								button(type='button') Edit Group
+							a(href="/groups/delete/#{val.groupId}")
+								button(type='button') Delete Group
