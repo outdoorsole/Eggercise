@@ -9,7 +9,23 @@ block content
 						p Name: #{val.name}
 						p Buy-In Price: #{val.price}
 						p
-							a(href="/groups/edit/#{val.groupId}")
+							a(href="/groups/edit/#{val.id}")
 								button(type='button') Edit Group
-							a(href="/groups/delete/#{val.groupId}")
-								button(type='button') Delete Group
+							a.btn(data-toggle='modal', href="#deleteModal") Delete Group
+						.modal.fade(id='deleteModal', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
+							.modal-dialog
+								.modal-content
+									.modal-header
+										button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+										h4.modal-title Are You Sure You Want to Delete This Group?
+									.modal-body
+										h3 This Cannot Be Undone. Close to Go Back.
+									.modal-footer
+										form(name='id', method='POST', action='/groups/delete/#{val.id}')
+											.actions
+												input(type='submit', value='Delete Group', class='update-button')
+	block footer
+	// jQuery Version 1.11.1
+	script(src='../../scripts/jquery.min.js')
+	// Bootstrap Core JavaScript
+	script(src='../../scripts/bootstrap.min.js')

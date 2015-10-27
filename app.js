@@ -116,10 +116,11 @@ app.post('/groups/create', GroupController.create);
 app.get('/groups/view', GroupController.show);
 
 //update
-app.post('/groups/edit/:groupId', GroupController.edit);
+app.get('/groups/edit/:groupId', GroupController.editShow);
+app.post('/groups/edit/:groupId', GroupController.editPost);
 
 //delete
-app.get('/groups/delete/:groupId', GroupController.destroy);
+app.post('/groups/delete/:groupId', GroupController.destroy);
 
 // error page
 app.get('/errorpage', UserController.errorShow);

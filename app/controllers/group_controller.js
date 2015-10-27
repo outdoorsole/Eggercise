@@ -16,7 +16,7 @@ exports.index = function (req,res){
 	var groups = Groups;
 	groups.fetch({id: req.body.id})
 		 .then(function (data) {
-			res.render('groups/create', {title: 'Your Groups', userId: req.user});
+			res.render('groups/create', {title: 'Your Groups', userId: req.user.get('id'), username: req.user.get('username')});
 		})
 	.catch(function (error){
 		console.error(error.stack);
@@ -54,10 +54,7 @@ exports.show = function (req,res) {
 	console.log('This is groups: ', groups);
 	groups.fetch()
 	.then(function (data) {
-		res.render('groups/groups', {
-			title: 'Current Groups',
-			groups: data.toJSON()
-		})
+		res.render('groups/groups', {title: 'Current Groups', groups: data.toJSON(), userId: req.user.get('id'), username: req.user.get('username')})
 	})
 	.catch(function (error) {
 		console.log(error.stack);
@@ -102,28 +99,84 @@ exports.edit = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signin', {title: 'Sign Up'});
+			res.render('users/signin', {title: 'Sign Up', userId: req.user.get('id'), username: req.user.get('username')});
 		}
 	})
 }
 
 //------------------------------------------------------------------------------//
+//Update
+exports.editShow = function (req,res) {
+	var groupId = req.params.groupId;
+
+	new Group({
+		id: groupId
+	})
+	.fetch()
+	.then(function (group) {
+		if(req.isAuthenticated()) {
+			res.render('groups/edit', {title: 'Edit Group', group: group.toJSON(), userId: req.user.get('id'), username: req.user.get('username')})
+		} else {
+			res.render('users/signin', {title: 'Sign Up',  userId: req.user.get('id'), username: req.user.get('username')});
+		}
+	})
+	.catch(function (error){
+		console.error(error.stack);
+		res.redirect('/errorpage');
+	})
+}
+
+
+//------------------------------------------------------------------------------//
+//Update
+exports.editPost = function (req,res) {
+	var groupId = req.params.groupId;
+	console.log(groupId)
+
+	new Group({
+		id: groupId
+	})
+	.fetch()
+	.then(function (group) {
+		if(req.isAuthenticated()) {
+			group.save({
+				name: req.body.name || group.get('name'),
+				price: req.body.price || group.get('price')
+			})
+			.then(function (group){
+				req.method = 'GET';
+				res.redirect('/groups/view');
+			})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/errorpage');
+			})
+		} else {
+			res.render('users/signin', {title: 'Sign Up'});
+		}
+	})
+}
+
+
+//------------------------------------------------------------------------------//
 //Delete
 exports.destroy = function (req,res) {
 	if(req.isAuthenticated()) {
+		// console.log('delete 165 ' + req.params.grou);
 		var groupId = req.params.groupId;
 		new Group({id: groupId})
 		.fetch()
 		.then(function (group) {
 			group.destroy()
-			res.redirect('/groups')
+			req.method = 'GET'
+			res.redirect('/groups/view')
 		})
 		.catch(function (error){
 			console.error(error.stack);
 			res.redirect('/error');
 		})
 	} else {
-		res.render('users/signin', {title: 'Sign In'});
+		res.render('users/signin', {title: 'Sign In', userId: req.user.get('id'), username: req.user.get('username')});
 	}
 }
 
