@@ -31,16 +31,16 @@ body
               a(href='/signin') Login
             li
               a(href='/signup') Sign Up
-          if userId
-            ul.nav.navbar-nav.navbar-right
-              li.dropdown
-                a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{user.username}
-                ul.dropdown-menu
-                  li
-                    a(href='users/#{user.id}') Update Profile
-                   li.divider
-                   li
-                     a(href='/signout') Logout
+        if userId
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown
+              a#username.dropwdown-toggle(href='#', data-toggle='dropdown')
+              ul.dropdown-menu
+                li
+                  a(href='users/#{userId}') Update Profile
+                 li.divider
+                 li
+                   a(href='/signout') Logout
   block content
   .container
     .row
