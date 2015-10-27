@@ -47,8 +47,7 @@ exports.show = function (req,res) {
 	// var groupId = req.params.groupId;
 	// var group = new Group({id: groupId});
 
-	// console.log('This is groupId: ', groupId);
-	// console.log('This is group: ', group);
+	console.log('This is req: ', req);
 
 	var groups = Groups;
 	groups.fetch()
