@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .col-lg-12.text-center
+        #header
+          h2 Edit A Group
+        .newuserform
+          form(role='form' action='/groups/edit/#{groupId}', method='POST')
+            //- match the action route to the post route in app.js
+            .form-group
+              label(for='name') New Name
+              input#name.form-control(type='name', placeholder='name', name='name')
+            .form-group
+              label(for='price') New Buy-In Price
+              input#price.form-control(type='price', placeholder='Buy in price' name='price')
+            .form-group
+              button#info-submit.btn.btn-default Submit

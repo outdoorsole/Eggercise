@@ -79,7 +79,30 @@ exports.show = function (req,res) {
 
 //------------------------------------------------------------------------------//
 //Update
-exports.edit = function (req,res) {
+exports.editShow = function (req,res) {
+	var groupId = req.params.groupId;
+
+	new Group({
+		id: groupId
+	})
+	.fetch()
+	.then(function (group) {
+		if(req.isAuthenticated()) {
+			res.render('groups/create', {title: 'Edit Group', group: group.toJSON()})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/errorpage');
+			})
+		} else {
+			res.render('users/signin', {title: 'Sign Up'});
+		}
+	})
+}
+
+
+//------------------------------------------------------------------------------//
+//Update
+exports.editPost = function (req,res) {
 	var groupId = req.params.groupId;
 
 	new Group({
