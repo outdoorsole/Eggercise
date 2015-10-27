@@ -1,5 +1,6 @@
 doctype html(lang='en')
-head
+block head
+  head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
@@ -21,38 +22,34 @@ body
         a#eggerbrand.navbar-brand(href='/') Eggercise
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
-          if user
-            //li
-              a(href='/signout') Logout
+          if userId
             li
               a(href='/groups/view') View Groups
             li
               a(href='/groups/create') Create A Group
-            //li
-              a(href='/groups/edit/#{groupId}') Edit A Group
-            //li
-              a(href='users/#{userId}') Update Info
           else
             li
               a(href='/signin') Login
             li
               a(href='/signup') Sign Up
-        if user
+        if userId
           ul.nav.navbar-nav.navbar-right
             li.dropdown
-              a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{user.username}
+              a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{username}
               ul.dropdown-menu
                 li
-                  a(href='users/#{user.id}') Update Profile
-                li.divider
-                li
-                  a(href='/signout') Logout
+                  a(href='users/#{userId}') Update Profile
+                 li.divider
+                 li
+                   a(href='/signout') Logout
   block content
   .container
     .row
       .col-lg-12.text-center
         p Copyright (c) Eggercise 2015
-  // jQuery Version 1.11.1
-  script(src='../scripts/jquery.min.js')
-  // Bootstrap Core JavaScript
-  script(src='../scripts/bootstrap.min.js')
+
+  block footer
+    // jQuery Version 1.11.1
+    script(src='../scripts/jquery.min.js')
+    // Bootstrap Core JavaScript
+    script(src='../scripts/bootstrap.min.js')

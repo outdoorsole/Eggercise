@@ -13,42 +13,15 @@ var User = require('../models/user');
 //collections
 var Users = require('../collections/users');
 
-//authenticate passport function
-// function authenticate (req,next){
-// 	if(req.isAuthenticated()){
-// 		next();
-// 	} else {
-// 		req.redirect('/')
-// 	}
-// }
-
-// app.use(authenticate);
 
 //------------------------------------------------------------------------------//
 //Index
 exports.index = function (req,res){
-	console.log(req);
-	var users = Users;
-	// users.fetch()
-	// 	 .then(function (data) {
-	// 		var users = data.toJSON()
-			new User({id: req.user})
-			// var username = users[user]
-			.fetch()
-			.then(function (data) {
-				if(!req.isAuthenticated()){
-					res.render('index');
-				}else {
-				// data = data.toJSON()
-				console.log('line 38 ' + data)
-			res.render('index', {title: 'Home', user: data.toJSON()});
-			}
-			})
-		 	// pass in the user object
-	.catch(function (error){
-		console.error(error.stack);
-		res.redirect('/errorpage');
-	})
+	if (req.isAuthenticated()) {
+				res.render('index', {title: 'Home', userId: req.user.get('id'), username: req.user.get('username')});
+	} else {
+		res.render('index')
+	}
 };
 
 //------------------------------------------------------------------------------//
@@ -126,17 +99,12 @@ exports.signOut = function(req,res,next) {
 exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
-	user.fetch({
-		withRelated:['roles']
-	})
-	// user.fetch()
+	// user.fetch({
+	// 	withRelated:['roles']
+	// })
+	user.fetch()
 	.then(function (data) {
-		console.log('This is data.getid: ', data.get('id'));
-		res.render('users/edit',{
-			title: 'Current User',
-			userId: data.get('id'),
-			user: data.toJSON()
-		})
+		res.render('users/edit',{title: 'Current User', userId: req.user.get('id'), username: req.user.get('username')})
 	})
 	.catch(function (error) {
 		console.log(error.stack);
@@ -172,7 +140,7 @@ exports.edit = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signup', {title: 'Sign Up'});
+			res.render('users/signup', {title: 'Sign Up', });
 		}
 	})
 }
