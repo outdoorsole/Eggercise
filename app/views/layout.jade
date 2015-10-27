@@ -22,13 +22,13 @@ body
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
           if user
-            li
+            //li
               a(href='/signout') Logout
             li
               a(href='/groups/view') View Groups
             li
               a(href='/groups/create') Create A Group
-            li
+            //li
               a(href='/groups/edit/#{groupId}') Edit A Group
             //li
               a(href='users/#{userId}') Update Info
@@ -37,10 +37,16 @@ body
               a(href='/signin') Login
             li
               a(href='/signup') Sign Up
-        ul.nav.navba-nav.navbar-right
-          if user
-            li
-              a(href='users/#{user.id}') #{user.username}
+        if user
+          ul.nav.navbar-nav.navbar-right
+            li.dropdown
+              a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{user.username}
+              ul.dropdown-menu
+                li
+                  a(href='users/#{user.id}') Update Profile
+                li.divider
+                li
+                  a(href='/signout') Logout
   block content
   .container
     .row
