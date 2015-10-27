@@ -28,12 +28,22 @@ var Users = require('../collections/users');
 //Index
 exports.index = function (req,res){
 	var users = Users;
-	users.fetch()
-		 .then(function (data) {
-
+	// users.fetch()
+	// 	 .then(function (data) {
+	// 		var users = data.toJSON()
+			new User({id: req.user})
+			// var username = users[user]
+			.fetch()
+			.then(function (data) {
+				if(!req.isAuthenticated()){
+					res.render('index');
+				}else {
+				// data = data.toJSON()
+				console.log('line 38 ' + data)
+			res.render('index', {title: 'Home', user: data.toJSON()});
+			}
+			})
 		 	// pass in the user object
-			res.render('index', {title: 'Home', userId: req.user});
-		})
 	.catch(function (error){
 		console.error(error.stack);
 		res.redirect('/errorpage');
@@ -138,7 +148,7 @@ exports.edit = function (req,res) {
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-		
+
 	new User({
 		id: userId
 	})
