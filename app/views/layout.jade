@@ -21,7 +21,7 @@ body
         a#eggerbrand.navbar-brand(href='/') Eggercise
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
-          if userId
+          if user
             li
               a(href='/signout') Logout
             li
@@ -29,12 +29,18 @@ body
             li
               a(href='/groups/create') Create A Group
             li
+              a(href='/groups/edit/#{groupId}') Edit A Group
+            //li
               a(href='users/#{userId}') Update Info
           else
             li
               a(href='/signin') Login
             li
               a(href='/signup') Sign Up
+        ul.nav.navba-nav.navbar-right
+          if user
+            li
+              a(href='users/#{user.id}') #{user.username}
   block content
   .container
     .row
