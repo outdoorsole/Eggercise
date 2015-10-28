@@ -1,11 +1,18 @@
-var request = require('request'),
+var session = require('supertest-session'),
+	exercisebet = require('../../app'),
 	Group = require('../../app/models/group'),
 	User = require('../../app/models/user'),
 	Groups = require('../../app/collections/groups'),
 	GroupController = require('../../app/controllers/group_controller.js');
 
+var testSession = null;
+
 describe('GroupController', function(){
 
+	beforeEach(function(done) {
+
+	});
+	
 	describe('Tests with data', function(){
 		var group;
 
