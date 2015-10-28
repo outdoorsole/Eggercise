@@ -16,14 +16,18 @@ var Groups = require('../collections/groups');
 //Index
 exports.index = function (req,res){
 	var groups = Groups;
-	groups.fetch({id: req.body.id})
-		 .then(function (data) {
-			res.render('groups/create', {title: 'Your Groups', userId: req.user.get('id'), username: req.user.get('username')});
+	if (req.isAuthenticated()) {
+		groups.fetch({id: req.body.id})
+			 .then(function (data) {
+				res.render('groups/create', {title: 'Your Groups', userId: req.user.get('id'), username: req.user.get('username')});
+			})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
 		})
-	.catch(function (error){
-		console.error(error.stack);
-		res.redirect('/error');
-	})
+	} else {
+		res.redirect('/signin');
+	}
 };
 
 //------------------------------------------------------------------------------

@@ -128,5 +128,7 @@ app.post('/groups/delete/:groupId', GroupController.destroy);
 // error page
 app.get('/errorpage', UserController.errorShow);
 
+module.exports = app;
+
 app.listen(3000);
 console.log('Listening to port 3000');

@@ -10,10 +10,38 @@ var testSession = null;
 
 describe('GroupController', function(){
 
-	beforeEach(function(done) {
-
+	beforeEach(function() {
+		testSession = session(exercisebet);
 	});
 	
+	describe('authentication', function() {
+
+		it('should fail accessing a restricted page', function (done) {
+		  testSession.get('/groups/create')
+		    .expect(302)
+		    .end(function(err, res) {
+		    	if (err) {
+		    		done.fail(err);
+		    	} else {
+		    		done();
+		    	}
+		    });
+		});
+
+		it('should access unrestricted pages', function (done) {
+		  testSession.get('/')
+		    .expect(200)
+		    .end(function(err, res) {
+		    	if (err) {
+		    		done.fail(err);
+		    	} else {
+		    		done();
+		    	}
+		    })
+		});		
+
+	});
+
 	describe('Tests with data', function(){
 		// var group;
 		// var user;
