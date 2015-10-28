@@ -11,6 +11,7 @@ var Group = require('../models/group'),
 
 //collections
 var Groups = require('../collections/groups');
+var Roles = require('../collections/roles');
 
 //------------------------------------------------------------------------------
 //Index
@@ -158,11 +159,19 @@ exports.destroy = function (req,res) {
 	if(req.isAuthenticated()) {
 		var groupId = req.params.groupId;
 		new Group({id: groupId})
-		.fetch()
+		.fetch({
+			withRelated: ['roles']
+		})
 		.then(function (group) {
-			group.destroy()
-			req.method = 'GET'
-			res.redirect('/groups/view')
+			group.related('roles')
+			.invokeThen('destroy')
+			.then(function () {
+				group.destroy()
+				.then(function(){
+					req.method = 'GET';
+					res.redirect('/groups/view');
+				})
+			})
 		})
 		.catch(function (error){
 			console.error(error.stack);
