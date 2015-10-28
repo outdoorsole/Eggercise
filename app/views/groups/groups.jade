@@ -9,6 +9,9 @@ block content
 						p Name: #{val.name}
 						p Buy-In Price: #{val.price}
 						p
+							a(href="/groups/view/#{val.id}")
+								button(type='button') Join Group
+							span       
 							a(href="/groups/edit/#{val.id}")
 								button(type='button') Edit Group
 							a.btn(data-toggle='modal', href="#deleteModal") Delete Group

@@ -176,6 +176,20 @@ exports.destroy = function (req,res) {
 }
 
 //------------------------------------------------------------------------------//
+//Join
+// exports.joinGroup = function (req,res) {
+// 	if(req.isAuthenticated()) {
+// 		new Role({
+// 			user_id: userId,
+// 		})
+// 		.fetch()
+// 		.then(function (group) {
+
+// 		})
+// 	}
+// }
+
+//------------------------------------------------------------------------------//
 //Error page
 exports.errorShow = function (req, res) {
 	res.render('error');
