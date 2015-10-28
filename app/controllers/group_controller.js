@@ -16,14 +16,24 @@ var Groups = require('../collections/groups');
 //Index
 exports.index = function (req,res){
 	var groups = Groups;
-	groups.fetch({id: req.body.id})
-		 .then(function (data) {
-			res.render('groups/create', {title: 'Your Groups', userId: req.user.get('id'), username: req.user.get('username')});
+
+	if(req.isAuthenticated()){
+		groups.fetch({id: req.body.id})
+			 .then(function (data) {
+				res.render('groups/create', {
+					title: 'Your Groups', 
+					userId: req.user.get('id'), 
+					username: req.user.get('username')
+				});
+			})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
 		})
-	.catch(function (error){
-		console.error(error.stack);
-		res.redirect('/error');
-	})
+		
+	}else {
+			res.render('users/signin', {title: 'Sign Up'});
+	}
 };
 
 //------------------------------------------------------------------------------
@@ -96,7 +106,11 @@ exports.editShow = function (req,res) {
 				username: req.user.get('username')
 			})
 		} else {
-			res.render('users/signin', {title: 'Sign Up',  userId: req.user.get('id'), username: req.user.get('username')});
+			res.render('users/signin', {
+				title: 'Sign Up', 
+				userId: req.user.get('id'), 
+				username: req.user.get('username')
+			});
 		}
 	})
 	.catch(function (error){
@@ -153,7 +167,11 @@ exports.destroy = function (req,res) {
 			res.redirect('/error');
 		})
 	} else {
-		res.render('users/signin', {title: 'Sign In', userId: req.user.get('id'), username: req.user.get('username')});
+		res.render('users/signin', {
+			title: 'Sign In', 
+			userId: req.user.get('id'), 
+			username: req.user.get('username')
+		});
 	}
 }
 
