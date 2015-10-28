@@ -18,7 +18,11 @@ var Users = require('../collections/users');
 //Index
 exports.index = function (req,res){
 	if (req.isAuthenticated()) {
-				res.render('index', {title: 'Home', userId: req.user.get('id'), username: req.user.get('username')});
+				res.render('index', {
+					title: 'Home',
+					userId: req.user.get('id'),
+					username: req.user.get('username')
+				});
 	} else {
 		res.render('index')
 	}
@@ -74,7 +78,10 @@ exports.signInPost = function (req,res,next) {
 		req.logIn(user, function (err) {
 			if(err) {
 				console.log(err + " Fail");
-				res.render('error', {title: 'Sign In Fail', errorMessage: err.message});
+				res.render('error', {
+					title: 'Sign In Fail',
+					errorMessage: err.message
+				});
 			} else {
 				res.redirect('/');
 			}
@@ -103,7 +110,11 @@ exports.show = function (req,res) {
 	// })
 	user.fetch()
 	.then(function (data) {
-		res.render('users/edit',{title: 'Current User', userId: req.user.get('id'), username: req.user.get('username')})
+		res.render('users/edit', {
+			title: 'Current User',
+			userId: req.user.get('id'),
+			username: req.user.get('username')
+		})
 	})
 	.catch(function (error) {
 		console.log(error.stack);
