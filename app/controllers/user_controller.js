@@ -68,7 +68,6 @@ exports.signInGet = function (req,res) {
 //------------------------------------------------------------------------------//
 //Sign In POST
 exports.signInPost = function (req,res,next) {
-
 	passport.authenticate('local', {
 		failureRedirect:'/signin'
 	}, function (err,user,info) {
