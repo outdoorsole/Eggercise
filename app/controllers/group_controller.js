@@ -37,17 +37,16 @@ exports.create = function (req,res){
 			price: req.body.price
 		}).save()
 		  .then(function (group) {
-		  	// TODO: Jordan. How do you have this setup with no user logged in?
 		  	userId = req.user.get('id');
 		  	groupId = group.get('id');
-		  	// new Role({
-		  	// 	user_id: userId,
-		  	// 	group_id: groupId,
-		  	// 	is_admin: true
-		  	// }).save()
-		  	//   .then(function (roleData) {
+		  	new Role({
+		  		user_id: userId,
+		  		group_id: groupId,
+		  		is_admin: true
+		  	}).save()
+		  	  .then(function (roleData) {
 			  	res.redirect('/')
-		  	  // })
+		  	  })
 		  })
 
 		  .catch(function (error){
