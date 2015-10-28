@@ -84,8 +84,11 @@ bookshelf.knex.schema.hasTable('workouts')
 			//Foreign key to groups
 			workout.integer('group_id').unsigned()
 			.references('groups.id');
+		})
+		.then(function (table){
+			console.log('Table for workouts is created', table)
 		});
 	}
-})
+});
 
 module.exports = bookshelf;
