@@ -8,43 +8,43 @@ var request = require('request'),
 
 describe('GroupController', function(){
 	describe('Tests with data', function(){
-		var group;
-		var user;
+		// var group;
+		// var user;
 		
-		beforeEach(function (done) {
-			var password = 'testpw',
-				salt = bcrypt.genSaltSync(10),
-				hash = bcrypt.hashSync(password,salt);
+		// beforeEach(function (done) {
+		// 	var password = 'testpw',
+		// 		salt = bcrypt.genSaltSync(10),
+		// 		hash = bcrypt.hashSync(password,salt);
 
-			new User({
-				username: 'testid1',
-				email: 'test2@test.com',
-				password: hash
-			}).save()
-			  .then(function (userData) {
-			  	user = userData;
-			  	new Group({
-				name: 'groupTest',
-				price: 150
-				}).save()
-			  	  .then(function (newGroup) {
-			  		group = newGroup;
-			  		done()
-		   		  })
+		// 	new User({
+		// 		username: 'testid1',
+		// 		email: 'test2@test.com',
+		// 		password: hash
+		// 	}).save()
+		// 	  .then(function (userData) {
+		// 	  	user = userData;
+		// 	  	new Group({
+		// 		name: 'groupTest',
+		// 		price: 150
+		// 		}).save()
+		// 	  	  .then(function (newGroup) {
+		// 	  		group = newGroup;
+		// 	  		done()
+		//    		  })
 			  
-			});
+		// 	});
 
-		});
+		// });
 
-		afterEach(function (done) {
-			new Group({
-				id: group.id
-			}).destroy()
-			  .then(done)
-			  .catch(function (error) {
-			  	done.fail(error);
-			  });
-		});
+		// afterEach(function (done) {
+		// 	new Group({
+		// 		id: group.id
+		// 	}).destroy()
+		// 	  .then(done)
+		// 	  .catch(function (error) {
+		// 	  	done.fail(error);
+		// 	  });
+		// });
 
 		// Test Show
 		// it('should return groups', function (done) {
@@ -55,32 +55,32 @@ describe('GroupController', function(){
 		// });
 
 		// Test Create
-		it('should create a new group', function (done){
-			var testgroup = {
-				url:"http://localhost:3000/groups/create",
-				form:{
-					name:'testGroup',
-					price:9000
-				}
-			};
+		// it('should create a new group', function (done){
+		// 	var testgroup = {
+		// 		url:"http://localhost:3000/groups/create",
+		// 		form:{
+		// 			name:'testGroup',
+		// 			price:9000
+		// 		}
+		// 	};
 
 
-			request.post(testgroup, function (error, response, body){
-               new Group({
-                       name: 'testGroup',
-               }).fetch()
-                 .then(function (newGroup){
-                       console.log('This is newGroup: '+newGroup)
-                       expect(newGroup.get('name')).toBe('testGroup');
-                       expect(newGroup.admin().get('user_id')).toBe(user.get('id'));
-                       new Group({
-                               id: newGroup.id
-                       }).destroy()
-                         .then(function (model){
-                               done();
-                         })
-                 });			
-		});
+		// 	request.post(testgroup, function (error, response, body){
+  //              new Group({
+  //                      name: 'testGroup',
+  //              }).fetch()
+  //                .then(function (newGroup){
+  //                      console.log('This is newGroup: '+newGroup)
+  //                      expect(newGroup.get('name')).toBe('testGroup');
+  //                      expect(newGroup.admin().get('user_id')).toBe(user.get('id'));
+  //                      new Group({
+  //                              id: newGroup.id
+  //                      }).destroy()
+  //                        .then(function (model){
+  //                              done();
+  //                        })
+  //                });			
+		// });
 
 		//Test Update
 		// it('should update current group name and/or buy-in price', function (done){

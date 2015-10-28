@@ -31,12 +31,12 @@ describe('UserController', function(){
 		});
 
 		//Test Show
-		// it('should return users', function (done) {
-		// 	request('http://localhost:3000/', function (error,response,body) {
-		// 		expect(response.statusCode).toBe(200);
-		// 		done();
-		// 	})
-		// });
+		it('should return users', function (done) {
+			request('http://localhost:3000/', function (error,response,body) {
+				expect(response.statusCode).toBe(200);
+				done();
+			})
+		});
 
 		// Test Create
 		// it('should create a new user', function (done){
@@ -48,7 +48,7 @@ describe('UserController', function(){
 		// 			password:'password'
 		// 		}
 		// 	};
-
+		
 		// 	request.post(testuser, function (error, response, body){
 		// 		new User({
 		// 			email: 'test@test.com',
@@ -66,27 +66,27 @@ describe('UserController', function(){
 		// });
 
 		//Test Update (Updating password and e-mail, DOES NOT WORK WITH AUTHENTICATION)
-	// 	it('should update current user e-mail and/or password', function (done){
-	// 		var testuser = {
-	// 			url:"http://localhost:3000/users/edit/"+user.id,
-	// 			form:{
-	// 				//information the user enters
-	// 				email: 'testUpdate@test.com',
-	// 				password:'updatepassword'
-	// 			},
-	// 		};
+		// it('should update current user e-mail and/or password', function (done){
+		// 	var testuser = {
+		// 		url:"http://localhost:3000/users/edit/"+user.id,
+		// 		form:{
+		// 			//information the user enters
+		// 			email: 'testUpdate@test.com',
+		// 			password:'updatepassword'
+		// 		},
+		// 	};
 
-	// 		request.post(testuser, function (error, response, body) {
-	// 			expect(response.statusCode).toBe(302);
-	// 			new User({
-	// 				//go to the database and look for this id (including fetch)
-	// 				id: user.id
-	// 			}).fetch()
-	// 			  .then(function (newUser) {
-	// 		  		expect(newUser.get('email')).toBe('testUpdate@test.com');
-	// 		  		done();
-	// 			  });
-	// 		});
-	// 	});
+		// 	request.post(testuser, function (error, response, body) {
+		// 		expect(response.statusCode).toBe(302);
+		// 		new User({
+		// 			//go to the database and look for this id (including fetch)
+		// 			id: user.id
+		// 		}).fetch()
+		// 		  .then(function (newUser) {
+		// 	  		expect(newUser.get('email')).toBe('testUpdate@test.com');
+		// 	  		done();
+		// 		  });
+		// 	});
+		// });
 	});
 })

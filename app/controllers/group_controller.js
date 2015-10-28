@@ -66,7 +66,12 @@ exports.show = function (req,res) {
 	var groups = Groups;
 	groups.fetch()
 	.then(function (data) {
-		res.render('groups/groups', {title: 'Current Groups', groups: data.toJSON(), userId: req.user.get('id'), username: req.user.get('username')})
+		res.render('groups/groups', {
+			title: 'Current Groups', 
+			groups: data.toJSON(), 
+			userId: req.user.get('id'), 
+			username: req.user.get('username')
+		})
 	})
 	.catch(function (error) {
 		console.log(error.stack);
@@ -75,36 +80,7 @@ exports.show = function (req,res) {
 }
 
 //------------------------------------------------------------------------------//
-//Update
-exports.edit = function (req,res) {
-	var groupId = req.params.groupId;
-
-	new Group({
-		id: groupId
-	})
-	.fetch()
-	.then(function (group) {
-		if(req.isAuthenticated()) {
-			group.save({
-				name: req.body.name || group.get('name'),
-				price: req.body.price || group.get('price')
-			})
-			.then(function (group){
-				req.method = 'GET';
-				res.redirect('/groups');
-			})
-			.catch(function (error){
-				console.error(error.stack);
-				res.redirect('/errorpage');
-			})
-		} else {
-			res.render('users/signin', {title: 'Sign Up', userId: req.user.get('id'), username: req.user.get('username')});
-		}
-	})
-}
-
-//------------------------------------------------------------------------------//
-//Update
+//Update Get
 exports.editShow = function (req,res) {
 	var groupId = req.params.groupId;
 
@@ -114,7 +90,12 @@ exports.editShow = function (req,res) {
 	.fetch()
 	.then(function (group) {
 		if(req.isAuthenticated()) {
-			res.render('groups/edit', {title: 'Edit Group', group: group.toJSON(), userId: req.user.get('id'), username: req.user.get('username')})
+			res.render('groups/edit', {
+				title: 'Edit Group', 
+				group: group.toJSON(), 
+				userId: req.user.get('id'), 
+				username: req.user.get('username')
+			})
 		} else {
 			res.render('users/signin', {title: 'Sign Up',  userId: req.user.get('id'), username: req.user.get('username')});
 		}
@@ -127,7 +108,7 @@ exports.editShow = function (req,res) {
 
 
 //------------------------------------------------------------------------------//
-//Update
+//Update Post
 exports.editPost = function (req,res) {
 	var groupId = req.params.groupId;
 

@@ -1,3 +1,6 @@
+//PUT THIS SOMEWHERE PEOPLE WON'T SEE
+//config files
+
 var express = require('express'),
 	app = express(),
 	router = express.Router(),
