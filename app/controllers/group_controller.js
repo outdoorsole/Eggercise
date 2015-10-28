@@ -16,14 +16,24 @@ var Groups = require('../collections/groups');
 //Index
 exports.index = function (req,res){
 	var groups = Groups;
-	groups.fetch({id: req.body.id})
-		 .then(function (data) {
-			res.render('groups/create', {title: 'Your Groups', userId: req.user.get('id'), username: req.user.get('username')});
+
+	if(req.isAuthenticated()){
+		groups.fetch({id: req.body.id})
+			 .then(function (data) {
+				res.render('groups/create', {
+					title: 'Your Groups',
+					userId: req.user.get('id'),
+					username: req.user.get('username')
+				});
+			})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/error');
 		})
-	.catch(function (error){
-		console.error(error.stack);
-		res.redirect('/error');
-	})
+
+	}else {
+			res.render('users/signin', {title: 'Sign Up'});
+	}
 };
 
 //------------------------------------------------------------------------------
@@ -66,9 +76,9 @@ exports.show = function (req,res) {
 	groups.fetch()
 	.then(function (data) {
 		res.render('groups/groups', {
-			title: 'Current Groups', 
-			groups: data.toJSON(), 
-			userId: req.user.get('id'), 
+			title: 'Current Groups',
+			groups: data.toJSON(),
+			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
 	})
@@ -90,13 +100,17 @@ exports.editShow = function (req,res) {
 	.then(function (group) {
 		if(req.isAuthenticated()) {
 			res.render('groups/edit', {
-				title: 'Edit Group', 
-				group: group.toJSON(), 
-				userId: req.user.get('id'), 
+				title: 'Edit Group',
+				group: group.toJSON(),
+				userId: req.user.get('id'),
 				username: req.user.get('username')
 			})
 		} else {
-			res.render('users/signin', {title: 'Sign Up',  userId: req.user.get('id'), username: req.user.get('username')});
+			res.render('users/signin', {
+				title: 'Sign Up',
+				userId: req.user.get('id'),
+				username: req.user.get('username')
+			});
 		}
 	})
 	.catch(function (error){
@@ -153,7 +167,11 @@ exports.destroy = function (req,res) {
 			res.redirect('/error');
 		})
 	} else {
-		res.render('users/signin', {title: 'Sign In', userId: req.user.get('id'), username: req.user.get('username')});
+		res.render('users/signin', {
+			title: 'Sign In',
+			userId: req.user.get('id'),
+			username: req.user.get('username')
+		});
 	}
 }
 
