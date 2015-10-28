@@ -10,3 +10,14 @@ body {
 .navbar-inverse .navbar-nav>li>a {
 	color: #E51B12;
 }
+
+#delete-group {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 2px 6px 3px 6px;
+  margin: 0;
+  background-color: buttonface;
+  display: inline-block;
+  border: 2px outset buttonface;
+  text-shadow: none;
+}

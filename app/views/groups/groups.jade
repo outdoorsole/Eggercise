@@ -11,10 +11,10 @@ block content
 						p
 							a(href="/groups/view/#{val.id}")
 								button(type='button') Join Group
-							span       
+							span
 							a(href="/groups/edit/#{val.id}")
 								button(type='button') Edit Group
-							a.btn(data-toggle='modal', href="#deleteModal") Delete Group
+							a#delete-group.btn(role='button', data-toggle='modal', href="#deleteModal") Delete Group
 						.modal.fade(id='deleteModal', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
 							.modal-dialog
 								.modal-content
