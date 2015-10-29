@@ -18,7 +18,9 @@ var Groups = require('../collections/groups'),
 //Join GET
 exports.joinGroupGet = function (req,res) {
 	var userId = req.user.get('id'),
-		groupId = req.params.groupId
+		groupId = req.params.groupId;
+
+	console.log('reached join get');
 
 	new Role({
 		user_id: userId,
@@ -52,19 +54,25 @@ exports.joinGroupGet = function (req,res) {
 //------------------------------------------------------------------------------//
 //Join POST
 exports.joinGroupPost = function (req,res) {
-	var userId = req.user.get('id');
+	var userId = req.user.get('id'),
+		groupId = req.params.groupId;
+
+	console.log('reached join post');
 
 	new Role({
 		user_id: userId,
+		group_id: groupId
 	})
 	.fetch()
 	.then(function (role){
 		if(req.isAuthenticated()){
+			console.log(role);
 			role.save({
 				is_admin: false
 			})
 			.then(function (role){
 				console.log('This is userId '+userId);
+				console.log('This is groupId '+req.params.groupId);
 				req.method = 'GET';
 				res.redirect('/groups/view');
 			})
