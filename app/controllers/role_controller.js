@@ -54,37 +54,37 @@ var Groups = require('../collections/groups'),
 //------------------------------------------------------------------------------//
 //Join Group
 exports.joinGroup = function (req,res) {
-	var userId = req.user.get('id'),
-		groupId = req.params.groupId;
+	var userId = req.user.get('id');
+	var groupId = req.params.groupId;
 
-	console.log('reached join post');
-
-	new Role({
-		user_id: userId
-	})
-	.fetch()
-	.then(function (role){
-		if(req.isAuthenticated()){
-			console.log(role);
-			role.save({
-				is_admin: false
-			})
-			.then(function (role){
-				console.log('This is userId '+userId);
-				console.log('This is groupId '+req.params.groupId);
-				req.method = 'GET';
-				res.redirect('/groups/view');
-			})
-			.catch(function (error){
-				console.error(error.stack);
-				res.redirect('/errorpage');
-			})
-		} else {
-			res.render('users/signin', {
-				title: 'Sign Up'
-			});
-		}
-	})
+	if(req.isAuthenticated()) {
+		new Role({
+			user_id: userId,
+			group_id: groupId
+		}).save()
+		// .fetch()
+			// .then(function (role) {
+					// console.log(role);
+					// role.save({
+					// 	user_id: userId,
+					// 	group_id: groupId
+					// 	// is_admin: false
+					// })
+					.then(function (role){
+						// console.log('This is userId '+userId);
+						// console.log('This is groupId '+req.params.groupId);
+						req.method = 'GET';
+						res.redirect('/groups/view');
+					})
+					.catch(function (error){
+						console.error(error.stack);
+						res.redirect('/errorpage');
+					})
+	} else {
+		res.render('users/signin', {
+			title: 'Sign Up'
+		});
+	}
 }
 
 //------------------------------------------------------------------------------//
