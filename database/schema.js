@@ -70,4 +70,25 @@ bookshelf.knex.schema.hasTable('roles')
 	}
 });
 
+bookshelf.knex.schema.hasTable('workouts')
+.then(function (exists){
+	if(!exists){
+		bookshelf.knex.schema.createTable('workouts', function (workout){
+			workout.increments('id').primary();
+			workout.timestamps();
+
+			//Foreign key to users
+			workout.integer('user_id').unsigned()
+			.references('users.id');
+
+			//Foreign key to groups
+			workout.integer('group_id').unsigned()
+			.references('groups.id');
+		})
+		.then(function (table){
+			console.log('Table for workouts is created', table)
+		});
+	}
+});
+
 module.exports = bookshelf;
