@@ -71,8 +71,29 @@ exports.create = function (req,res){
 }
 
 //------------------------------------------------------------------------------//
-//Show
+//Show Groups List
 exports.show = function (req,res) {
+	var groups = Groups;
+	groups
+	.query('orderBy', 'id', 'asc')
+	.fetch()
+	.then(function (data) {
+		res.render('groups/groups', {
+			title: 'Current Groups',
+			groups: data.toJSON(),
+			userId: req.user.get('id'),
+			username: req.user.get('username')
+		})
+	})
+	.catch(function (error) {
+		console.log(error.stack);
+		res.redirect('/errorpage');
+	})
+}
+
+//------------------------------------------------------------------------------//
+//Show Single Group
+exports.showGroup = function (req,res) {
 	var groups = Groups;
 	groups
 	.query('orderBy', 'id', 'asc')
@@ -160,10 +181,10 @@ exports.destroy = function (req,res) {
 		var groupId = req.params.groupId;
 		new Group({id: groupId})
 		.fetch({
-			withRelated: ['roles']
+			withRelated: ['roles','workouts']
 		})
 		.then(function (group) {
-			group.related('roles')
+			group.related('roles','workouts')
 			.invokeThen('destroy')
 			.then(function () {
 				group.destroy()
