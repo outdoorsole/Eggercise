@@ -16,52 +16,51 @@ var Groups = require('../collections/groups'),
 
 //------------------------------------------------------------------------------//
 //Join GET
-exports.joinGroupGet = function (req,res) {
-	var userId = req.user.get('id'),
-		groupId = req.params.groupId;
+// exports.joinGroupGet = function (req,res) {
+// 	var userId = req.user.get('id'),
+// 		groupId = req.params.groupId;
 
-	console.log('reached join get');
+// 	console.log('reached join get');
 
-	new Role({
-		user_id: userId,
-	})
-	.fetch()
-	.then(function (role) {
-		if(req.isAuthenticated()) {
-			res.redirect('/groups/view');
-			// role.save({
-			// 	is_admin: false
-			// })
-			// .then(function (role){
+// 	new Role({
+// 		user_id: userId,
+// 	})
+// 	.fetch()
+// 	.then(function (role) {
+// 		if(req.isAuthenticated()) {
+// 			res.redirect('/groups/view');
+// 			// role.save({
+// 			// 	is_admin: false
+// 			// })
+// 			// .then(function (role){
 
-			// })
+// 			// })
 
-			// .catch(function (error){
-			// 	console.error(error.stack);
-			// 	res.redirect('/errorpage');
-		} else {
-			res.render('users/signin', {
-				title: 'Sign Up'
-			});
-		}
-	})
-	.catch(function (error){
-		console.error(error.stack);
-		res.redirect('/errorpage');
-	})
-}
+// 			// .catch(function (error){
+// 			// 	console.error(error.stack);
+// 			// 	res.redirect('/errorpage');
+// 		} else {
+// 			res.render('users/signin', {
+// 				title: 'Sign Up'
+// 			});
+// 		}
+// 	})
+// 	.catch(function (error){
+// 		console.error(error.stack);
+// 		res.redirect('/errorpage');
+// 	})
+// }
 
 //------------------------------------------------------------------------------//
-//Join POST
-exports.joinGroupPost = function (req,res) {
+//Join Group
+exports.joinGroup = function (req,res) {
 	var userId = req.user.get('id'),
 		groupId = req.params.groupId;
 
 	console.log('reached join post');
 
 	new Role({
-		user_id: userId,
-		group_id: groupId
+		user_id: userId
 	})
 	.fetch()
 	.then(function (role){
@@ -86,6 +85,12 @@ exports.joinGroupPost = function (req,res) {
 			});
 		}
 	})
+}
+
+//------------------------------------------------------------------------------//
+//Leave Group
+exports.leaveGroup = function (req,res) {
+
 }
 
 //------------------------------------------------------------------------------//
