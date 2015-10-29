@@ -64,6 +64,7 @@ exports.joinGroupPost = function (req,res) {
 				is_admin: false
 			})
 			.then(function (role){
+				console.log('This is userId '+userId);
 				req.method = 'GET';
 				res.redirect('/groups/view');
 			})
