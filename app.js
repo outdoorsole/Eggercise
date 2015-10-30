@@ -133,8 +133,10 @@ app.get('/errorpage', GroupController.errorShow);
 //Routes for Roles
 
 //join group
-// app.get('/groups/join/:groupId', RoleController.joinGroupGet);
 app.post('/groups/join/:groupId', RoleController.joinGroup);
+
+//leave group
+app.get('/groups/leave/:groupId', RoleController.leaveGroup);
 
 // error page
 app.get('/errorpage', RoleController.errorShow);

@@ -15,71 +15,26 @@ var Groups = require('../collections/groups'),
 	Roles = require('../collections/roles');
 
 //------------------------------------------------------------------------------//
-//Join GET
-// exports.joinGroupGet = function (req,res) {
-// 	var userId = req.user.get('id'),
-// 		groupId = req.params.groupId;
-
-// 	console.log('reached join get');
-
-// 	new Role({
-// 		user_id: userId,
-// 	})
-// 	.fetch()
-// 	.then(function (role) {
-// 		if(req.isAuthenticated()) {
-// 			res.redirect('/groups/view');
-// 			// role.save({
-// 			// 	is_admin: false
-// 			// })
-// 			// .then(function (role){
-
-// 			// })
-
-// 			// .catch(function (error){
-// 			// 	console.error(error.stack);
-// 			// 	res.redirect('/errorpage');
-// 		} else {
-// 			res.render('users/signin', {
-// 				title: 'Sign Up'
-// 			});
-// 		}
-// 	})
-// 	.catch(function (error){
-// 		console.error(error.stack);
-// 		res.redirect('/errorpage');
-// 	})
-// }
-
-//------------------------------------------------------------------------------//
 //Join Group
 exports.joinGroup = function (req,res) {
-	var userId = req.user.get('id');
-	var groupId = req.params.groupId;
+	var userId = req.user.get('id'),
+		groupId = req.params.groupId;
 
 	if(req.isAuthenticated()) {
 		new Role({
 			user_id: userId,
 			group_id: groupId
-		}).save()
-		// .fetch()
-			// .then(function (role) {
-					// console.log(role);
-					// role.save({
-					// 	user_id: userId,
-					// 	group_id: groupId
-					// 	// is_admin: false
-					// })
-					.then(function (role){
-						// console.log('This is userId '+userId);
-						// console.log('This is groupId '+req.params.groupId);
-						req.method = 'GET';
-						res.redirect('/groups/view');
-					})
-					.catch(function (error){
-						console.error(error.stack);
-						res.redirect('/errorpage');
-					})
+		})
+		.save()
+		.then(function (role){
+			req.method = 'GET';
+			res.redirect('/groups/view');
+		})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/errorpage');
+		})
+
 	} else {
 		res.render('users/signin', {
 			title: 'Sign Up'
@@ -90,7 +45,29 @@ exports.joinGroup = function (req,res) {
 //------------------------------------------------------------------------------//
 //Leave Group
 exports.leaveGroup = function (req,res) {
+	var userId = req.user.get('id'),
+		groupId = req.params.groupId;
 
+	if(req.isAuthenticated()) {
+		new Role({
+			user_id: userId,
+			group_id: groupId
+		})
+		.fetch()
+		.then(function (role){
+			role.destroy()
+			res.redirect('/groups/view');
+		})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/errorpage');
+		})
+
+	} else {
+		res.render('users/signin', {
+			title: 'Sign Up'
+		});
+	}
 }
 
 //------------------------------------------------------------------------------//
