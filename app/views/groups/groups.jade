@@ -10,6 +10,7 @@ block content
 						p Buy-In Price: #{val.price}
 						p
 							a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal") Join Group
+							a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
 							a.delete-group.btn(role='button', href="/groups/edit/#{val.id}") Edit Group
 							a.delete-group.btn(role='button', data-toggle='modal', href="#deleteModal") Delete Group
 						.modal.fade(id='deleteModal', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
@@ -24,6 +25,16 @@ block content
 										form(name='id', method='POST', action='/groups/delete/#{val.id}')
 											.actions
 												input(type='submit', value='Delete Group', class='update-button')
+						.modal.fade(id='leaveModal', role='dialog', aria-labelledby='leaveModalLabel', aria-hidden='true')
+							.modal-dialog
+								.modal-content
+									.modal-header
+										button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+										h4.modal-title Are you sure you want to leave this group?
+									.modal-footer
+										form(name='id', method='GET', action='/groups/leave/#{val.id}')
+											.actions
+												input(type='submit', value='Leave Group', class='update-button')
 						.modal.fade(id='joinModal', role='dialog', aria-labelledby='joinModalLabel', aria-hidden='true')
 							.modal-dialog
 								.modal-content
