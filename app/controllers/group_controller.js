@@ -73,6 +73,7 @@ exports.create = function (req,res){
 //------------------------------------------------------------------------------//
 //Show Groups List
 exports.show = function (req,res) {
+	var userId = req.user.get('id');
 	var groups = Groups;
 	groups
 	.query('orderBy', 'id', 'asc')
