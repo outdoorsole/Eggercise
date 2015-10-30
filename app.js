@@ -119,6 +119,9 @@ app.post('/groups/create', GroupController.create);
 //show
 app.get('/groups/view', GroupController.show);
 
+// view 1 single group
+app.get('/groups/viewgroup/:groupId', GroupController.showGroup);
+
 //update
 app.get('/groups/edit/:groupId', GroupController.editShow);
 app.post('/groups/edit/:groupId', GroupController.editPost);
