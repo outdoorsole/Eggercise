@@ -10,13 +10,17 @@ block content
 						p Buy-In Price: #{val.price}
 						p
 							each role, index in val.roles
-								if userId == role.user_id && val.id == role.group_id && role.is_admin == true
-									a.delete-group.btn(role='button', href="/groups/edit/#{val.id}") Edit Group
-									a.delete-group.btn(role='button', data-toggle='modal', href="#deleteModal") Delete Group
-									a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
-								else
+								if userId == role.user_id
+									if userId == role.user_id && val.id == role.group_id && role.is_admin == true
+										a.delete-group.btn(role='button', href="/groups/edit/#{val.id}") Edit Group
+										a.delete-group.btn(role='button', data-toggle='modal', href="#deleteModal") Delete Group
+										a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
+									else if userId == role.user_id && val.id == role.group_id && role.is_admin == false
+										//- a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal") Join Group
+										a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
+								if userId !== role.user_id
 									a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal") Join Group
-									a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
+										//- a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
 
 						.modal.fade(id='deleteModal', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
 							.modal-dialog
