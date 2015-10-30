@@ -7,7 +7,7 @@ block content
 					h1 Current Groups
 					each val, index in groups
 						p Name: #{val.name}
-						p Buy-In Price: #{val.price}
+						p Buy-In Price: $#{val.price}
 						p
 							a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal") Join Group
 							a.delete-group.btn(role='button', href='/groups/viewgroup/#{val.id}') View Group

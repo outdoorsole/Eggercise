@@ -94,13 +94,17 @@ exports.show = function (req,res) {
 //------------------------------------------------------------------------------//
 //Show Single Group
 exports.showGroup = function (req,res) {
-	var groups = Groups;
-	groups
-	.query('orderBy', 'id', 'asc')
-	.fetch()
+	var groupId = req.params.groupId;
+	new Group ({
+		id: groupId
+	})
+	.fetch({
+		withRelated: ['roles', 'groups']
+		})
 	.then(function (data) {
+		console.log('This is data.toJSON: ', data.toJSON());
 		res.render('groups/viewgroup', {
-			groups: data.toJSON(),
+			group: data.toJSON(),
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})

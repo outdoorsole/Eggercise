@@ -16,10 +16,11 @@ block content
   .container
       .row
         .col-lg-12.text-center
-          each val, index in groups
-            h1 #{val.name}
-            h2 Buy-In Price: $#{val.price}
-            p
+          h1 #{group.name}
+          h2 Buy-In Price: $#{group.price}
+          p
+            #{userId}
+            #{username}
 
   block footer
   // jQuery Version 1.11.1
