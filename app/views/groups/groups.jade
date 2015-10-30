@@ -10,7 +10,7 @@ block content
 						p Buy-In Price: #{val.price}
 						p
 							a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal") Join Group
-							a.delete-group.btn(role='button', href='groups/viewgroup/#{val.id}') View Group
+							a.delete-group.btn(role='button', href='/groups/viewgroup/#{val.id}') View Group
 							a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal") Leave Group
 							a.delete-group.btn(role='button', href="/groups/edit/#{val.id}") Edit Group
 							a.delete-group.btn(role='button', data-toggle='modal', href="#deleteModal") Delete Group

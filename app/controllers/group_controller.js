@@ -99,8 +99,7 @@ exports.showGroup = function (req,res) {
 	.query('orderBy', 'id', 'asc')
 	.fetch()
 	.then(function (data) {
-		res.render('groups/groups', {
-			title: 'Current Groups',
+		res.render('groups/viewgroup', {
 			groups: data.toJSON(),
 			userId: req.user.get('id'),
 			username: req.user.get('username')
