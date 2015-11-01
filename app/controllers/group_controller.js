@@ -99,12 +99,15 @@ exports.showGroup = function (req,res) {
 		id: groupId
 	})
 	.fetch({
-		withRelated: ['roles', 'groups']
+		withRelated: ['roles', 'user_id']
 		})
-	.then(function (data) {
-		console.log('This is data.toJSON: ', data.toJSON());
+	.then(function (group) {
+		group.related('roles', 'user_id')
+		console.log('This is group: ', group.toJSON());
+		console.log('This is data_user_id: ', group.get('user_id'));
+		console.log('This is req.user: ', req.user)
 		res.render('groups/viewgroup', {
-			group: data.toJSON(),
+			group: group.toJSON(),
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
