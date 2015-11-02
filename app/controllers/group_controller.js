@@ -76,23 +76,20 @@ exports.create = function (req,res){
 //Show Groups List
 exports.show = function (req,res) {
 	var userId = req.user.get('id');
-	var groups = Groups;
-	groups
-	.query('orderBy', 'id', 'asc')
+	User.forge({
+		id: userId
+	})
 	.fetch({
-		withRelated: ['roles']
+		withRelated: ['groups']
 	})
 	.then(function (data) {
 		console.log(data.toJSON())
-		// console.log(merge)
-		// console.log(merge[0].roles)
-		// console.log(req.user.get('id'));
 		res.render('groups/groups', {
-			groups: data.toJSON(),
+			users: data.toJSON(),
+			// userId and username always needed for navbar
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
-			// console.log(userId+' This is userId in show groups list')
 	})
 	.catch(function (error) {
 		console.log(error.stack);

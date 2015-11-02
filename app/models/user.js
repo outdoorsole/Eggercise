@@ -5,14 +5,14 @@ var User = bookshelf.Model.extend({
 	hasTimestamps: true,
 
 	groups: function(){
-		return this.belongsToMany('Group', 'group_id')
-		.through(Role)
-		.withPivot(['user_type'])
+		return this.belongsToMany('Group')
+		.through('Role')
+		.withPivot(['is_member', 'is_admin'])
 	},
 
-	roles: function(){
-		return this.belongsToMany('Role', 'user_id')
-	}
+	// roles: function(){
+	// 	return this.belongsToMany('Role', 'roles', 'user_id')
+	// }
 })
 
 module.exports = bookshelf.model('User', User);
