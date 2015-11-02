@@ -7,7 +7,7 @@ block content
 					h1 Subscribed Groups
 					each val, index in groups
 						each role in val.roles
-							if userId == role.user_id
+							if userId == role.user_id && role.is_member == true
 								p Name: #{val.name}
 								p Buy-In Price: #{val.price}
 								p
@@ -21,11 +21,12 @@ block content
 					h1 Recommended Groups For You
 					each val, index in groups
 						each role in val.roles
-							if userId !== role.user_id && role.is_member == false
-								p Name: #{val.name}
-								p Buy-In Price: #{val.price}
-								p
-									a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal#{val.id}") Join Group
+							if userId == role.user_id
+								if role.is_admin == false && role.is_member == false
+									p Name: #{val.name}
+									p Buy-In Price: #{val.price}
+									p
+										a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal#{val.id}") Join Group
 						.modal.fade(id='deleteModal#{val.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
 							.modal-dialog
 								.modal-content

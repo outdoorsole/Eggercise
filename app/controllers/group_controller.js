@@ -82,7 +82,7 @@ exports.show = function (req,res) {
 		withRelated: ['roles']
 	})
 	.then(function (data) {
-		// var groups = data.toJSON()
+		console.log(data.toJSON())
 		// console.log(merge)
 		// console.log(merge[0].roles)
 		// console.log(req.user.get('id'));

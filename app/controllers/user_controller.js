@@ -51,15 +51,20 @@ exports.signUpPost = function (req,res) {
 		password: hash,
 		email:req.body.email
 	}).save()
-		.then(function (role) {
+		.then(function (data){
+			User.forge({
+				username: req.body.username
+			})
+			console.log(data.get('id'));
+			var id = data.get('id');
 			new Role({
 				is_member: false,
-				user_id: req.user.id
+				user_id: id
 			}).save()
 				.then(function (user) {
 				res.redirect('/signin')
 				})
-	  })
+		})
 
 	.catch(function (error){
 		console.error(error.stack);
