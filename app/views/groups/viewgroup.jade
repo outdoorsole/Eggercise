@@ -18,11 +18,10 @@ block content
 			.col-lg-12.text-center
 				h1 #{group.name}
 				h2 Buy-In Price: $#{group.price}
-
 				hr
-					h3 Current Group Members:
-					each val, index in users
-						p #{val.username}
+				h3 Current Group Members:
+				each val, index in users
+					p #{val.username}
 
 	block footer
 	// jQuery Version 1.11.1
