@@ -78,18 +78,26 @@ exports.show = function (req,res) {
 	var groups = Groups;
 	groups
 	.query('orderBy', 'id', 'asc')
-	.fetch({
-		withRelated: ['roles']
-	})
+	.fetch()
+	// .fetch({
+	// 	withRelated: ['roles']
+	// })
 	.then(function (data) {
 		console.log(data.toJSON())
+		var roles = Roles;
+		roles.fetch()
+		.then(function (rolesdata) {
+			console.log(rolesdata.toJSON())
+			res.render('groups/groups', {
+			groups: data.toJSON(),
+			roles: rolesdata.toJSON(),
+			userId: req.user.get('id'),
+			username: req.user.get('username')
+
+		})
 		// console.log(merge)
 		// console.log(merge[0].roles)
 		// console.log(req.user.get('id'));
-		res.render('groups/groups', {
-			groups: data.toJSON(),
-			userId: req.user.get('id'),
-			username: req.user.get('username')
 		})
 			// console.log(userId+' This is userId in show groups list')
 	})

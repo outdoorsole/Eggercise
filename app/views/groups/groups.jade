@@ -6,8 +6,12 @@ block content
 				.col-lg-12.text-center
 					h1 Subscribed Groups
 					each val, index in groups
-						each role in val.roles
+						each role in roles
 							if userId == role.user_id && role.is_member == true
+								p #{userId}
+								p #{val.id}
+								p #{role.user_id}
+								p #{role.is_member}
 								p Name: #{val.name}
 								p Buy-In Price: #{val.price}
 								p
@@ -19,46 +23,46 @@ block content
 										else if role.is_admin == false
 											a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal#{val.id}") Leave Group
 					h1 Recommended Groups For You
-					each val, index in groups
-						each role in val.roles
-							if userId == role.user_id
-								if role.is_admin == false && role.is_member == false
-									p Name: #{val.name}
-									p Buy-In Price: #{val.price}
-									p
-										a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal#{val.id}") Join Group
-						.modal.fade(id='deleteModal#{val.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
-							.modal-dialog
-								.modal-content
-									.modal-header
-										button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-										h4.modal-title Are You Sure You Want to Delete This Group?
-									.modal-body
-										h3 This Cannot Be Undone. Close to Go Back.
-									.modal-footer
-										form(name='id', method='POST', action='/groups/delete/#{val.id}')
-											.actions
-												input(type='submit', value='Delete Group', class='update-button')
-						.modal.fade(id='leaveModal#{val.id}', role='dialog', aria-labelledby='leaveModalLabel', aria-hidden='true')
-							.modal-dialog
-								.modal-content
-									.modal-header
-										button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-										h4.modal-title Are you sure you want to leave this group?
-									.modal-footer
-										form(name='id', method='GET', action='/groups/leave/#{val.id}')
-											.actions
-												input(type='submit', value='Leave Group', class='update-button')
-						.modal.fade(id='joinModal#{val.id}', role='dialog', aria-labelledby='joinModalLabel', aria-hidden='true')
-							.modal-dialog
-								.modal-content
-									.modal-header
-										button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-										h4.modal-title Are You Sure You Want to Join This Group?
-									.modal-footer
-										form(name='id', method='POST', action='/groups/join/#{val.id}')
-											.actions
-												input(type='submit', value='Join Group', class='update-button')
+						each val, index in groups
+								each role in roles
+									if userId !== role.user_id
+											if role.is_admin == false && role.is_member == false
+												p Name: #{val.name}
+												p Buy-In Price: #{val.price}
+												p
+													a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal#{val.id}") Join Group
+								.modal.fade(id='deleteModal#{val.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
+									.modal-dialog
+										.modal-content
+											.modal-header
+												button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+												h4.modal-title Are You Sure You Want to Delete This Group?
+											.modal-body
+												h3 This Cannot Be Undone. Close to Go Back.
+											.modal-footer
+												form(name='id', method='POST', action='/groups/delete/#{val.id}')
+													.actions
+														input(type='submit', value='Delete Group', class='update-button')
+								.modal.fade(id='leaveModal#{val.id}', role='dialog', aria-labelledby='leaveModalLabel', aria-hidden='true')
+									.modal-dialog
+										.modal-content
+											.modal-header
+												button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+												h4.modal-title Are you sure you want to leave this group?
+											.modal-footer
+												form(name='id', method='GET', action='/groups/leave/#{val.id}')
+													.actions
+														input(type='submit', value='Leave Group', class='update-button')
+								.modal.fade(id='joinModal#{val.id}', role='dialog', aria-labelledby='joinModalLabel', aria-hidden='true')
+									.modal-dialog
+										.modal-content
+											.modal-header
+												button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+												h4.modal-title Are You Sure You Want to Join This Group?
+											.modal-footer
+												form(name='id', method='POST', action='/groups/join/#{val.id}')
+													.actions
+														input(type='submit', value='Join Group', class='update-button')
 	block footer
 	// jQuery Version 1.11.1
 	script(src='../../scripts/jquery.min.js')
