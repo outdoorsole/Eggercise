@@ -12,6 +12,7 @@ var Group = require('../models/group'),
 //collections
 var Groups = require('../collections/groups');
 var Roles = require('../collections/roles');
+var Users = require('../collections/users');
 
 //------------------------------------------------------------------------------
 //Index
@@ -75,31 +76,20 @@ exports.create = function (req,res){
 //Show Groups List
 exports.show = function (req,res) {
 	var userId = req.user.get('id');
-	var groups = Groups;
-	groups
-	.query('orderBy', 'id', 'asc')
-	.fetch()
-	// .fetch({
-	// 	withRelated: ['roles']
-	// })
+	User.forge({
+		id: userId
+	})
+	.fetch({
+		withRelated: ['groups']
+	})
 	.then(function (data) {
 		console.log(data.toJSON())
-		var roles = Roles;
-		roles.fetch()
-		.then(function (rolesdata) {
-			console.log(rolesdata.toJSON())
-			res.render('groups/groups', {
-			groups: data.toJSON(),
-			roles: rolesdata.toJSON(),
+		res.render('groups/groups', {
+			users: data.toJSON(),
+			// userId and username always needed for navbar
 			userId: req.user.get('id'),
 			username: req.user.get('username')
-
 		})
-		// console.log(merge)
-		// console.log(merge[0].roles)
-		// console.log(req.user.get('id'));
-		})
-			// console.log(userId+' This is userId in show groups list')
 	})
 	.catch(function (error) {
 		console.log(error.stack);
