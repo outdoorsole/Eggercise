@@ -35,7 +35,6 @@ exports.joinGroup = function (req,res) {
 			console.error(error.stack);
 			res.redirect('/errorpage');
 		})
-
 	} else {
 		res.render('users/signin', {
 			title: 'Sign Up'
@@ -63,7 +62,6 @@ exports.leaveGroup = function (req,res) {
 			console.error(error.stack);
 			res.redirect('/errorpage');
 		})
-
 	} else {
 		res.render('users/signin', {
 			title: 'Sign Up'

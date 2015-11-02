@@ -24,7 +24,7 @@ exports.index = function (req,res){
 					userId: req.user.get('id'),
 					username: req.user.get('username')
 				});
-	} else {
+	}	else	{
 		res.render('index')
 	}
 };
@@ -34,7 +34,7 @@ exports.index = function (req,res){
 exports.signUpGet = function(req, res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
-	} else {
+	}	else	{
 		res.render('users/signup', {title: 'Sign Up'});
 	}
 }
