@@ -1,32 +1,29 @@
 extends ../layout
 
+block head
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title Eggercise
+    link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='../../stylesheets/main.css', rel='stylesheet')
+
 block content
   .container
       .row
         .col-lg-12.text-center
-          h1 Current Groups
-          each val, index in groups
-            p Name: #{val.name}
-            p Buy-In Price: #{val.price}
-            p
-              a(href="/groups/view/#{val.id}")
-                button(type='button') Join Group
-              span
-              a(href="/groups/edit/#{val.id}")
-                button(type='button') Edit Group
-              a#delete-group.btn(role='button', data-toggle='modal', href="#deleteModal") Delete Group
-            .modal.fade(id='deleteModal', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
-              .modal-dialog
-                .modal-content
-                  .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-                    h4.modal-title Are You Sure You Want to Delete This Group?
-                  .modal-body
-                    h3 This Cannot Be Undone. Close to Go Back.
-                  .modal-footer
-                    form(name='id', method='POST', action='/groups/delete/#{val.id}')
-                      .actions
-                        input(type='submit', value='Delete Group', class='update-button')
+          h1 #{group.name}
+          h2 Buy-In Price: $#{group.price}
+
+          hr
+          h3 Current Group Members:
+          each val, index in users
+            p #{val.username}
+
   block footer
   // jQuery Version 1.11.1
   script(src='../../scripts/jquery.min.js')

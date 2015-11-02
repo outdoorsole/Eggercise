@@ -10,7 +10,7 @@ describe('GroupController', function(){
 	describe('Tests with data', function(){
 		// var group;
 		// var user;
-		
+
 		// beforeEach(function (done) {
 		// 	var password = 'testpw',
 		// 		salt = bcrypt.genSaltSync(10),
@@ -31,7 +31,7 @@ describe('GroupController', function(){
 		// 	  		group = newGroup;
 		// 	  		done()
 		//    		  })
-			  
+
 		// 	});
 
 		// });
@@ -79,7 +79,7 @@ describe('GroupController', function(){
   //                        .then(function (model){
   //                              done();
   //                        })
-  //                });			
+  //                });
 		// });
 
 		//Test Update
