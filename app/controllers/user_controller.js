@@ -35,7 +35,7 @@ exports.signUpGet = function(req, res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	}	else	{
-		res.render('users/signup', {title: 'Sign Up'});
+		res.render('users/signup');
 	}
 }
 
@@ -78,7 +78,7 @@ exports.signInGet = function (req,res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	}
-	res.render('users/signin', {title: 'Sign In'});
+	res.render('users/signin');
 };
 
 //------------------------------------------------------------------------------//
@@ -162,7 +162,7 @@ exports.edit = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signup', {title: 'Sign Up', });
+			res.render('users/signup');
 		}
 	})
 }

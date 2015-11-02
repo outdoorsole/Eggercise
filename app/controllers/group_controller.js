@@ -33,7 +33,7 @@ exports.index = function (req,res){
 			res.redirect('/error');
 		})
 	} else {
-		res.render('users/signin', { title: 'Sign Up' });
+		res.render('users/signin');
 	}
 };
 
@@ -65,7 +65,7 @@ exports.create = function (req,res){
 				res.redirect('/error');
 			})
 	} else {
-		res.render('users/signin', {title: 'Sign Up'});
+		res.render('users/signin');
 	}
 }
 
@@ -80,7 +80,6 @@ exports.show = function (req,res) {
 		withRelated: ['groups']
 	})
 	.then(function (data) {
-		// console.log(data.toJSON())
 		Groups
 		//call query builder, bypass bookshelf
 		.query(function (qb){
@@ -141,7 +140,6 @@ exports.editShow = function (req,res) {
 	.then(function (group) {
 		if(req.isAuthenticated()) {
 			res.render('groups/edit', {
-				title: 'Edit Group',
 				group: group.toJSON(),
 				userId: req.user.get('id'),
 				username: req.user.get('username')
@@ -185,7 +183,7 @@ exports.editPost = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signin', {title: 'Sign Up'});
+			res.render('users/signin');
 		}
 	})
 }
@@ -196,7 +194,10 @@ exports.editPost = function (req,res) {
 exports.destroy = function (req,res) {
 	if(req.isAuthenticated()) {
 		var groupId = req.params.groupId;
-		new Group({id: groupId})
+
+		new Group({
+			id: groupId
+		})
 		.fetch({
 			withRelated: ['roles','workouts']
 		})
@@ -217,7 +218,6 @@ exports.destroy = function (req,res) {
 		})
 	} else {
 		res.render('users/signin', {
-			title: 'Sign In',
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		});
