@@ -36,9 +36,7 @@ exports.joinGroup = function (req,res) {
 		})
 
 	} else {
-		res.render('users/signin', {
-			title: 'Sign Up'
-		});
+		res.render('users/signin');
 	}
 }
 
@@ -64,9 +62,7 @@ exports.leaveGroup = function (req,res) {
 		})
 
 	} else {
-		res.render('users/signin', {
-			title: 'Sign Up'
-		});
+		res.render('users/signin');
 	}
 }
 

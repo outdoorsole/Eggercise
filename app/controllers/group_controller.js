@@ -34,7 +34,7 @@ exports.index = function (req,res){
 		})
 
 	}else {
-			res.render('users/signin', {title: 'Sign Up'});
+			res.render('users/signin');
 	}
 };
 
@@ -66,7 +66,7 @@ exports.create = function (req,res){
 		  	res.redirect('/error');
 		  })
 	} else {
-			res.render('users/signin', {title: 'Sign Up'});
+			res.render('users/signin');
 	}
 
 }
@@ -172,7 +172,7 @@ exports.editPost = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signin', {title: 'Sign Up'});
+			res.render('users/signin');
 		}
 	})
 }
@@ -203,11 +203,7 @@ exports.destroy = function (req,res) {
 			res.redirect('/error');
 		})
 	} else {
-		res.render('users/signin', {
-			title: 'Sign In',
-			userId: req.user.get('id'),
-			username: req.user.get('username')
-		});
+		res.render('users/signin');
 	}
 }
 

@@ -34,7 +34,7 @@ exports.signUpGet = function(req, res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	} else {
-		res.render('users/signup', {title: 'Sign Up'});
+		res.render('users/signup');
 	}
 }
 
@@ -66,7 +66,7 @@ exports.signInGet = function (req,res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	}
-	res.render('users/signin', {title: 'Sign In'});
+	res.render('users/signin');
 };
 
 //------------------------------------------------------------------------------//
@@ -105,13 +105,10 @@ exports.signOut = function(req,res,next) {
 exports.show = function (req,res) {
 	var userId = req.params.id;
 	var user = new User({id: userId});
-	// user.fetch({
-	// 	withRelated:['roles']
-	// })
+
 	user.fetch()
 	.then(function (data) {
 		res.render('users/edit', {
-			title: 'Current User',
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
@@ -150,7 +147,7 @@ exports.edit = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signup', {title: 'Sign Up', });
+			res.render('users/signup');
 		}
 	})
 }
