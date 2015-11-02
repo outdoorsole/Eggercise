@@ -54,7 +54,8 @@ exports.create = function (req,res){
 		  	new Role({
 		  		user_id: userId,
 		  		group_id: groupId,
-		  		is_admin: true
+		  		is_admin: true,
+		  		is_member: true
 		  	}).save()
 		  	  .then(function (roleData) {
 			  	res.redirect('/')
@@ -74,17 +75,24 @@ exports.create = function (req,res){
 //------------------------------------------------------------------------------//
 //Show Groups List
 exports.show = function (req,res) {
+	var userId = req.user.get('id');
 	var groups = Groups;
 	groups
 	.query('orderBy', 'id', 'asc')
-	.fetch()
+	.fetch({
+		withRelated: ['roles']
+	})
 	.then(function (data) {
+		console.log(data.toJSON())
+		// console.log(merge)
+		// console.log(merge[0].roles)
+		// console.log(req.user.get('id'));
 		res.render('groups/groups', {
-			title: 'Current Groups',
 			groups: data.toJSON(),
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
+			// console.log(userId+' This is userId in show groups list')
 	})
 	.catch(function (error) {
 		console.log(error.stack);

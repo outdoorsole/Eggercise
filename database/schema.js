@@ -55,6 +55,7 @@ bookshelf.knex.schema.hasTable('roles')
 		bookshelf.knex.schema.createTable('roles', function (role){
 			role.increments('id').primary();
 			role.boolean('is_admin').defaultTo(false);
+			role.boolean('is_member').defaultTo(false);
 
 			//Foreign key to users
 			role.integer('user_id').unsigned()
