@@ -1,13 +1,13 @@
 var path = require('path'),
-    bodyParser = require('body-parser');
+		bodyParser = require('body-parser');
 
 //db
 var bookshelf = require('../../database/schema');
 
 //models
 var Group = require('../models/group'),
-	Role = require('../models/role'),
-	User = require('../models/user');
+    Role = require('../models/role'),
+    User = require('../models/user');
 
 //collections
 var Groups = require('../collections/groups');
@@ -21,20 +21,19 @@ exports.index = function (req,res){
 
 	if(req.isAuthenticated()){
 		groups.fetch({id: req.body.id})
-			 .then(function (data) {
-				res.render('groups/create', {
-					title: 'Your Groups',
-					userId: req.user.get('id'),
-					username: req.user.get('username')
-				});
-			})
+		.then(function (data) {
+			res.render('groups/create', {
+				title: 'Your Groups',
+				userId: req.user.get('id'),
+				username: req.user.get('username')
+			});
+		})
 		.catch(function (error){
 			console.error(error.stack);
 			res.redirect('/error');
 		})
-
-	}else {
-			res.render('users/signin', {title: 'Sign Up'});
+	} else {
+		res.render('users/signin', { title: 'Sign Up' });
 	}
 };
 
@@ -48,28 +47,26 @@ exports.create = function (req,res){
 			name: req.body.name,
 			price: req.body.price
 		}).save()
-		  .then(function (group) {
-		  	userId = req.user.get('id');
-		  	groupId = group.get('id');
-		  	new Role({
-		  		user_id: userId,
-		  		group_id: groupId,
-		  		is_admin: true,
-		  		is_member: true
-		  	}).save()
-		  	  .then(function (roleData) {
-			  	res.redirect('/')
-		  	  })
-		  })
-
-		  .catch(function (error){
-		  	console.error(error.stack);
-		  	res.redirect('/error');
-		  })
+		.then(function (group) {
+			userId = req.user.get('id');
+			groupId = group.get('id');
+			new Role({
+				user_id: userId,
+				group_id: groupId,
+				is_admin: true,
+				is_member: true
+			}).save()
+			.then(function (roleData) {
+				res.redirect('/')
+				})
+			})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/error');
+			})
 	} else {
-			res.render('users/signin', {title: 'Sign Up'});
+		res.render('users/signin', {title: 'Sign Up'});
 	}
-
 }
 
 //------------------------------------------------------------------------------//
@@ -106,7 +103,7 @@ exports.showGroup = function (req,res) {
 	})
 	.fetch({
 		withRelated: ['users']
-		})
+	})
 	.then(function (group) {
 		res.render('groups/viewgroup', {
 			group: group.toJSON(),
@@ -125,7 +122,6 @@ exports.showGroup = function (req,res) {
 //Update Get
 exports.editShow = function (req,res) {
 	var groupId = req.params.groupId;
-
 	new Group({
 		id: groupId
 	})
