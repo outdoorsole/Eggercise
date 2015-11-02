@@ -17,15 +17,14 @@ block content
 									a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal#{val.id}") Leave Group
 								else if val._pivot_is_admin == false
 									a.delete-group.btn(role='button', data-toggle='modal', href="#leaveModal#{val.id}") Leave Group
+									a.delete-group.btn(role='button', href='/groups/viewgroup/#{val.id}') View Group
 					h1 Recommended Groups For You
-						each val, index in users.groups
-							if userId !== user_id
-								if is_admin == false && is_member == false
-									p Name: #{val.name}
-									p Buy-In Price: #{val.price}
-									p
-										a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal#{val.id}") Join Group
-										a.delete-group.btn(role='button', href='/groups/viewgroup/#{val.id}') View Group
+						each val in groups
+							p Name: #{val.name}
+							p Buy-In Price: #{val.price}
+							p
+								a.delete-group.btn(role='button', data-toggle='modal', href="#joinModal#{val.id}") Join Group
+								a.delete-group.btn(role='button', href='/groups/viewgroup/#{val.id}') View Group
 								.modal.fade(id='deleteModal#{val.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
 									.modal-dialog
 										.modal-content
