@@ -23,7 +23,8 @@ exports.joinGroup = function (req,res) {
 	if(req.isAuthenticated()) {
 		new Role({
 			user_id: userId,
-			group_id: groupId
+			group_id: groupId,
+			is_member: true
 		})
 		.save()
 		.then(function (role){

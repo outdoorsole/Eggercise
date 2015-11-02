@@ -53,7 +53,8 @@ exports.create = function (req,res){
 		  	new Role({
 		  		user_id: userId,
 		  		group_id: groupId,
-		  		is_admin: true
+		  		is_admin: true,
+		  		is_member: true
 		  	}).save()
 		  	  .then(function (roleData) {
 			  	res.redirect('/')

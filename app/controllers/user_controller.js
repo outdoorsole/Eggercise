@@ -9,10 +9,11 @@ var bookshelf = require('../../database/schema');
 
 //models
 var User = require('../models/user');
+var Role = require('../models/role');
 
 //collections
 var Users = require('../collections/users');
-
+var Roles = require('../collections/roles');
 
 //------------------------------------------------------------------------------//
 //Index
@@ -50,8 +51,14 @@ exports.signUpPost = function (req,res) {
 		password: hash,
 		email:req.body.email
 	}).save()
-	  .then(function (user) {
-			res.redirect('/signin')
+		.then(function (role) {
+			new Role({
+				is_member: false,
+				user_id: req.user.id
+			}).save()
+				.then(function (user) {
+				res.redirect('/signin')
+				})
 	  })
 
 	.catch(function (error){
