@@ -83,12 +83,24 @@ exports.show = function (req,res) {
 		withRelated: ['groups']
 	})
 	.then(function (data) {
-		console.log(data.toJSON())
-		res.render('groups/groups', {
-			users: data.toJSON(),
-			// userId and username always needed for navbar
-			userId: req.user.get('id'),
-			username: req.user.get('username')
+		// console.log(data.toJSON())
+		Groups
+		//call query builder, bypass bookshelf
+		.query(function (qb){
+			qb.whereNotExists(function (){
+				this.select('*').from('roles').whereRaw('roles.group_id = groups.id and roles.user_id='+userId)
+			})
+		})
+		.fetch()
+		.then(function (groups) {
+			console.log(groups.toJSON());
+			res.render('groups/groups', {
+				users: data.toJSON(),
+				groups: groups.toJSON(),
+				// userId and username always needed for navbar
+				userId: req.user.get('id'),
+				username: req.user.get('username')
+			})
 		})
 	})
 	.catch(function (error) {
