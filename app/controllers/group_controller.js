@@ -12,6 +12,7 @@ var Group = require('../models/group'),
 //collections
 var Groups = require('../collections/groups');
 var Roles = require('../collections/roles');
+var Users = require('../collections/users');
 
 //------------------------------------------------------------------------------
 //Index
@@ -99,15 +100,12 @@ exports.showGroup = function (req,res) {
 		id: groupId
 	})
 	.fetch({
-		withRelated: ['roles', 'user_id']
+		withRelated: ['users']
 		})
 	.then(function (group) {
-		group.related('roles', 'user_id')
-		console.log('This is group: ', group.toJSON());
-		console.log('This is data_user_id: ', group.get('user_id'));
-		console.log('This is req.user: ', req.user)
 		res.render('groups/viewgroup', {
 			group: group.toJSON(),
+			users: group.toJSON().users,
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
