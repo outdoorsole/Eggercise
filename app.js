@@ -119,7 +119,7 @@ app.post('/groups/create', GroupController.create);
 //show
 app.get('/groups/view', GroupController.show);
 
-// view 1 single group
+// view a single group
 app.get('/groups/viewgroup/:groupId', GroupController.showGroup);
 
 //update

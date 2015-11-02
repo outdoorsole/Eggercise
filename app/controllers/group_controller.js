@@ -12,6 +12,7 @@ var Group = require('../models/group'),
 //collections
 var Groups = require('../collections/groups');
 var Roles = require('../collections/roles');
+var Users = require('../collections/users');
 
 //------------------------------------------------------------------------------
 //Index
@@ -94,14 +95,17 @@ exports.show = function (req,res) {
 //------------------------------------------------------------------------------//
 //Show Single Group
 exports.showGroup = function (req,res) {
-	var groups = Groups;
-	groups
-	.query('orderBy', 'id', 'asc')
-	.fetch()
-	.then(function (data) {
-		res.render('groups/groups', {
-			title: 'Current Groups',
-			groups: data.toJSON(),
+	var groupId = req.params.groupId;
+	new Group ({
+		id: groupId
+	})
+	.fetch({
+		withRelated: ['users']
+		})
+	.then(function (group) {
+		res.render('groups/viewgroup', {
+			group: group.toJSON(),
+			users: group.toJSON().users,
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
