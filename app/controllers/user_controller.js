@@ -1,8 +1,8 @@
 var path = require('path'),
-    bodyParser = require('body-parser'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    bcrypt = require('bcrypt-nodejs');
+		bodyParser = require('body-parser'),
+		passport = require('passport'),
+		LocalStrategy = require('passport-local').Strategy,
+		bcrypt = require('bcrypt-nodejs');
 
 //db
 var bookshelf = require('../../database/schema');

@@ -1,5 +1,5 @@
 var path = require('path'),
-    bodyParser = require('body-parser');
+		bodyParser = require('body-parser');
 
 //db
 var bookshelf = require('../../database/schema');

@@ -13,22 +13,22 @@ block head
     link(href='../../stylesheets/main.css', rel='stylesheet')
 
 block content
-  .container
-    .row
-      .col-lg-12.text-center
-        #header
-          h1 Edit Group
-          hr
-        .newuserform
-          form(role='form' action='/groups/edit/#{group.id}', method='POST')
-            .form-group
-              label(for='name') New Name
-              input#name.form-control(type='name', placeholder='#{group.name}', name='name')
-            .form-group
-              label(for='price') New Buy-In Price
-              input#price.form-control(type='price', placeholder='#{group.price}' name='price')
-            .form-group
-              button#info-submit.btn.btn-default Submit
+	.container
+		.row
+			.col-lg-12.text-center
+				#header
+					h1 Edit Group
+					hr
+						.newuserform
+							form(role='form' action='/groups/edit/#{group.id}', method='POST')
+						.form-group
+							label(for='name') New Name
+							input#name.form-control(type='name', placeholder='#{group.name}', name='name')
+						.form-group
+							label(for='price') New Buy-In Price
+							input#price.form-control(type='price', placeholder='#{group.price}' name='price')
+						.form-group
+							button#info-submit.btn.btn-default Submit
   block footer
   // jQuery Version 1.11.1
   script(src='../../scripts/jquery.min.js')

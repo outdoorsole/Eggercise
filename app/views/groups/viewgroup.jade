@@ -1,31 +1,31 @@
 extends ../layout
 
 block head
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='')
-    meta(name='author', content='')
-    title Eggercise
-    link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
-    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
-    link(href='../../stylesheets/main.css', rel='stylesheet')
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		title Eggercise
+		link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+		link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+		link(href='../../stylesheets/main.css', rel='stylesheet')
 
 block content
-  .container
-      .row
-        .col-lg-12.text-center
-          h1 #{group.name}
-          h2 Buy-In Price: $#{group.price}
+	.container
+		.row
+			.col-lg-12.text-center
+				h1 #{group.name}
+				h2 Buy-In Price: $#{group.price}
 
-          hr
-          h3 Current Group Members:
-          each val, index in users
-            p #{val.username}
+				hr
+					h3 Current Group Members:
+					each val, index in users
+						p #{val.username}
 
-  block footer
-  // jQuery Version 1.11.1
-  script(src='../../scripts/jquery.min.js')
-  // Bootstrap Core JavaScript
-  script(src='../../scripts/bootstrap.min.js')
+	block footer
+	// jQuery Version 1.11.1
+	script(src='../../scripts/jquery.min.js')
+	// Bootstrap Core JavaScript
+	script(src='../../scripts/bootstrap.min.js')

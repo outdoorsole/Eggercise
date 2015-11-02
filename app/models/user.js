@@ -9,10 +9,6 @@ var User = bookshelf.Model.extend({
 		.through('Role')
 		.withPivot(['is_member', 'is_admin'])
 	},
-
-	// roles: function(){
-	// 	return this.belongsToMany('Role', 'roles', 'user_id')
-	// }
 })
 
 module.exports = bookshelf.model('User', User);

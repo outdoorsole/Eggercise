@@ -1,17 +1,17 @@
 extends ../layout.jade
 
 block content
-  .container
-    .row
-      .col-lg-12.text-center
-        #header
-          h2 Update Your Account
-        .newuserform
-          form(role='form', action='/users/#{userId}/edit', method='POST')
-            .form-group
-              label(for='Password') New Password
-              input#password.form-control(type='password', placeholder='New Password', name="password")
-            .form-group
-              label(for='Email') New Email Address
-              input#email-address.form-control(type='email-address', placeholder='Enter email address', name="email")
-              button#info-submit.btn.btn-default Submit
+	.container
+		.row
+			.col-lg-12.text-center
+				#header
+					h2 Update Your Account
+					.newuserform
+						form(role='form', action='/users/#{userId}/edit', method='POST')
+							.form-group
+								label(for='Password') New Password
+								input#password.form-control(type='password', placeholder='New Password', name="password")
+							.form-group
+								label(for='Email') New Email Address
+								input#email-address.form-control(type='email-address', placeholder='Enter email address', name="email")
+								button#info-submit.btn.btn-default Submit

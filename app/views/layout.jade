@@ -1,55 +1,55 @@
 doctype html(lang='en')
 block head
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='')
-    meta(name='author', content='')
-    title Eggercise
-    link(href='../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
-    link(href='../stylesheets/bootstrap.min.css', rel='stylesheet')
-    link(href='../stylesheets/main.css', rel='stylesheet')
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		title Eggercise
+		link(href='../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+		link(href='../stylesheets/bootstrap.min.css', rel='stylesheet')
+		link(href='../stylesheets/main.css', rel='stylesheet')
 body
-  nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
-    .container
-      .navbar-header
-        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-          span.sr-only Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        a#eggerbrand.navbar-brand(href='/') Eggercise
-      #bs-example-navbar-collapse-1.collapse.navbar-collapse
-        ul.nav.navbar-nav
-          if userId
-            li
-              a(href='/groups/view') View Groups
-            li
-              a(href='/groups/create') Create A Group
-          else
-            li
-              a(href='/signin') Login
-            li
-              a(href='/signup') Sign Up
-        if userId
-          ul.nav.navbar-nav.navbar-right
-            li.dropdown
-              a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{username}
-              ul.dropdown-menu
-                li
-                  a(href='/users/#{userId}') Update Profile
-                 li.divider
-                 li
-                   a(href='/signout') Logout
-  block content
-  .container
-    .row
-      .col-lg-12.text-center
-        p Copyright (c) Eggercise 2015
+	nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+		.container
+			.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				a#eggerbrand.navbar-brand(href='/') Eggercise
+			#bs-example-navbar-collapse-1.collapse.navbar-collapse
+				ul.nav.navbar-nav
+					if userId
+						li
+							a(href='/groups/view') View Groups
+						li
+							a(href='/groups/create') Create A Group
+					else
+						li
+							a(href='/signin') Login
+						li
+							a(href='/signup') Sign Up
+				if userId
+					ul.nav.navbar-nav.navbar-right
+						li.dropdown
+							a#username.dropwdown-toggle(href='#', data-toggle='dropdown') #{username}
+							ul.dropdown-menu
+								li
+									a(href='/users/#{userId}') Update Profile
+								 li.divider
+								 li
+									 a(href='/signout') Logout
+	block content
+	.container
+		.row
+			.col-lg-12.text-center
+				p Copyright (c) Eggercise 2015
 
-  block footer
-    // jQuery Version 1.11.1
-    script(src='../scripts/jquery.min.js')
-    // Bootstrap Core JavaScript
-    script(src='../scripts/bootstrap.min.js')
+	block footer
+		// jQuery Version 1.11.1
+		script(src='../scripts/jquery.min.js')
+		// Bootstrap Core JavaScript
+		script(src='../scripts/bootstrap.min.js')
