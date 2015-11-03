@@ -5,12 +5,12 @@ var Workout = bookshelf.Model.extend({
 	hasTimestamps: true,
 
 	users: function(){
-		return this.belongsToMany('User', 'user_id')
-		.through(Role)
+		return this.belongsToMany('User')
+		// .through(Role)
 	},
 
 	groups: function(){
-		return this.belongsToMany('Group', 'group_id');
+		return this.belongsToMany('Group');
 	}
 })
 
