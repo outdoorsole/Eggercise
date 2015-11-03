@@ -12,6 +12,10 @@ var Group = bookshelf.Model.extend({
 	admin: function(){
 		return this.hasOne('Role', 'user_id').where('is_admin', true);
 	},
+
+  workouts: function(){
+    return this.hasMany('Workout')
+  },
 })
 
 module.exports = bookshelf.model('Group', Group)

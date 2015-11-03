@@ -114,9 +114,12 @@ exports.showGroup = function (req,res) {
 		id: groupId
 	})
 	.fetch({
-		withRelated: ['users']
+		withRelated: ['users','workouts']
 	})
 	.then(function (group) {
+		console.log(group.toJSON())
+		temp = group.toJSON().users;
+		console.log(temp);
 		res.render('groups/viewgroup', {
 			group: group.toJSON(),
 			users: group.toJSON().users,
