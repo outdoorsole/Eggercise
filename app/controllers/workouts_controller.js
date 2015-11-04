@@ -21,20 +21,26 @@ var Users = require('../collections/users');
 exports.logWorkout = function (req,res){
 	var userId =req.user.get('id');
 	var groupId = req.params.groupId;
-  if(req.isAuthenticated()) {
-    new Workout({
-      user_id: userId,
-      group_id: groupId
-    }).save()
-    .then(function (data) {
-      req.method = 'GET';
-      res.redirect('/groups/viewgroup/'+groupId)
-    })
-      .catch(function (error){
-        console.error(error.stack);
-        res.redirect('/error');
-      })
-  } else {
-    res.render('users/signin', {title: 'Sign Up'});
-  }
+
+	if(req.isAuthenticated()) {
+		new Workout({
+			user_id: userId,
+			group_id: groupId
+		}).save()
+		.then(function (data) {
+			req.method = 'GET';
+			res.redirect('/groups/viewgroup/'+groupId
+			// groupId: groupId,
+			// workout: data.toJSON(),
+			// userId: req.user.get('id'),
+			// username: req.user.get('username')
+			)
+		})
+			.catch(function (error){
+				console.error(error.stack);
+				res.redirect('/error');
+			})
+	} else {
+		res.render('users/signin', {title: 'Sign Up'});
+	}
 }
