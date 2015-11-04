@@ -29,12 +29,7 @@ exports.logWorkout = function (req,res){
 		}).save()
 		.then(function (data) {
 			req.method = 'GET';
-			res.redirect('/groups/viewgroup/'+groupId
-			// groupId: groupId,
-			// workout: data.toJSON(),
-			// userId: req.user.get('id'),
-			// username: req.user.get('username')
-			)
+			res.redirect('/groups/viewgroup/'+groupId)
 		})
 			.catch(function (error){
 				console.error(error.stack);
