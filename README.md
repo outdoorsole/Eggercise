@@ -1,6 +1,6 @@
 # Eggercise
 
-![Eggercise Login](public/images/eggercise-login.jpg)
+![Eggercise Login](/public/images/eggercise-login.jpg)
 
 ## Contributors
 * [Yae Jin Park](https://github.com/yaejin91), LearnTech Labs
