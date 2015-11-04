@@ -4,7 +4,6 @@ var request = require('request'),
 	UserController = require('../../app/controllers/user_controller.js');
 
 describe('UserController', function(){
-
 	describe('Tests with data', function(){
 		var user;
 
@@ -13,7 +12,8 @@ describe('UserController', function(){
 				username: 'userTest',
 				email: 'test@test.com',
 				password: 'password'
-			}).save()
+			})
+			.save()
 			.then(function (newUser) {
 				user = newUser;
 				done();
@@ -23,11 +23,12 @@ describe('UserController', function(){
 		afterEach(function(done) {
 			new User({
 				id: user.id
-			}).destroy()
-			  .then(done)
-			  .catch(function (error) {
-			  	done.fail(error);
-			  });
+			})
+			.destroy()
+			.then(done)
+			.catch(function (error) {
+				done.fail(error);
+			});
 		});
 
 		//Test Show
