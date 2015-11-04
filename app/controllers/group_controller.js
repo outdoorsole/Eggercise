@@ -6,8 +6,8 @@ var bookshelf = require('../../database/schema');
 
 //models
 var Group = require('../models/group'),
-    Role = require('../models/role'),
-    User = require('../models/user');
+		Role = require('../models/role'),
+		User = require('../models/user');
 
 //collections
 var Groups = require('../collections/groups');

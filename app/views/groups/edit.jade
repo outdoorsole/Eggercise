@@ -1,16 +1,16 @@
 extends ../layout.jade
 
 block head
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='')
-    meta(name='author', content='')
-    title Eggercise
-    link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
-    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
-    link(href='../../stylesheets/main.css', rel='stylesheet')
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		title Eggercise
+		link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+		link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+		link(href='../../stylesheets/main.css', rel='stylesheet')
 
 block content
 	.container
@@ -29,8 +29,8 @@ block content
 							input#price.form-control(type='price', placeholder='#{group.price}' name='price')
 						.form-group
 							button#info-submit.btn.btn-default Submit
-  block footer
-  // jQuery Version 1.11.1
-  script(src='../../scripts/jquery.min.js')
-  // Bootstrap Core JavaScript
-  script(src='../../scripts/bootstrap.min.js')
+	block footer
+	// jQuery Version 1.11.1
+	script(src='../../scripts/jquery.min.js')
+	// Bootstrap Core JavaScript
+	script(src='../../scripts/bootstrap.min.js')
