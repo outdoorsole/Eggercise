@@ -1,18 +1,17 @@
 var bookshelf = require('../../database/schema');
 
 var Workout = bookshelf.Model.extend({
-  tableName: 'workouts',
-  hasTimestamps: true,
+	tableName: 'workouts',
+	hasTimestamps: true,
 
-  users: function(){
-    return this.belongsToMany('User', 'user_id')
-    .through(Role)
-    .withPivot(['user_type'])
-  },
+	users: function(){
+		return this.belongsToMany('User')
+		// .through(Role)
+	},
 
-  groups: function(){
-    return this.belongsToMany('Group', 'group_id');
-  }
+	groups: function(){
+		return this.belongsToMany('Group');
+	}
 })
 
 module.exports = bookshelf.model('Workout', Workout)

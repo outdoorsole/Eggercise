@@ -4,11 +4,11 @@ var Role = bookshelf.Model.extend({
 	tableName: 'roles',
 
 	users: function() {
-		return this.belongsToMany('Group', 'group_id')
+		return this.belongsToMany('User', 'users', 'id')
 	},
 
 	groups: function() {
-		return this.belongsToMany('User', 'user_id')
+		return this.belongsToMany('Group')
 	}
 })
 

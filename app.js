@@ -28,6 +28,7 @@ var Users = require('./app/collections/users'),
 var UserController = require('./app/controllers/user_controller.js'),
 	GroupController = require('./app/controllers/group_controller.js'),
 	RoleController = require('./app/controllers/role_controller.js');
+	WorkoutController = require('./app/controllers/workouts_controller.js');
 
 //passport error handling
 passport.use(new LocalStrategy(function (username, password, done){
@@ -143,6 +144,12 @@ app.get('/groups/leave/:groupId', RoleController.leaveGroup);
 
 // error page
 app.get('/errorpage', RoleController.errorShow);
+
+//--------------------------------------------------------------
+//Routes for Workouts
+
+//log workout
+app.post('/workouts/logWorkout/:groupId', WorkoutController.logWorkout);
 
 app.listen(3000);
 console.log('Listening to port 3000');

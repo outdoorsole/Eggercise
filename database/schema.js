@@ -3,7 +3,7 @@ var knex = require('knex')({
 	client:'pg',
 	connection: {
 		host: process.env.DATABASE_HOST,
-		user: process.env.DATABASE_USER,
+		user: process.env.DATBASE_USER,
 		password: process.env.DATABASE_PASS,
 		database: 'eggercise'
 		//type in export DATABASE_HOST(or USER, PASS) in terminal
@@ -55,6 +55,7 @@ bookshelf.knex.schema.hasTable('roles')
 		bookshelf.knex.schema.createTable('roles', function (role){
 			role.increments('id').primary();
 			role.boolean('is_admin').defaultTo(false);
+			role.boolean('is_member').defaultTo(false);
 
 			//Foreign key to users
 			role.integer('user_id').unsigned()

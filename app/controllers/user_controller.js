@@ -1,18 +1,19 @@
 var path = require('path'),
-    bodyParser = require('body-parser'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    bcrypt = require('bcrypt-nodejs');
+		bodyParser = require('body-parser'),
+		passport = require('passport'),
+		LocalStrategy = require('passport-local').Strategy,
+		bcrypt = require('bcrypt-nodejs');
 
 //db
 var bookshelf = require('../../database/schema');
 
 //models
 var User = require('../models/user');
+var Role = require('../models/role');
 
 //collections
 var Users = require('../collections/users');
-
+var Roles = require('../collections/roles');
 
 //------------------------------------------------------------------------------//
 //Index
@@ -23,7 +24,7 @@ exports.index = function (req,res){
 					userId: req.user.get('id'),
 					username: req.user.get('username')
 				});
-	} else {
+	}	else	{
 		res.render('index')
 	}
 };
@@ -33,8 +34,8 @@ exports.index = function (req,res){
 exports.signUpGet = function(req, res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
-	} else {
-		res.render('users/signup', {title: 'Sign Up'});
+	}	else	{
+		res.render('users/signup');
 	}
 }
 
@@ -50,9 +51,20 @@ exports.signUpPost = function (req,res) {
 		password: hash,
 		email:req.body.email
 	}).save()
-	  .then(function (user) {
-			res.redirect('/signin')
-	  })
+		.then(function (data){
+			User.forge({
+				username: req.body.username
+			})
+			console.log(data.get('id'));
+			var id = data.get('id');
+			new Role({
+				is_member: false,
+				user_id: id
+			}).save()
+				.then(function (user) {
+				res.redirect('/signin')
+				})
+		})
 
 	.catch(function (error){
 		console.error(error.stack);
@@ -66,7 +78,7 @@ exports.signInGet = function (req,res) {
 	if(req.isAuthenticated()) {
 		res.redirect('/');
 	}
-	res.render('users/signin', {title: 'Sign In'});
+	res.render('users/signin');
 };
 
 //------------------------------------------------------------------------------//
@@ -150,7 +162,7 @@ exports.edit = function (req,res) {
 				res.redirect('/errorpage');
 			})
 		} else {
-			res.render('users/signup', {title: 'Sign Up', });
+			res.render('users/signup');
 		}
 	})
 }

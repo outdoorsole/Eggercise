@@ -1,20 +1,20 @@
 extends ../layout.jade
 
 block content
-  .container
-    .row
-      .col-lg-12.text-center
-        #header
-          h2 Create an Account
-        .newuserform
-          form(role='form', method='POST')
-            .form-group
-              label(for='Username') Username
-              input#username.form-control(type='username', placeholder='Enter username', name="username")
-            .form-group
-              label(for='Password') Password
-              input#password.form-control(type='password', placeholder='Password', name="password")
-            .form-group
-              label(for='Email') Email
-              input#password.form-control(type='email', placeholder='Email', name="email")
-              button#info-submit.btn.btn-default Submit
+	.container
+		.row
+			.col-lg-12.text-center
+				#header
+					h2 Create an Account
+				.newuserform
+					form(role='form', method='POST')
+						.form-group
+							label(for='Username') Username
+							input#username.form-control(type='username', placeholder='Enter username', name="username")
+						.form-group
+							label(for='Password') Password
+							input#password.form-control(type='password', placeholder='Password', name="password")
+						.form-group
+							label(for='Email') Email
+							input#password.form-control(type='email', placeholder='Email', name="email")
+							button#info-submit.btn.btn-default Submit

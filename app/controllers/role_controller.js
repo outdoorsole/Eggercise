@@ -1,5 +1,5 @@
 var path = require('path'),
-    bodyParser = require('body-parser');
+		bodyParser = require('body-parser');
 
 //db
 var bookshelf = require('../../database/schema');
@@ -23,7 +23,8 @@ exports.joinGroup = function (req,res) {
 	if(req.isAuthenticated()) {
 		new Role({
 			user_id: userId,
-			group_id: groupId
+			group_id: groupId,
+			is_member: true
 		})
 		.save()
 		.then(function (role){
@@ -34,11 +35,8 @@ exports.joinGroup = function (req,res) {
 			console.error(error.stack);
 			res.redirect('/errorpage');
 		})
-
 	} else {
-		res.render('users/signin', {
-			title: 'Sign Up'
-		});
+		res.render('users/signin');
 	}
 }
 
@@ -62,11 +60,8 @@ exports.leaveGroup = function (req,res) {
 			console.error(error.stack);
 			res.redirect('/errorpage');
 		})
-
 	} else {
-		res.render('users/signin', {
-			title: 'Sign Up'
-		});
+		res.render('users/signin');
 	}
 }
 
