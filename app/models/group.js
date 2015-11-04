@@ -5,7 +5,7 @@ var Group = bookshelf.Model.extend({
 	hasTimestamps: true,
 
 	users: function(){
-		return this.belongsToMany('User', 'user_id')
+		return this.belongsToMany('User')
 		.through('Role')
 	},
 
@@ -13,9 +13,9 @@ var Group = bookshelf.Model.extend({
 		return this.hasOne('Role', 'user_id').where('is_admin', true);
 	},
 
-	roles: function(){
-		return this.hasMany('Role', 'group_id');
-	}
+  workouts: function(){
+    return this.hasMany('Workout')
+  },
 })
 
 module.exports = bookshelf.model('Group', Group)

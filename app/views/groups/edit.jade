@@ -1,36 +1,36 @@
 extends ../layout.jade
 
 block head
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='')
-    meta(name='author', content='')
-    title Eggercise
-    link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
-    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
-    link(href='../../stylesheets/main.css', rel='stylesheet')
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		title Eggercise
+		link(href='../../stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+		link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+		link(href='../../stylesheets/main.css', rel='stylesheet')
 
 block content
-  .container
-    .row
-      .col-lg-12.text-center
-        #header
-          h1 Edit Group
-          hr
-        .newuserform
-          form(role='form' action='/groups/edit/#{group.id}', method='POST')
-            .form-group
-              label(for='name') New Name
-              input#name.form-control(type='name', placeholder='#{group.name}', name='name')
-            .form-group
-              label(for='price') New Buy-In Price
-              input#price.form-control(type='price', placeholder='#{group.price}' name='price')
-            .form-group
-              button#info-submit.btn.btn-default Submit
-  block footer
-  // jQuery Version 1.11.1
-  script(src='../../scripts/jquery.min.js')
-  // Bootstrap Core JavaScript
-  script(src='../../scripts/bootstrap.min.js')
+	.container
+		.row
+			.col-lg-12.text-center
+				#header
+					h1 Edit Group
+					hr
+					.newuserform
+						form(role='form' action='/groups/edit/#{group.id}', method='POST')
+					.form-group
+						label(for='name') New Name
+						input#name.form-control(type='name', placeholder='#{group.name}', name='name')
+					.form-group
+						label(for='price') New Buy-In Price
+						input#price.form-control(type='price', placeholder='#{group.price}' name='price')
+					.form-group
+						button#info-submit.btn.btn-default Submit
+	block footer
+	// jQuery Version 1.11.1
+	script(src='../../scripts/jquery.min.js')
+	// Bootstrap Core JavaScript
+	script(src='../../scripts/bootstrap.min.js')
