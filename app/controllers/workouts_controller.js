@@ -36,6 +36,6 @@ exports.logWorkout = function (req,res){
 				res.redirect('/error');
 			})
 	} else {
-		res.render('users/signin', {title: 'Sign Up'});
+		res.render('users/signin');
 	}
 }

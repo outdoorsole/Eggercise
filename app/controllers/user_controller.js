@@ -20,7 +20,6 @@ var Roles = require('../collections/roles');
 exports.index = function (req,res){
 	if (req.isAuthenticated()) {
 				res.render('index', {
-					title: 'Home',
 					userId: req.user.get('id'),
 					username: req.user.get('username')
 				});
@@ -55,7 +54,6 @@ exports.signUpPost = function (req,res) {
 			User.forge({
 				username: req.body.username
 			})
-			console.log(data.get('id'));
 			var id = data.get('id');
 			new Role({
 				is_member: false,

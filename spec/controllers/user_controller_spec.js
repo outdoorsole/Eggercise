@@ -4,7 +4,6 @@ var request = require('request'),
 	UserController = require('../../app/controllers/user_controller.js');
 
 describe('UserController', function(){
-
 	describe('Tests with data', function(){
 		var user;
 
@@ -13,21 +12,23 @@ describe('UserController', function(){
 				username: 'userTest',
 				email: 'test@test.com',
 				password: 'password'
-			}).save()
-			  .then(function (newUser) {
-			  	user = newUser;
-			  	done();
-			  });
+			})
+			.save()
+			.then(function (newUser) {
+				user = newUser;
+				done();
+			});
 		});
 
 		afterEach(function(done) {
 			new User({
 				id: user.id
-			}).destroy()
-			  .then(done)
-			  .catch(function (error) {
-			  	done.fail(error);
-			  });
+			})
+			.destroy()
+			.then(done)
+			.catch(function (error) {
+				done.fail(error);
+			});
 		});
 
 		//Test Show
@@ -39,54 +40,57 @@ describe('UserController', function(){
 		});
 
 		// Test Create
-		// it('should create a new user', function (done){
-		// 	var testuser = {
-		// 		url:"http://localhost:3000/signup",
-		// 		form:{
-		// 			username:'testCreate',
-		// 			email: 'test@test.com',
-		// 			password:'password'
-		// 		}
-		// 	};
-		
-		// 	request.post(testuser, function (error, response, body){
-		// 		new User({
-		// 			email: 'test@test.com',
-		// 		}).fetch()
-		// 		  .then(function (newUser){
-		// 		  		expect(newUser.get('username')).toBe('testCreate');
-		// 		  		new User({
-		// 		  			id: newUser.id
-		// 		  		}).destroy()
-		// 		  		  .then(function (model){
-		// 			  		done();
-		// 		  		  })
-		// 		  });
-		// 	});
-		// });
+		it('should create a new user', function (done){
+			var testuser = {
+				url:"http://localhost:3000/signup",
+				form:{
+					username:'testCreate',
+					email: 'test@test.com',
+					password:'password'
+				}
+			};
 
-		//Test Update (Updating password and e-mail, DOES NOT WORK WITH AUTHENTICATION)
-		// it('should update current user e-mail and/or password', function (done){
-		// 	var testuser = {
-		// 		url:"http://localhost:3000/users/edit/"+user.id,
-		// 		form:{
-		// 			//information the user enters
-		// 			email: 'testUpdate@test.com',
-		// 			password:'updatepassword'
-		// 		},
-		// 	};
+			request.post(testuser, function (error, response, body){
+				new User({
+					email: 'test@test.com',
+				})
+				.fetch()
+				.then(function (newUser){
+					expect(newUser.get('username')).toBe('testCreate');
+					new User({
+						id: newUser.id
+					})
+					.destroy()
+					.then(function (model){
+						done();
+					})
+				});
+			});
+		});
 
-		// 	request.post(testuser, function (error, response, body) {
-		// 		expect(response.statusCode).toBe(302);
-		// 		new User({
-		// 			//go to the database and look for this id (including fetch)
-		// 			id: user.id
-		// 		}).fetch()
-		// 		  .then(function (newUser) {
-		// 	  		expect(newUser.get('email')).toBe('testUpdate@test.com');
-		// 	  		done();
-		// 		  });
-		// 	});
-		// });
+		// Test Update (Updating password and e-mail, DOES NOT WORK WITH AUTHENTICATION)
+		it('should update current user e-mail and/or password', function (done){
+			var testuser = {
+				url:"http://localhost:3000/users/edit/"+user.id,
+				form:{
+					//information the user enters
+					email: 'testUpdate@test.com',
+					password:'updatepassword'
+				},
+			};
+
+			request.post(testuser, function (error, response, body) {
+				expect(response.statusCode).toBe(302);
+				new User({
+					//go to the database and look for this id (including fetch)
+					id: user.id
+				})
+				.fetch()
+				.then(function (newUser) {
+					expect(newUser.get('email')).toBe('testUpdate@test.com');
+					done();
+				});
+			});
+		});
 	});
 })

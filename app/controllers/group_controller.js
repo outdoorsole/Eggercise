@@ -23,7 +23,6 @@ exports.index = function (req,res){
 		groups.fetch({id: req.body.id})
 		.then(function (data) {
 			res.render('groups/create', {
-				title: 'Your Groups',
 				userId: req.user.get('id'),
 				username: req.user.get('username')
 			});
@@ -89,7 +88,6 @@ exports.show = function (req,res) {
 		})
 		.fetch()
 		.then(function (groups) {
-			console.log(groups.toJSON());
 			res.render('groups/groups', {
 				users: data.toJSON(),
 				groups: groups.toJSON(),
@@ -116,9 +114,6 @@ exports.showGroup = function (req,res) {
 		withRelated: ['users','workouts']
 	})
 	.then(function (group) {
-		console.log(group.toJSON())
-		temp = group.toJSON().users;
-		console.log(temp);
 		res.render('groups/viewgroup', {
 			group: group.toJSON(),
 			users: group.toJSON().users,
@@ -148,11 +143,7 @@ exports.editShow = function (req,res) {
 				username: req.user.get('username')
 			})
 		} else {
-			res.render('users/signin', {
-				title: 'Sign Up',
-				userId: req.user.get('id'),
-				username: req.user.get('username')
-			});
+			res.render('users/signin');
 		}
 	})
 	.catch(function (error){
@@ -220,10 +211,7 @@ exports.destroy = function (req,res) {
 			res.redirect('/error');
 		})
 	} else {
-		res.render('users/signin', {
-			userId: req.user.get('id'),
-			username: req.user.get('username')
-		});
+		res.render('users/signin');
 	}
 }
 

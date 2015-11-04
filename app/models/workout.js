@@ -6,7 +6,6 @@ var Workout = bookshelf.Model.extend({
 
 	users: function(){
 		return this.belongsToMany('User')
-		// .through(Role)
 	},
 
 	groups: function(){
