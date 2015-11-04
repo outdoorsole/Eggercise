@@ -23,11 +23,12 @@ describe('RoleController', function(){
 				new Role({
 					//go to the database and look for this id (including fetch)
 					user_id: userId
-				}).fetch()
-				  .then(function (newRole) {
-			  		expect(newRole.get('is_admin')).toBe(false);
-			  		done();
-				  });
+				})
+				.fetch()
+				.then(function (newRole) {
+					expect(newRole.get('is_admin')).toBe(false);
+					done();
+				});
 			});
 		});
 	})
