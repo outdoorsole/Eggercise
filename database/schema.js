@@ -1,4 +1,10 @@
 //Database
+//Set environment variables for local session in .bash_profile:
+//Example:
+//export DATABASE_HOST='localhost'
+//export DATABASE_USER='username'
+//export DATABASE_PASS='password'
+
 var knex = require('knex')({
 	client:'pg',
 	connection: {
@@ -6,7 +12,6 @@ var knex = require('knex')({
 		user: process.env.DATBASE_USER,
 		password: process.env.DATABASE_PASS,
 		database: 'eggercise'
-		//type in export DATABASE_HOST(or USER, PASS) in terminal
 	}
 });
 
