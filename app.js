@@ -9,7 +9,7 @@ var express = require('express'),
 	passport = require('passport'),
 	session = require('express-session'),
 	bcrypt = require('bcrypt-nodejs'),
-  	LocalStrategy = require('passport-local').Strategy;
+  LocalStrategy = require('passport-local').Strategy;
 
 //database
 var bookshelf = require('./database/schema');
