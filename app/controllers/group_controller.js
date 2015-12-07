@@ -106,6 +106,8 @@ exports.show = function (req,res) {
 //------------------------------------------------------------------------------//
 //Show Single Group
 exports.showGroup = function (req,res) {
+	console.log('This is req.user.id: ', req.user.id);
+	console.log('--------------------');
 	var groupId = req.params.groupId;
 	new Group ({
 		id: groupId
@@ -113,25 +115,45 @@ exports.showGroup = function (req,res) {
 	.fetch({
 		withRelated: ['users','workouts']
 	})
-	.then(function (group) {
-		console.log(group.toJSON());
-		var group = group.toJSON();
-		function userWorkouts(group) {
-			for (var i = 0; i < group.users.length; i++) {
-				if (group.users[0].id == group.workouts[i].user_id) {
-					console.log('userWorkouts: ', group.workouts[i]);
-					return group.workouts[i];
-				}
+	.then(function (allGroups) {
+		console.log(allGroups.toJSON());
+		console.log('--------------------');
+		var allGroupstoJSON = allGroups.toJSON();
+		console.log(allGroupstoJSON);
+		console.log('--------------------');
+
+	var filteredGroups = [];
+
+		function getUserWorkouts (group) {
+			for (var i = 0; i < group.workouts.length; i++) {
+				if (group.workouts[i].user_id === req.user.id)
+					console.log('This worked');
+					filteredGroups.push(group.workouts[i]);
 			}
+			return filteredGroups;
 		}
-		var filtered = [group].filter(userWorkouts);
-		console.log('filtered: ', filtered);
+
+	var userWorkouts = getUserWorkouts(allGroupstoJSON);
+	console.log('This is the userWorkouts: ', userWorkouts);
+
+
+		// function userWorkouts(group) {
+		// 	for (var i = 0; i < group.users.length; i++) {
+		// 		if (group.users[0].id == group.workouts[i].user_id) {
+		// 			console.log('userWorkouts: ', group.workouts[i]);
+		// 			console.log('--------------------');
+		// 			return group.workouts[i];
+		// 		}
+		// 	}
+		// }
+		// var filtered = [allGroupstoJSON].filter(userWorkouts);
+		// console.log('filtered: ', filtered);
+		// console.log('--------------------');
 
 		res.render('groups/viewgroup', {
-			group: filtered,
-			// group: group.toJSON(),
-			// users: group.toJSON().users,
-			// workouts: group.toJSON().workouts,
+			group: allGroups.toJSON(),
+			users: allGroups.toJSON().users,
+			workouts: userWorkouts,
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
