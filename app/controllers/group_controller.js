@@ -114,9 +114,24 @@ exports.showGroup = function (req,res) {
 		withRelated: ['users','workouts']
 	})
 	.then(function (group) {
+		console.log(group.toJSON());
+		var group = group.toJSON();
+		function userWorkouts(group) {
+			for (var i = 0; i < group.users.length; i++) {
+				if (group.users[0].id == group.workouts[i].user_id) {
+					console.log('userWorkouts: ', group.workouts[i]);
+					return group.workouts[i];
+				}
+			}
+		}
+		var filtered = [group].filter(userWorkouts);
+		console.log('filtered: ', filtered);
+
 		res.render('groups/viewgroup', {
-			group: group.toJSON(),
-			users: group.toJSON().users,
+			group: filtered,
+			// group: group.toJSON(),
+			// users: group.toJSON().users,
+			// workouts: group.toJSON().workouts,
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})

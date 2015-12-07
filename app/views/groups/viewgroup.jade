@@ -22,11 +22,13 @@ block content
 				h3 Current Group Members:
 				each val, index in users
 					.username
-						p #{val.username}
+						p Name: #{val.username}
+						each workouts in group
+							p Workouts: #{group.workouts.length}
 						.workout
 					a.delete-group.btn(role='button', data-toggle='modal', href="#logWorkout#{group.id}") Log Workout
 					p
-					.modal.fade(id='logWorkout#{val.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
+					.modal.fade(id='logWorkout#{group.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
 								.modal-dialog
 									.modal-content
 										.modal-header
