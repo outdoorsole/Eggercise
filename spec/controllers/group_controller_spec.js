@@ -1,13 +1,36 @@
-// *** Note - these tests are not currently passing due to change of functionality in our app. Our next steps are to refactor these tests. They are currently commented to not interfere with the rest of the tests in our application ***//
+var session = require('supertest-session'),
+	eggercise = require('../../app'),
+	bcrypt = require('bcrypt-nodejs'),
+	Group = require('../../app/models/group'),
+	User = require('../../app/models/user'),
+	Groups = require('../../app/collections/groups'),
+	GroupController = require('../../app/controllers/group_controller.js');
 
-// var request = require('request'),
-// 	bcrypt = require('bcrypt-nodejs'),
-// 	Group = require('../../app/models/group'),
-// 	User = require('../../app/models/user'),
-// 	Groups = require('../../app/collections/groups'),
-// 	GroupController = require('../../app/controllers/group_controller.js');
+	var testSession = null;
 
-// describe('GroupController', function(){
+
+describe('GroupController', function(){
+
+	beforeEach(function() {
+		testSession = session(eggercise);
+	});
+
+	describe('authentication', function() {
+
+		it('should fail accessing a restricted page', function (done) {
+			testSession.get('/groups/create')
+			.expect(302)
+			.end(function(err, res) {
+				if (err) {
+					done.fail(err);
+				} else {
+					done();
+				}
+			});
+		});
+	});
+});
+
 // 	describe('Tests with data', function(){
 // 		var group;
 // 		var user;

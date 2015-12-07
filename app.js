@@ -150,6 +150,9 @@ app.get('/errorpage', RoleController.errorShow);
 
 //log workout
 app.post('/workouts/logWorkout/:groupId', WorkoutController.logWorkout);
+//--------------------------------------------------------------
+
+module.exports = app;
 
 app.listen(3000);
 console.log('Listening to port 3000');
