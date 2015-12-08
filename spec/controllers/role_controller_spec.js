@@ -37,42 +37,5 @@ describe('RoleController', function(){
 				})
 			})
 		})
-
-		// afterEach(function(done) {
-		// 	new User({
-		// 		id: user.id
-		// 	})
-		// 	.destroy()
-		// 	.then(done)
-		// 	.catch(function (error) {
-		// 		done.fail(error);
-		// 	});
-		// });
-
-		//Test Update
-		it('should set non-admin role on user', function (done){
-			var testrole = {
-				url:"http://localhost:3000/groups/join/"+group.id,
-				form:{
-					//information the user enters
-					user_id: user.id,
-					group_id: group.id
-				},
-			};
-
-			request.post(testrole, function (error, response, body) {
-				expect(response.statusCode).toBe(302);
-				new Role({
-					//go to the database and look for this id (including fetch)
-					user_id: user.id
-				})
-				.fetch()
-				.then(function (newRole) {
-					console.log(newRole);
-					expect(newRole.get('is_admin')).toBe(false);
-					done();
-				});
-			});
-		});
 	})
 })

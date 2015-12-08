@@ -56,30 +56,8 @@ describe('UserController', function () {
 	});
 
 	describe('Test with data', function () {
-
 		var password = 'createTest',
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
-
-		//Test Show User
-		var userId = user.id;
-		it('should return a user', function (done) {
-			agent
-			.get("/users/"+userId)
-			.expect('Content-Type', /html/)
-			.end(function (error, res) {
-				if(error) {
-					done.fail(error);
-				} else {
-					new User({username: 'testUser1'})
-					.fetch()
-					.then(function (user) {
-						expect(user.username).toBe('testUser1')
-						done();
-					});
-				}
-			});
-		});
-
 	});
 });
