@@ -25,8 +25,7 @@ block content
 				each val, index in groupMembers
 					.username
 						p Name: #{val.username}
-						if groupMembers.id === workouts.id
-							p Workouts: #{accumulator}
+						p Workouts:
 							.workout
 						a.delete-group.btn(role='button', data-toggle='modal', href="#logWorkout#{group.id}") Log Workout
 						p

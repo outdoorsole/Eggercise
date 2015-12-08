@@ -106,9 +106,14 @@ exports.show = function (req,res) {
 //------------------------------------------------------------------------------//
 //Show Single Group
 exports.showGroup = function (req,res) {
-	console.log('This is req.user.id: ', req.user.id);
 	console.log('--------------------');
+	console.log('This is req.user.id: ', req.user.id);
+
+
 	var groupId = req.params.groupId;
+	console.log('--------------------');
+	console.log('This is req.params.groupId: ', req.params.groupId);
+
 	new Group ({
 		id: groupId
 	})
@@ -116,45 +121,131 @@ exports.showGroup = function (req,res) {
 		withRelated: ['users','workouts']
 	})
 	.then(function (selectedGroup) {
-		console.log(selectedGroup.toJSON());
 		console.log('--------------------');
+		console.log(selectedGroup);
+
+		var numUsers = selectedGroup.relations.users.length;
+		console.log('--------------------');
+		console.log('This is numUsers: ', numUsers);
+
+		var numWorkouts = selectedGroup.relations.workouts.length;
+		console.log('--------------------');
+		console.log('This is numWorkouts: ', numWorkouts);
+
 		var currentGroup = selectedGroup.toJSON();
-		console.log(currentGroup);
 		console.log('--------------------');
+		console.log('This is the currentGroup: ', currentGroup);
 
-	var filteredGroups = [];
+		var groupData = [];
 
-		function getUserWorkouts (group) {
-			for (var i = 0; i < group.workouts.length; i++) {
-				if (group.workouts[i].user_id === req.user.id)
-					console.log('This worked');
-					filteredGroups.push(group.workouts[i]);
-			}
-			return filteredGroups;
+
+
+
+
+		// function getGroupData (group) {
+		// 	var userId;
+		// 	var username;
+
+		// 	for (var i = 0; i < group.workouts.length; i++) {
+		// 		userId = group.workouts[i].user_id;
+		// 		for (var k = 0; k < groupData.length; k++) {
+		// 			if (groupData[k].hasOwnProperty(userId)) {
+		// 				for (var j = 0; j < group.users.length; j++) {
+		// 					if (userId === group.users[j].id) {
+		// 						username = group.users[j].username;
+		// 						groupData.push({
+		// 							userId: userId,
+		// 							username: username,
+		// 							totalWorkouts: 1
+		// 						});
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		// getGroupData(currentGroup);
+		// console.log('--------------------');
+		// console.log('This is the groupData: ', groupData);
+
+		// function getUserWorkouts (workouts, users, userId) {
+		// 	var filteredGroups = [];
+
+		// 	console.log('This is workouts: ', workouts);
+		// 	console.log('This is users: ', users);
+		// 	console.log('This is the userId: ', userId);
+		// 	var totalWorkouts = 0;
+
+		// 	for (var i = 0; i < numWorkouts; i++) {
+		// 		if (userId === workouts[i].user_id) {
+		// 			if (!filteredGroups[0].userId) {
+		// 				console.log('This is userId: ', userId);
+		// 				console.log('This is trying to get username: ', users.indexOf(id.userId));
+		// 				filteredGroups.push({
+		// 					userId: userId,
+		// 					username: users.indexOf(userId),
+		// 					totalWorkouts: totalWorkouts
+		// 				});
+		// 			}
+		// 			totalWorkouts++;
+		// 		}
+		// 	}
+		// 	return filteredGroups;
+		// }
+
+		// function getUserWorkouts (group) {
+		// 	for (var i = 0; i < group.workouts.length; i++) {
+		// 		if (group.workouts[i].user_id === req.user.id)
+		// 			filteredGroups.push(group.workouts[i]);
+		// 	}
+		// 	return filteredGroups;
+		// }
+
+		function getUserWorkouts (group, userId) {
+			console.log('This is userId', userId);
+			var result = group.map(function(object) {
+				var newObj = {};
+				console.log("this is the result of truthy", object['user_id'] === userId);
+				if (object['user_id'] === userId) {
+					console.log('This is inside if statement');
+					newObj['userId'] = userId;
+					newObj['totalWorkouts'] = 1;
+					return newObj;
+				}
+			});
+			return result;
 		}
 
-	var userWorkouts = getUserWorkouts(currentGroup);
-	console.log('This is the userWorkouts: ', userWorkouts);
-	console.log('--------------------');
+		var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, 1);
+		// var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, 2);
+	// var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 1)
+	// var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 2)
+	// var userWorkoutsUser3 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 3)
 
+	var userWorkouts = [userWorkoutsUser1];
+	// console.log('--------------------');
+	// console.log('This is the userWorkoutsUser1: ', userWorkoutsUser1);
+	// console.log('--------------------');
+	// console.log('This is the userWorkoutsUser2: ', userWorkoutsUser2);
+	// console.log('--------------------');
+	// console.log('This is the userWorkoutsUser3: ', userWorkoutsUser3);
+	console.log('--------------------');
+	console.log('This is the userWorkouts: ', userWorkouts);
 	var groupMembers = [];
 
 	function getUsers (group) {
 		for (var i = 0; i < group.users.length; i++) {
-			console.log('This is group.users.length: ', group.users.length);
-			console.log('--------------------');
-			console.log('This is group.users[i]: ', group.users[i]);
-			console.log('--------------------');
 			groupMembers.push(group.users[i]);
 		}
 	}
 
 	getUsers(currentGroup);
-
-	console.log('These are the users in the group: ', groupMembers);
 	console.log('--------------------');
+	console.log('These are the users in the group: ', groupMembers);
 
-	var accumulator = 0;
+
+	// var accumulator = 0;
 
 	// Pseudocode for accumulating the number of workouts for each user
 	// Input workouts array
@@ -181,8 +272,7 @@ exports.showGroup = function (req,res) {
 			groupMembers: groupMembers,
 			workouts: userWorkouts,
 			userId: req.user.get('id'),
-			username: req.user.get('username'),
-			accumulator: accumulator
+			username: req.user.get('username')
 		})
 	})
 	.catch(function (error) {
