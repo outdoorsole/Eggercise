@@ -23,6 +23,7 @@ exports.logWorkout = function (req,res){
 	var groupId = req.params.groupId;
 
 	if(req.isAuthenticated()) {
+		console.log('made it to logWorkout');
 		new Workout({
 			user_id: userId,
 			group_id: groupId
