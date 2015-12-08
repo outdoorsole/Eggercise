@@ -41,6 +41,7 @@ exports.signUpGet = function(req, res) {
 //------------------------------------------------------------------------------//
 //Sign Up POST (Create User)
 exports.signUpPost = function (req,res) {
+	console.log(req.body);
 	var password = req.body.password,
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
@@ -49,25 +50,30 @@ exports.signUpPost = function (req,res) {
 		username: req.body.username,
 		password: hash,
 		email:req.body.email
-	}).save()
-		.then(function (data){
-			User.forge({
-				username: req.body.username
-			})
-			var id = data.get('id');
-			new Role({
-				is_member: false,
-				user_id: id
-			}).save()
-				.then(function (user) {
-				res.redirect('/signin')
-				})
+	})
+	.save()
+	.then(function (data){
+		User.forge({
+			username: req.body.username
 		})
-
+		var id = data.get('id');
+		new Role({
+			is_member: false,
+			user_id: id
+		})
+		.save()
+		.then(function (user) {
+			res.redirect('/signin')
+		})
+		.catch(function (error){
+			console.error(error.stack);
+			res.redirect('/errorpage');
+		});
+	})
 	.catch(function (error){
 		console.error(error.stack);
 		res.redirect('/errorpage');
-	})
+	});
 }
 
 //------------------------------------------------------------------------------//

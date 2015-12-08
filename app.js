@@ -9,7 +9,7 @@ var express = require('express'),
 	passport = require('passport'),
 	session = require('express-session'),
 	bcrypt = require('bcrypt-nodejs'),
-  	LocalStrategy = require('passport-local').Strategy;
+  LocalStrategy = require('passport-local').Strategy;
 
 //database
 var bookshelf = require('./database/schema');
@@ -150,6 +150,11 @@ app.get('/errorpage', RoleController.errorShow);
 
 //log workout
 app.post('/workouts/logWorkout/:groupId', WorkoutController.logWorkout);
+//--------------------------------------------------------------
+
+module.exports = app;
 
 app.listen(3000);
 console.log('Listening to port 3000');
+
+module.exports.app = app;

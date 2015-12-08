@@ -1,96 +1,63 @@
-var request = require('request'),
-	User = require('../../app/models/user'),
-	Users = require('../../app/collections/users'),
-	UserController = require('../../app/controllers/user_controller.js');
+var request = require('supertest'),
+	express = require('express'),
+	bcrypt = require('bcrypt-nodejs'),
+	agent = request.agent();
 
-describe('UserController', function(){
-	describe('Tests with data', function(){
-		var user;
+var UserController = require('../../app/controllers/user_controller');
 
-		beforeEach(function (done) {
-			new User({
-				username: 'userTest',
-				email: 'test@test.com',
-				password: 'password'
-			})
-			.save()
-			.then(function (newUser) {
-				user = newUser;
-				done();
-			});
-		});
+//model
+var User = require('../../app/models/user'),
+	Group = require('../../app/models/group');
 
-		afterEach(function(done) {
-			new User({
-				id: user.id
-			})
-			.destroy()
-			.then(done)
-			.catch(function (error) {
-				done.fail(error);
-			});
-		});
+describe('UserController', function () {
+	var user;
 
-		//Test Show
-		it('should return users', function (done) {
-			request('http://localhost:3000/', function (error,response,body) {
-				expect(response.statusCode).toBe(200);
-				done();
-			})
-		});
+	beforeAll(function (done) {
+		var password = 'testpw',
+			salt = bcrypt.genSaltSync(10),
+			hash = bcrypt.hashSync(password,salt);
 
-		// Test Create
-		it('should create a new user', function (done){
-			var testuser = {
-				url:"http://localhost:3000/signup",
-				form:{
-					username:'testCreate',
-					email: 'test@test.com',
-					password:'password'
-				}
-			};
-
-			request.post(testuser, function (error, response, body){
-				new User({
-					email: 'test@test.com',
-				})
-				.fetch()
-				.then(function (newUser){
-					expect(newUser.get('username')).toBe('testCreate');
-					new User({
-						id: newUser.id
-					})
-					.destroy()
-					.then(function (model){
-						done();
-					})
-				});
-			});
-		});
-
-		// Test Update (Updating password and e-mail, DOES NOT WORK WITH AUTHENTICATION)
-		it('should update current user e-mail and/or password', function (done){
-			var testuser = {
-				url:"http://localhost:3000/users/edit/"+user.id,
-				form:{
-					//information the user enters
-					email: 'testUpdate@test.com',
-					password:'updatepassword'
-				},
-			};
-
-			request.post(testuser, function (error, response, body) {
-				expect(response.statusCode).toBe(302);
-				new User({
-					//go to the database and look for this id (including fetch)
-					id: user.id
-				})
-				.fetch()
-				.then(function (newUser) {
-					expect(newUser.get('email')).toBe('testUpdate@test.com');
+		new User({
+			username: 'testUser1',
+			password: hash,
+			email: 'testemail1@test.com'
+		})
+		.save()
+		.then(function (userData) {
+			user = userData;
+			agent
+			.post('/signin')
+			.send({ username: user.username, password: user.password})
+			.end(function (error, res) {
+				if (error) {
+					done.fail(error);
+				} else {
+					console.log('This is user.id',user.id);
 					done();
-				});
+				}
 			});
 		});
 	});
-})
+
+	afterAll(function (done) {
+		new User({
+			username: 'testUser1'
+		})
+		.fetch()
+		.then(function (user) {
+			user.destroy()
+			.then(function () {
+				done();
+			})
+			.catch(function (error){
+				console.error(error.stack);
+			});
+		});
+	});
+
+	describe('Test with data', function () {
+		var password = 'createTest',
+		salt = bcrypt.genSaltSync(10),
+		hash = bcrypt.hashSync(password,salt);
+	});
+});

@@ -17,6 +17,7 @@ var Groups = require('../collections/groups'),
 //------------------------------------------------------------------------------//
 //Join Group
 exports.joinGroup = function (req,res) {
+	console.log("i've reached join group");
 	var userId = req.user.get('id'),
 		groupId = req.params.groupId;
 

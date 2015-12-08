@@ -1,4 +1,4 @@
-//Testing for user model
+// //Testing for user model
 
 var User = require('../../app/models/user');
 
@@ -27,5 +27,4 @@ describe('User', function() {
 		user.id = 1;
 		expect(user.id).toBe(1);
 	});
-
 })

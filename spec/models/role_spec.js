@@ -1,4 +1,4 @@
-//Testing for role model
+// //Testing for role model
 
 var Role = require('../../app/models/role');
 
@@ -21,5 +21,4 @@ describe('Role', function() {
 		role.group_id = 1
 		expect(role.group_id).toBe(1);
 	});
-
 })

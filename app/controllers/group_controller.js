@@ -1,5 +1,5 @@
-		var path = require('path'),
-		bodyParser = require('body-parser');
+var path = require('path'),
+	bodyParser = require('body-parser');
 
 //db
 var bookshelf = require('../../database/schema');
@@ -107,16 +107,60 @@ exports.show = function (req,res) {
 //Show Single Group
 exports.showGroup = function (req,res) {
 	var groupId = req.params.groupId;
+
 	new Group ({
 		id: groupId
 	})
 	.fetch({
 		withRelated: ['users','workouts']
 	})
-	.then(function (group) {
+	.then(function (selectedGroup) {
+		// Store the total group members for selected group
+		var numUsers = selectedGroup.relations.users.length;
+
+		// Store the total number of workouts for the currently selected group
+		var numWorkouts = selectedGroup.relations.workouts.length;
+
+		// Store the selected group object information in JSON format
+		var currentGroup = selectedGroup.toJSON();
+
+		// Store the workouts for the currently selected group
+		var currentGroupWorkouts = currentGroup.workouts;
+
+		// Store the users (groupMembers) for the currently selected group
+		var groupMembers = currentGroup.users;
+
+		// Initialize variable to store workout totals for each group member
+		var userWorkouts = [];
+
+		// Store the result for the total workouts for each member
+		var currentUserTotal;
+
+		// Invoking the getUserWorkouts function for all the users (group Members) to get the total number of workouts
+		for (var num = 1; num <= numUsers; num++) {
+			currentUserTotal = getUserWorkouts(currentGroupWorkouts, num);
+			userWorkouts.push(currentUserTotal);
+		}
+
+		// Will accumulate the total number of workouts for each user and return the result
+		function getUserWorkouts (loggedWorkouts, userId) {
+			var totalWorkouts = 0;
+			var result = loggedWorkouts.map(function(workout) {
+				if (workout['user_id'] === userId) {
+					totalWorkouts++;
+				}
+				return totalWorkouts;
+			});
+			// To only get the last element of the array (workout total)
+			result = result[result.length-1];
+			return result;
+		}
+
 		res.render('groups/viewgroup', {
-			group: group.toJSON(),
-			users: group.toJSON().users,
+			group: currentGroup,
+			groupMembers: groupMembers,
+			workouts: numWorkouts,
+			userWorkouts: userWorkouts,
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})

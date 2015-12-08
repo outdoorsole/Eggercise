@@ -1,4 +1,4 @@
-//Testing for group model
+// //Testing for group model
 
 var Group = require('../../app/models/group');
 
@@ -9,5 +9,4 @@ describe('Group', function() {
 		group.id = 1;
 		expect(group.id).toBe(1);
 	});
-
 })
