@@ -12,7 +12,7 @@ If a member is a team leader, then the person has the option to view, edit, dele
 
 You can view the list of members that are currently participating (to see if you are interested in joining the team). All members can view groups that they are part of or are interested in joining.
 # Install
-Clone this repo. From root of repo, 'npm install' and 'bower install'.
+Clone this repo. From root of repo, `npm install` and `bower install`.
 
 ## Contributors
 * [Yae Jin Park](https://github.com/yaejin91), LearnTech Labs
