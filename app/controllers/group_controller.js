@@ -205,25 +205,36 @@ exports.showGroup = function (req,res) {
 		function getUserWorkouts (group, userId) {
 			console.log('This is userId', userId);
 			var result = group.map(function(object) {
-				var newObj = {};
+				var totalWorkouts = 0;
 				console.log("this is the result of truthy", object['user_id'] === userId);
 				if (object['user_id'] === userId) {
+					totalWorkouts++;
 					console.log('This is inside if statement');
-					newObj['userId'] = userId;
-					newObj['totalWorkouts'] = 1;
-					return newObj;
+					console.log('This is totalWorkouts: ', totalWorkouts);
 				}
+				return totalWorkouts;
 			});
 			return result;
 		}
 
-		var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, 1);
+		var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, 1).reduce(function (prev, current) {
+			return prev + current;
+		});
+		var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, 2).reduce(function (prev, current) {
+			return prev + current;
+		});
+		var userWorkoutsUser3 = getUserWorkouts(currentGroup.workouts, 3).reduce(function (prev, current) {
+			return prev + current;
+		});
 		// var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, 2);
 	// var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 1)
 	// var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 2)
 	// var userWorkoutsUser3 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 3)
 
-	var userWorkouts = [userWorkoutsUser1];
+	var userWorkoutsForUser1 = [userWorkoutsUser1];
+	var userWorkoutsForUser2 = [userWorkoutsUser2];
+	var userWorkoutsForUser3 = [userWorkoutsUser3];
+	var userWorkouts = [userWorkoutsUser1, userWorkoutsUser2, userWorkoutsUser3];
 	// console.log('--------------------');
 	// console.log('This is the userWorkoutsUser1: ', userWorkoutsUser1);
 	// console.log('--------------------');
