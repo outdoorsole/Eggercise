@@ -115,11 +115,11 @@ exports.showGroup = function (req,res) {
 	.fetch({
 		withRelated: ['users','workouts']
 	})
-	.then(function (allGroups) {
-		console.log(allGroups.toJSON());
+	.then(function (selectedGroup) {
+		console.log(selectedGroup.toJSON());
 		console.log('--------------------');
-		var allGroupstoJSON = allGroups.toJSON();
-		console.log(allGroupstoJSON);
+		var currentGroup = selectedGroup.toJSON();
+		console.log(currentGroup);
 		console.log('--------------------');
 
 	var filteredGroups = [];
@@ -133,29 +133,56 @@ exports.showGroup = function (req,res) {
 			return filteredGroups;
 		}
 
-	var userWorkouts = getUserWorkouts(allGroupstoJSON);
+	var userWorkouts = getUserWorkouts(currentGroup);
 	console.log('This is the userWorkouts: ', userWorkouts);
+	console.log('--------------------');
+
+	var groupMembers = [];
+
+	function getUsers (group) {
+		for (var i = 0; i < group.users.length; i++) {
+			console.log('This is group.users.length: ', group.users.length);
+			console.log('--------------------');
+			console.log('This is group.users[i]: ', group.users[i]);
+			console.log('--------------------');
+			groupMembers.push(group.users[i]);
+		}
+	}
+
+	getUsers(currentGroup);
+
+	console.log('These are the users in the group: ', groupMembers);
+	console.log('--------------------');
+
+	var accumulator = 0;
+
+	// Pseudocode for accumulating the number of workouts for each user
+	// Input workouts array
+	// Output aggregated workouts array ('rollups')
+	// Var outputArray = [];
+	// Create the output array that contains: an array of {user_id and total worksouts}
+	// Loop through the array (workout array) - store the first object in x
+	//    If (user id does not exists in the outputArray)
+	//			y will be equal to the username
+	//				Iterate through the users array and find the user id to get the username
+	//				(optimization - google this: search an array of objects based on key/value pair)
+	//      outputArray.push({ y, x.workoutTotal: 1 });
+	//    Else
+	//			Find the user and store it in a variable
+	//      increment the workoutTotal for the existing user_id in the outputArray
+	// After the loop has completed by iterating through all the objects in workouts (x), return outputArray
 
 
-		// function userWorkouts(group) {
-		// 	for (var i = 0; i < group.users.length; i++) {
-		// 		if (group.users[0].id == group.workouts[i].user_id) {
-		// 			console.log('userWorkouts: ', group.workouts[i]);
-		// 			console.log('--------------------');
-		// 			return group.workouts[i];
-		// 		}
-		// 	}
-		// }
-		// var filtered = [allGroupstoJSON].filter(userWorkouts);
-		// console.log('filtered: ', filtered);
-		// console.log('--------------------');
+
+
 
 		res.render('groups/viewgroup', {
-			group: allGroups.toJSON(),
-			users: allGroups.toJSON().users,
+			group: currentGroup,
+			groupMembers: groupMembers,
 			workouts: userWorkouts,
 			userId: req.user.get('id'),
-			username: req.user.get('username')
+			username: req.user.get('username'),
+			accumulator: accumulator
 		})
 	})
 	.catch(function (error) {

@@ -19,24 +19,27 @@ block content
 				h1 #{group.name}
 				h2 Buy-In Price: $#{group.price}
 				hr
+
+				h4 Total Logged Workouts: #{workouts.length}
 				h3 Current Group Members:
-				each val, index in users
+				each val, index in groupMembers
 					.username
 						p Name: #{val.username}
-						p Workouts: #{workouts.length}
-						.workout
-					a.delete-group.btn(role='button', data-toggle='modal', href="#logWorkout#{group.id}") Log Workout
-					p
-					.modal.fade(id='logWorkout#{group.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
-						.modal-dialog
-							.modal-content
-								.modal-header
-									button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
-									h4.modal-title Select the Date You Wish to Log.
-								.modal-footer
-									form(name='id', method='POST', action='/workouts/logWorkout/#{group.id}')
-										.actions
-											input(type='submit', value='Log Workout', class='update-button')
+						if groupMembers.id === workouts.id
+							p Workouts: #{accumulator}
+							.workout
+						a.delete-group.btn(role='button', data-toggle='modal', href="#logWorkout#{group.id}") Log Workout
+						p
+						.modal.fade(id='logWorkout#{group.id}', role='dialog', aria-labelledby='deleteModalLabel', aria-hidden='true')
+							.modal-dialog
+								.modal-content
+									.modal-header
+										button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+										h4.modal-title Select the Date You Wish to Log.
+									.modal-footer
+										form(name='id', method='POST', action='/workouts/logWorkout/#{group.id}')
+											.actions
+												input(type='submit', value='Log Workout', class='update-button')
 
 	block footer
 	// jQuery Version 1.11.1
