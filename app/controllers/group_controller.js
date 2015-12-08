@@ -106,13 +106,7 @@ exports.show = function (req,res) {
 //------------------------------------------------------------------------------//
 //Show Single Group
 exports.showGroup = function (req,res) {
-	console.log('--------------------');
-	console.log('This is req.user.id: ', req.user.id);
-
-
 	var groupId = req.params.groupId;
-	console.log('--------------------');
-	console.log('This is req.params.groupId: ', req.params.groupId);
 
 	new Group ({
 		id: groupId
@@ -121,93 +115,16 @@ exports.showGroup = function (req,res) {
 		withRelated: ['users','workouts']
 	})
 	.then(function (selectedGroup) {
-		console.log('--------------------');
-		console.log(selectedGroup);
-
 		var numUsers = selectedGroup.relations.users.length;
-		console.log('--------------------');
-		console.log('This is numUsers: ', numUsers);
-
 		var numWorkouts = selectedGroup.relations.workouts.length;
-		console.log('--------------------');
-		console.log('This is numWorkouts: ', numWorkouts);
-
 		var currentGroup = selectedGroup.toJSON();
-		console.log('--------------------');
-		console.log('This is the currentGroup: ', currentGroup);
 
-		var groupData = [];
-
-
-
-
-
-		// function getGroupData (group) {
-		// 	var userId;
-		// 	var username;
-
-		// 	for (var i = 0; i < group.workouts.length; i++) {
-		// 		userId = group.workouts[i].user_id;
-		// 		for (var k = 0; k < groupData.length; k++) {
-		// 			if (groupData[k].hasOwnProperty(userId)) {
-		// 				for (var j = 0; j < group.users.length; j++) {
-		// 					if (userId === group.users[j].id) {
-		// 						username = group.users[j].username;
-		// 						groupData.push({
-		// 							userId: userId,
-		// 							username: username,
-		// 							totalWorkouts: 1
-		// 						});
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-		// getGroupData(currentGroup);
-		// console.log('--------------------');
-		// console.log('This is the groupData: ', groupData);
-
-		// function getUserWorkouts (workouts, users, userId) {
-		// 	var filteredGroups = [];
-
-		// 	console.log('This is workouts: ', workouts);
-		// 	console.log('This is users: ', users);
-		// 	console.log('This is the userId: ', userId);
-		// 	var totalWorkouts = 0;
-
-		// 	for (var i = 0; i < numWorkouts; i++) {
-		// 		if (userId === workouts[i].user_id) {
-		// 			if (!filteredGroups[0].userId) {
-		// 				console.log('This is userId: ', userId);
-		// 				console.log('This is trying to get username: ', users.indexOf(id.userId));
-		// 				filteredGroups.push({
-		// 					userId: userId,
-		// 					username: users.indexOf(userId),
-		// 					totalWorkouts: totalWorkouts
-		// 				});
-		// 			}
-		// 			totalWorkouts++;
-		// 		}
-		// 	}
-		// 	return filteredGroups;
-		// }
-
-		// function getUserWorkouts (group) {
-		// 	for (var i = 0; i < group.workouts.length; i++) {
-		// 		if (group.workouts[i].user_id === req.user.id)
-		// 			filteredGroups.push(group.workouts[i]);
-		// 	}
-		// 	return filteredGroups;
-		// }
-
-		function getUserWorkouts (group, userId) {
+		function getUserWorkouts (loggedWorkouts, userId) {
 			console.log('This is userId', userId);
-			var result = group.map(function(object) {
-				var totalWorkouts = 0;
-				console.log("this is the result of truthy", object['user_id'] === userId);
-				if (object['user_id'] === userId) {
+			var totalWorkouts = 0;
+			var result = loggedWorkouts.map(function(workout) {
+				console.log("this is the result of truthy", workout['user_id'] === userId);
+				if (workout['user_id'] === userId) {
 					totalWorkouts++;
 					console.log('This is inside if statement');
 					console.log('This is totalWorkouts: ', totalWorkouts);
@@ -217,32 +134,20 @@ exports.showGroup = function (req,res) {
 			return result;
 		}
 
-		var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, 1).reduce(function (prev, current) {
-			return prev + current;
-		});
-		var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, 2).reduce(function (prev, current) {
-			return prev + current;
-		});
-		var userWorkoutsUser3 = getUserWorkouts(currentGroup.workouts, 3).reduce(function (prev, current) {
-			return prev + current;
-		});
-		// var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, 2);
-	// var userWorkoutsUser1 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 1)
-	// var userWorkoutsUser2 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 2)
-	// var userWorkoutsUser3 = getUserWorkouts(currentGroup.workouts, currentGroup.users, 3)
+		function reduceTotal (previousValue, currentValue) {
+			return previousValue + currentValue;
+		}
 
-	var userWorkoutsForUser1 = [userWorkoutsUser1];
-	var userWorkoutsForUser2 = [userWorkoutsUser2];
-	var userWorkoutsForUser3 = [userWorkoutsUser3];
-	var userWorkouts = [userWorkoutsUser1, userWorkoutsUser2, userWorkoutsUser3];
-	// console.log('--------------------');
-	// console.log('This is the userWorkoutsUser1: ', userWorkoutsUser1);
-	// console.log('--------------------');
-	// console.log('This is the userWorkoutsUser2: ', userWorkoutsUser2);
-	// console.log('--------------------');
-	// console.log('This is the userWorkoutsUser3: ', userWorkoutsUser3);
-	console.log('--------------------');
-	console.log('This is the userWorkouts: ', userWorkouts);
+		var userWorkouts = [];
+		var currentUser;
+		for (var num = 1; num <= numUsers; num++) {
+			currentUser = getUserWorkouts(currentGroup.workouts, num);
+			userWorkouts.push(currentUser[currentUser.length-1]);
+		}
+
+		console.log('--------------------');
+		console.log('This is the userWorkouts: ', userWorkouts);
+
 	var groupMembers = [];
 
 	function getUsers (group) {
@@ -256,32 +161,11 @@ exports.showGroup = function (req,res) {
 	console.log('These are the users in the group: ', groupMembers);
 
 
-	// var accumulator = 0;
-
-	// Pseudocode for accumulating the number of workouts for each user
-	// Input workouts array
-	// Output aggregated workouts array ('rollups')
-	// Var outputArray = [];
-	// Create the output array that contains: an array of {user_id and total worksouts}
-	// Loop through the array (workout array) - store the first object in x
-	//    If (user id does not exists in the outputArray)
-	//			y will be equal to the username
-	//				Iterate through the users array and find the user id to get the username
-	//				(optimization - google this: search an array of objects based on key/value pair)
-	//      outputArray.push({ y, x.workoutTotal: 1 });
-	//    Else
-	//			Find the user and store it in a variable
-	//      increment the workoutTotal for the existing user_id in the outputArray
-	// After the loop has completed by iterating through all the objects in workouts (x), return outputArray
-
-
-
-
-
 		res.render('groups/viewgroup', {
 			group: currentGroup,
 			groupMembers: groupMembers,
-			workouts: userWorkouts,
+			workouts: numWorkouts,
+			userWorkouts: userWorkouts,
 			userId: req.user.get('id'),
 			username: req.user.get('username')
 		})
