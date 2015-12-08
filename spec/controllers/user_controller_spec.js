@@ -1,96 +1,125 @@
-// var request = require('request'),
-// 	User = require('../../app/models/user'),
-// 	Users = require('../../app/collections/users'),
-// 	UserController = require('../../app/controllers/user_controller.js');
+var request = require('supertest'),
+	express = require('express'),
+	bcrypt = require('bcrypt-nodejs'),
+	app = express(),
+	agent = request.agent(app);
 
-// describe('UserController', function(){
-// 	describe('Tests with data', function(){
-// 		var user;
+//model
+var User = require('../../app/models/user'),
+	Group = require('../../app/models/group');
 
-// 		beforeEach(function (done) {
-// 			new User({
-// 				username: 'userTest',
-// 				email: 'test@test.com',
-// 				password: 'password'
-// 			})
-// 			.save()
-// 			.then(function (newUser) {
-// 				user = newUser;
-// 				done();
-// 			});
-// 		});
+describe('UserController', function () {
+	var user;
 
-// 		afterEach(function(done) {
-// 			new User({
-// 				id: user.id
-// 			})
-// 			.destroy()
-// 			.then(done)
-// 			.catch(function (error) {
-// 				done.fail(error);
-// 			});
-// 		});
+	beforeAll(function (done) {
+		var password = 'testpw',
+			salt = bcrypt.genSaltSync(10),
+			hash = bcrypt.hashSync(password,salt);
 
-// 		//Test Show
-// 		it('should return users', function (done) {
-// 			request('http://localhost:3000/', function (error,response,body) {
-// 				expect(response.statusCode).toBe(200);
-// 				done();
-// 			})
-// 		});
+		new User({
+			username: 'testUser1',
+			password: hash,
+			email: 'testemail1@test.com'
+		})
+		.save()
+		.then(function (userData) {
+			user = userData;
+			agent
+			.post('/signin')
+			.send({ username: user.username, password: user.password})
+			.end(function (error, res) {
+				if (error) {
+					done.fail(error);
+				} else {
+					done();
+				}
+			});
+		});
+	});
 
-// 		// Test Create
-// 		it('should create a new user', function (done){
-// 			var testuser = {
-// 				url:"http://localhost:3000/signup",
-// 				form:{
-// 					username:'testCreate',
-// 					email: 'test@test.com',
-// 					password:'password'
-// 				}
-// 			};
+	afterAll(function (done) {
+		new User({
+			username: 'testUser1'
+		})
+		.fetch()
+		.then(function (user) {
+			user.destroy()
+			.then(function () {
+				done();
+			})
+			.catch(function (error){
+				console.error(error.stack);
+			});
+		});
+	});
 
-// 			request.post(testuser, function (error, response, body){
-// 				new User({
-// 					email: 'test@test.com',
-// 				})
-// 				.fetch()
-// 				.then(function (newUser){
-// 					expect(newUser.get('username')).toBe('testCreate');
-// 					new User({
-// 						id: newUser.id
-// 					})
-// 					.destroy()
-// 					.then(function (model){
-// 						done();
-// 					})
-// 				});
-// 			});
-// 		});
+	describe('Test with data', function () {
 
-// 		// Test Update (Updating password and e-mail, DOES NOT WORK WITH AUTHENTICATION)
-// 		it('should update current user e-mail and/or password', function (done){
-// 			var testuser = {
-// 				url:"http://localhost:3000/users/edit/"+user.id,
-// 				form:{
-// 					//information the user enters
-// 					email: 'testUpdate@test.com',
-// 					password:'updatepassword'
-// 				},
-// 			};
+		var password = 'createTest',
+		salt = bcrypt.genSaltSync(10),
+		hash = bcrypt.hashSync(password,salt);
 
-// 			request.post(testuser, function (error, response, body) {
-// 				expect(response.statusCode).toBe(302);
-// 				new User({
-// 					//go to the database and look for this id (including fetch)
-// 					id: user.id
-// 				})
-// 				.fetch()
-// 				.then(function (newUser) {
-// 					expect(newUser.get('email')).toBe('testUpdate@test.com');
-// 					done();
-// 				});
-// 			});
-// 		});
-// 	});
-// })
+		// Test Create
+		it('should create a new user', function (done){
+			var testUser = {
+				url:"http://localhost:3000/signup",
+				form:{
+					username:'createTestUser',
+					password: hash,
+					email:'createTest1@email.com'
+				}
+			};
+		request
+		.post(testUser, function (error, response, body){
+			new User({
+				username: 'createTestUser',
+			})
+			.fetch()
+			.then(function (newUser){
+				console.log('This is newUser: ', newUser)
+				expect(newGroup.get('username')).toBe('createTestUser');
+				new Group({
+					id: newUser.id
+				})
+				.destroy()
+				.then(function (){
+					done();
+				})
+			});
+		});
+
+		//Test Create User
+		// it('should create a new User', function (done) {
+		// 	agent
+		// 	.post('/signup')
+		// 	.send({
+		// 		username: 'createUserTest',
+		// 		password: hash,
+		// 		email:'create@test.com'
+		// 	})
+		// 	.expect('Content-Type', /html/)
+		// 	.end(function (error, res) {
+		// 		console.log('reached .end');
+		// 		if (error) {
+		// 			done.fail(error);
+		// 		} else {
+		// 			console.log(res);
+		// 			done();
+		// 		}
+
+		// 		//else {
+		// 		// 	// console.log(res);
+		// 		// 	var returnedUser = res._data;
+		// 		// 	new User({username: 'createUserTest'})
+		// 		// 	.fetch()
+		// 		// 	.then(function (user) {
+		// 		// 		console.log(user);
+		// 		// 		expect(user.username).toBe('createUserTest');
+		// 		// 		user.destroy();
+		// 		// 		done();
+		// 		// done();
+			
+			// });
+		});
+	});
+});
