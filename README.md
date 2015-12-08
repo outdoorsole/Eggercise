@@ -23,6 +23,6 @@ Clone this repo. From root of repo, `npm install` and `bower install`.
 Eggercise has been tested in the Chrome browser, as well as node.
 
 ## Version Number
-1.0.0
+1.0.1
 
 Copyright (c) 2015 Eggercise. This software is licensed under the ISC license.
