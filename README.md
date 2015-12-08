@@ -2,7 +2,7 @@
 
 ![Eggercise Login](/public/images/eggercise-login.jpg)
 
-![Badges](https://img.shields.io/badge/license-MIT-blue.svg) 
+![Badges](https://img.shields.io/badge/license-ISC-blue.svg) 
 ![Badges](https://img.shields.io/badge/tests-passing-green.svg)
 
 ## Terms
