@@ -1,8 +1,9 @@
 var request = require('supertest'),
 	express = require('express'),
 	bcrypt = require('bcrypt-nodejs'),
-	app = express(),
-	agent = request.agent(app);
+	agent = request.agent();
+
+var UserController = require('../../app/controllers/user_controller');
 
 //model
 var User = require('../../app/models/user'),
@@ -31,6 +32,7 @@ describe('UserController', function () {
 				if (error) {
 					done.fail(error);
 				} else {
+					console.log('This is user.id',user.id);
 					done();
 				}
 			});
@@ -59,67 +61,25 @@ describe('UserController', function () {
 		salt = bcrypt.genSaltSync(10),
 		hash = bcrypt.hashSync(password,salt);
 
-		// Test Create
-		it('should create a new user', function (done){
-			var testUser = {
-				url:"http://localhost:3000/signup",
-				form:{
-					username:'createTestUser',
-					password: hash,
-					email:'createTest1@email.com'
+		//Test Show User
+		var userId = user.id;
+		it('should return a user', function (done) {
+			agent
+			.get("/users/"+userId)
+			.expect('Content-Type', /html/)
+			.end(function (error, res) {
+				if(error) {
+					done.fail(error);
+				} else {
+					new User({username: 'testUser1'})
+					.fetch()
+					.then(function (user) {
+						expect(user.username).toBe('testUser1')
+						done();
+					});
 				}
-			};
-		request
-		.post(testUser, function (error, response, body){
-			new User({
-				username: 'createTestUser',
-			})
-			.fetch()
-			.then(function (newUser){
-				console.log('This is newUser: ', newUser)
-				expect(newGroup.get('username')).toBe('createTestUser');
-				new Group({
-					id: newUser.id
-				})
-				.destroy()
-				.then(function (){
-					done();
-				})
 			});
 		});
 
-		//Test Create User
-		// it('should create a new User', function (done) {
-		// 	agent
-		// 	.post('/signup')
-		// 	.send({
-		// 		username: 'createUserTest',
-		// 		password: hash,
-		// 		email:'create@test.com'
-		// 	})
-		// 	.expect('Content-Type', /html/)
-		// 	.end(function (error, res) {
-		// 		console.log('reached .end');
-		// 		if (error) {
-		// 			done.fail(error);
-		// 		} else {
-		// 			console.log(res);
-		// 			done();
-		// 		}
-
-		// 		//else {
-		// 		// 	// console.log(res);
-		// 		// 	var returnedUser = res._data;
-		// 		// 	new User({username: 'createUserTest'})
-		// 		// 	.fetch()
-		// 		// 	.then(function (user) {
-		// 		// 		console.log(user);
-		// 		// 		expect(user.username).toBe('createUserTest');
-		// 		// 		user.destroy();
-		// 		// 		done();
-		// 		// done();
-			
-			// });
-		});
 	});
 });
