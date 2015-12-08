@@ -115,51 +115,46 @@ exports.showGroup = function (req,res) {
 		withRelated: ['users','workouts']
 	})
 	.then(function (selectedGroup) {
+		// Store the total group members for selected group
 		var numUsers = selectedGroup.relations.users.length;
+
+		// Store the total number of workouts for the currently selected group
 		var numWorkouts = selectedGroup.relations.workouts.length;
+
+		// Store the selected group object information in JSON format
 		var currentGroup = selectedGroup.toJSON();
 
+		// Store the workouts for the currently selected group
+		var currentGroupWorkouts = currentGroup.workouts;
+
+		// Store the users (groupMembers) for the currently selected group
+		var groupMembers = currentGroup.users;
+
+		// Initialize variable to store workout totals for each group member
+		var userWorkouts = [];
+
+		// Store the result for the total workouts for each member
+		var currentUserTotal;
+
+		// Invoking the getUserWorkouts function for all the users (group Members) to get the total number of workouts
+		for (var num = 1; num <= numUsers; num++) {
+			currentUserTotal = getUserWorkouts(currentGroupWorkouts, num);
+			userWorkouts.push(currentUserTotal);
+		}
+
+		// Will accumulate the total number of workouts for each user and return the result
 		function getUserWorkouts (loggedWorkouts, userId) {
-			console.log('This is userId', userId);
 			var totalWorkouts = 0;
 			var result = loggedWorkouts.map(function(workout) {
-				console.log("this is the result of truthy", workout['user_id'] === userId);
 				if (workout['user_id'] === userId) {
 					totalWorkouts++;
-					console.log('This is inside if statement');
-					console.log('This is totalWorkouts: ', totalWorkouts);
 				}
 				return totalWorkouts;
 			});
+			// To only get the last element of the array (workout total)
+			result = result[result.length-1];
 			return result;
 		}
-
-		function reduceTotal (previousValue, currentValue) {
-			return previousValue + currentValue;
-		}
-
-		var userWorkouts = [];
-		var currentUser;
-		for (var num = 1; num <= numUsers; num++) {
-			currentUser = getUserWorkouts(currentGroup.workouts, num);
-			userWorkouts.push(currentUser[currentUser.length-1]);
-		}
-
-		console.log('--------------------');
-		console.log('This is the userWorkouts: ', userWorkouts);
-
-	var groupMembers = [];
-
-	function getUsers (group) {
-		for (var i = 0; i < group.users.length; i++) {
-			groupMembers.push(group.users[i]);
-		}
-	}
-
-	getUsers(currentGroup);
-	console.log('--------------------');
-	console.log('These are the users in the group: ', groupMembers);
-
 
 		res.render('groups/viewgroup', {
 			group: currentGroup,
